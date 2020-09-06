@@ -3,29 +3,35 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0659A31F6FE6D18A451790F1 /* Pods_MediaSoft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */; };
+		DF4100022505844100EDA819 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4100012505844100EDA819 /* Model.swift */; };
 		DF41FFD32502ACCB00EDA819 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */; };
 		DF41FFD52502ACCB00EDA819 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */; };
 		DF41FFD72502ACCB00EDA819 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFD62502ACCB00EDA819 /* ViewController.swift */; };
-		DF41FFDA2502ACCB00EDA819 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF41FFD82502ACCB00EDA819 /* Main.storyboard */; };
 		DF41FFDD2502ACCB00EDA819 /* MediaSoft.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFDB2502ACCB00EDA819 /* MediaSoft.xcdatamodeld */; };
 		DF41FFDF2502ACCD00EDA819 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF41FFDE2502ACCD00EDA819 /* Assets.xcassets */; };
 		DF41FFE22502ACCD00EDA819 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF41FFE02502ACCD00EDA819 /* LaunchScreen.storyboard */; };
+		DF41FFEB2505520100EDA819 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		23F7665A69758F32508B2A5A /* Pods-MediaSoft.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaSoft.release.xcconfig"; path = "Target Support Files/Pods-MediaSoft/Pods-MediaSoft.release.xcconfig"; sourceTree = "<group>"; };
+		5BEC48347EE69F4115B397A4 /* Pods-MediaSoft.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaSoft.debug.xcconfig"; path = "Target Support Files/Pods-MediaSoft/Pods-MediaSoft.debug.xcconfig"; sourceTree = "<group>"; };
+		9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediaSoft.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF4100012505844100EDA819 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DF41FFCF2502ACCB00EDA819 /* MediaSoft.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaSoft.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DF41FFD62502ACCB00EDA819 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		DF41FFD92502ACCB00EDA819 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DF41FFDC2502ACCB00EDA819 /* MediaSoft.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MediaSoft.xcdatamodel; sourceTree = "<group>"; };
 		DF41FFDE2502ACCD00EDA819 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF41FFE12502ACCD00EDA819 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DF41FFE32502ACCD00EDA819 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +39,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0659A31F6FE6D18A451790F1 /* Pods_MediaSoft.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		81EA4BB3E19D6BAED1809B9C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AF87A0CE90F1751BEDDC97D6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5BEC48347EE69F4115B397A4 /* Pods-MediaSoft.debug.xcconfig */,
+				23F7665A69758F32508B2A5A /* Pods-MediaSoft.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		DF41FFC62502ACCB00EDA819 = {
 			isa = PBXGroup;
 			children = (
 				DF41FFD12502ACCB00EDA819 /* MediaSoft */,
 				DF41FFD02502ACCB00EDA819 /* Products */,
+				AF87A0CE90F1751BEDDC97D6 /* Pods */,
+				81EA4BB3E19D6BAED1809B9C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,16 +84,25 @@
 		DF41FFD12502ACCB00EDA819 /* MediaSoft */ = {
 			isa = PBXGroup;
 			children = (
+				DF41FFE9250551E400EDA819 /* Extensions */,
 				DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */,
 				DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */,
 				DF41FFD62502ACCB00EDA819 /* ViewController.swift */,
-				DF41FFD82502ACCB00EDA819 /* Main.storyboard */,
+				DF4100012505844100EDA819 /* Model.swift */,
 				DF41FFDE2502ACCD00EDA819 /* Assets.xcassets */,
 				DF41FFE02502ACCD00EDA819 /* LaunchScreen.storyboard */,
 				DF41FFE32502ACCD00EDA819 /* Info.plist */,
 				DF41FFDB2502ACCB00EDA819 /* MediaSoft.xcdatamodeld */,
 			);
 			path = MediaSoft;
+			sourceTree = "<group>";
+		};
+		DF41FFE9250551E400EDA819 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -77,9 +112,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DF41FFE62502ACCD00EDA819 /* Build configuration list for PBXNativeTarget "MediaSoft" */;
 			buildPhases = (
+				1FD3E05A61B61CE1F8ECD135 /* [CP] Check Pods Manifest.lock */,
 				DF41FFCB2502ACCB00EDA819 /* Sources */,
 				DF41FFCC2502ACCB00EDA819 /* Frameworks */,
 				DF41FFCD2502ACCB00EDA819 /* Resources */,
+				36A263AA64113E3F86453F5B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -130,11 +167,52 @@
 			files = (
 				DF41FFE22502ACCD00EDA819 /* LaunchScreen.storyboard in Resources */,
 				DF41FFDF2502ACCD00EDA819 /* Assets.xcassets in Resources */,
-				DF41FFDA2502ACCB00EDA819 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1FD3E05A61B61CE1F8ECD135 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MediaSoft-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		36A263AA64113E3F86453F5B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MediaSoft/Pods-MediaSoft-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MediaSoft/Pods-MediaSoft-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MediaSoft/Pods-MediaSoft-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DF41FFCB2502ACCB00EDA819 /* Sources */ = {
@@ -143,6 +221,8 @@
 			files = (
 				DF41FFD72502ACCB00EDA819 /* ViewController.swift in Sources */,
 				DF41FFD32502ACCB00EDA819 /* AppDelegate.swift in Sources */,
+				DF41FFEB2505520100EDA819 /* UIViewController+Extensions.swift in Sources */,
+				DF4100022505844100EDA819 /* Model.swift in Sources */,
 				DF41FFDD2502ACCB00EDA819 /* MediaSoft.xcdatamodeld in Sources */,
 				DF41FFD52502ACCB00EDA819 /* SceneDelegate.swift in Sources */,
 			);
@@ -151,14 +231,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		DF41FFD82502ACCB00EDA819 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DF41FFD92502ACCB00EDA819 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		DF41FFE02502ACCD00EDA819 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -286,6 +358,7 @@
 		};
 		DF41FFE72502ACCD00EDA819 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5BEC48347EE69F4115B397A4 /* Pods-MediaSoft.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -304,6 +377,7 @@
 		};
 		DF41FFE82502ACCD00EDA819 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 23F7665A69758F32508B2A5A /* Pods-MediaSoft.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
