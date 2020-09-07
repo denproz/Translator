@@ -34,13 +34,12 @@ class ViewController: UIViewController {
 		return textView
 	}()
 	
-	let collectionView: UICollectionView = {
-		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-		
-		return collectionView
+	let tableView: UITableView = {
+		let tableView = UITableView()
+		return tableView
 	}()
 	
-	let disposeBag = DisposeBag()
+	var searchTimer: Timer?
 	
 	var stackView: UIStackView!
 	
@@ -53,7 +52,7 @@ class ViewController: UIViewController {
 		navigationItem.titleView = titleImageView
 		
 		navigationController?.navigationBar.barTintColor = hexStringToUIColor(hex: "#FFCC00")
-		collectionView.backgroundColor = hexStringToUIColor(hex: "#FFCC00")
+		tableView.backgroundColor = hexStringToUIColor(hex: "#FFCC00")
 		
 		hideKeyboardWhenTappedAround()
 		configureStackView()
@@ -63,28 +62,6 @@ class ViewController: UIViewController {
 		inputTextView.delegate = self
 		outputTextView.delegate = self
 		
-	}
-	
-	func hexStringToUIColor (hex:String) -> UIColor {
-		var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-		
-		if (cString.hasPrefix("#")) {
-			cString.remove(at: cString.startIndex)
-		}
-		
-		if ((cString.count) != 6) {
-			return UIColor.gray
-		}
-		
-		var rgbValue:UInt64 = 0
-		Scanner(string: cString).scanHexInt64(&rgbValue)
-		
-		return UIColor(
-			red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-			green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-			blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-			alpha: CGFloat(1.0)
-		)
 	}
 }
 
@@ -111,8 +88,8 @@ extension ViewController {
 		}
 		inputTextView.layoutIfNeeded()
 		
-		view.addSubview(collectionView)
-		collectionView.snp.makeConstraints { (make) in
+		view.addSubview(tableView)
+		tableView.snp.makeConstraints { (make) in
 			make.top.equalTo(stackView.snp.bottom).offset(8)
 			make.leading.equalToSuperview()
 			make.trailing.equalToSuperview()
@@ -162,8 +139,6 @@ extension ViewController: UITextViewDelegate {
 				}
 			}
 		}
-		
-		
 	}
 	
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -175,7 +150,5 @@ extension ViewController: UITextViewDelegate {
 		}
 		return true
 	}
-	
-	
 }
 
