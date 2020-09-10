@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0659A31F6FE6D18A451790F1 /* Pods_MediaSoft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */; };
 		DF4100022505844100EDA819 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4100012505844100EDA819 /* Model.swift */; };
+		DF4100052506B5DE00EDA819 /* YandexService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4100042506B5DE00EDA819 /* YandexService.swift */; };
 		DF41FFD32502ACCB00EDA819 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */; };
 		DF41FFD52502ACCB00EDA819 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */; };
 		DF41FFD72502ACCB00EDA819 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFD62502ACCB00EDA819 /* ViewController.swift */; };
@@ -23,6 +24,7 @@
 		5BEC48347EE69F4115B397A4 /* Pods-MediaSoft.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaSoft.debug.xcconfig"; path = "Target Support Files/Pods-MediaSoft/Pods-MediaSoft.debug.xcconfig"; sourceTree = "<group>"; };
 		9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediaSoft.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF4100012505844100EDA819 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		DF4100042506B5DE00EDA819 /* YandexService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexService.swift; sourceTree = "<group>"; };
 		DF41FFCF2502ACCB00EDA819 /* MediaSoft.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaSoft.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */,
 				DF41FFD62502ACCB00EDA819 /* ViewController.swift */,
 				DF4100012505844100EDA819 /* Model.swift */,
+				DF4100042506B5DE00EDA819 /* YandexService.swift */,
 				DF41FFDE2502ACCD00EDA819 /* Assets.xcassets */,
 				DF41FFE02502ACCD00EDA819 /* LaunchScreen.storyboard */,
 				DF41FFE32502ACCD00EDA819 /* Info.plist */,
@@ -224,6 +227,7 @@
 				DF41FFEB2505520100EDA819 /* UIViewController+Extensions.swift in Sources */,
 				DF4100022505844100EDA819 /* Model.swift in Sources */,
 				DF41FFDD2502ACCB00EDA819 /* MediaSoft.xcdatamodeld in Sources */,
+				DF4100052506B5DE00EDA819 /* YandexService.swift in Sources */,
 				DF41FFD52502ACCB00EDA819 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
