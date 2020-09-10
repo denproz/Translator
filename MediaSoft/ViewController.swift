@@ -8,9 +8,9 @@
 
 import UIKit
 import SnapKit
-import Alamofire
 import RxSwift
 import RxCocoa
+import Moya
 
 class ViewController: UIViewController {
 	let inputTextView: UITextView = {
@@ -39,9 +39,10 @@ class ViewController: UIViewController {
 		return tableView
 	}()
 	
-	var searchTimer: Timer?
 	
 	var stackView: UIStackView!
+	
+	let translationProvider = MoyaProvider<YandexService>()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -125,17 +126,16 @@ extension ViewController: UITextViewDelegate {
 			textView.text = "Введите текст"
 			textView.textColor = UIColor.lightGray
 		} else {
-			let headers: HTTPHeaders = ["Content-Type": "application/json", "Authorization": "Api-Key AQVNxTC5ZIJhtrkaP33_VbA02M3ucVLgzFVuyVzM"]
-			let parameters: [String: Any] = ["texts": [textView.text], "targetLanguageCode": "ru"]
-			AF.request("https://translate.api.cloud.yandex.net/translate/v2/translate", method: .post, parameters: parameters, encoding: JSONEncoding.default ,headers: headers).responseJSON { (response) in
-				switch response.result {
-				case .success(let data):
-					let data = try! JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
-					let decoder = JSONDecoder()
-					let translation = try! decoder.decode(Translations.self, from: data)
-					self.outputTextView.text = translation.translations[0].text
+			translationProvider.request(.requestTranslation(text: [textView.text], targetLanguageCode: "ru")) { [weak self] (result) in
+				guard let self = self else { return }
+				switch result {
+				case .success(let response):
+					let translation = try! JSONDecoder().decode(TranslationResponse.self, from: response.data)
+					DispatchQueue.main.async {
+						self.outputTextView.text = translation.items?.first?.text
+					}
 				case .failure(let error):
-					print(error.errorDescription)
+					print(error.localizedDescription)
 				}
 			}
 		}
