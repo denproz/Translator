@@ -18,6 +18,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		window = UIWindow(frame: windowScene.coordinateSpace.bounds)
 		window?.windowScene = windowScene
 		
+		if #available(iOS 13.0, *) {
+			window?.overrideUserInterfaceStyle = .light
+		}
+		
 		let mainVC = ViewController()
 		let navCon = UINavigationController(rootViewController: mainVC)
 		window?.rootViewController = navCon

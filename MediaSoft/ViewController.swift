@@ -39,13 +39,31 @@ class ViewController: UIViewController {
 		return tableView
 	}()
 	
-	
 	var stackView: UIStackView!
-	
+	let disposeBag = DisposeBag()
 	let translationProvider = MoyaProvider<YandexService>()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		let search = inputTextView.rx.text.orEmpty
+			.filter { !$0.isEmpty }
+			.debounce(.milliseconds(300), scheduler: MainScheduler.instance)
+			.distinctUntilChanged()
+			.flatMapLatest { text in
+				self.translationProvider.rx.request(.requestTranslation(text: [text], targetLanguageCode: "ru"), callbackQueue: .global(qos: .userInitiated))
+		  }
+		  .observeOn(MainScheduler.instance)
+		
+		search
+			.map { response -> String in
+				let translationResponse = try! JSONDecoder().decode(TranslationResponse.self, from: response.data)
+				let translationText = translationResponse.items?.first?.text ?? ""
+				return translationText
+		  }
+		  .bind(to: outputTextView.rx.text)
+		  .disposed(by: disposeBag)
+		
 		
 		let titleImage = UIImage(named: "hyyandex")
 		let titleImageView = UIImageView(image: titleImage)
@@ -125,19 +143,6 @@ extension ViewController: UITextViewDelegate {
 		if textView == inputTextView && textView.text.isEmpty {
 			textView.text = "Введите текст"
 			textView.textColor = UIColor.lightGray
-		} else {
-			translationProvider.request(.requestTranslation(text: [textView.text], targetLanguageCode: "ru")) { [weak self] (result) in
-				guard let self = self else { return }
-				switch result {
-				case .success(let response):
-					let translation = try! JSONDecoder().decode(TranslationResponse.self, from: response.data)
-					DispatchQueue.main.async {
-						self.outputTextView.text = translation.items?.first?.text
-					}
-				case .failure(let error):
-					print(error.localizedDescription)
-				}
-			}
 		}
 	}
 	
@@ -151,4 +156,3 @@ extension ViewController: UITextViewDelegate {
 		return true
 	}
 }
-
