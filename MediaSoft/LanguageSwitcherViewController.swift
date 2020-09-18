@@ -27,7 +27,6 @@ class LanguageSwitcherViewController: UIViewController, ViewControllerOutput {
 		buttonIndex = index
 	}
 	
-	
 	weak var delegate: LanguageSwitcherDelegate?
 	
 	let tableView: UITableView = {
@@ -35,20 +34,20 @@ class LanguageSwitcherViewController: UIViewController, ViewControllerOutput {
 		return tableView
 	}()
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
-			view.addSubview(tableView)
-			tableView.snp.makeConstraints { (make) in
-				make.leading.equalToSuperview()
-				make.trailing.equalToSuperview()
-				make.top.equalToSuperview()
-				make.bottom.equalToSuperview()
-			}
-			
-			tableView.dataSource = self
-			tableView.delegate = self
-			tableView.register(LanguageCell.self, forCellReuseIdentifier: "LanguageCell")
-    }
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		view.addSubview(tableView)
+		tableView.snp.makeConstraints { (make) in
+			make.leading.equalToSuperview()
+			make.trailing.equalToSuperview()
+			make.top.equalToSuperview()
+			make.bottom.equalToSuperview()
+		}
+		
+		tableView.dataSource = self
+		tableView.delegate = self
+		tableView.register(LanguageCell.self, forCellReuseIdentifier: "LanguageCell")
+	}
 }
 
 extension LanguageSwitcherViewController: UITableViewDataSource {
@@ -67,7 +66,7 @@ extension LanguageSwitcherViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let language = Languages.allCases[indexPath.row]
 		delegate?.onLanguageChosen(language: language, buttonIndex: buttonIndex)
-		navigationController?.popViewController(animated: true)
-//		dismiss(animated: true, completion: nil)
+		//		navigationController?.popViewController(animated: true)
+		dismiss(animated: true, completion: nil)
 	}
 }

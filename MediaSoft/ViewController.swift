@@ -39,7 +39,6 @@ class ViewController: UIViewController {
 	
 	let swapLanguagesButton: UIButton = {
 		let button = UIButton()
-		button.setContentHuggingPriority(.required, for: .horizontal)
 		let image = UIImage(systemName: "arrow.right.arrow.left")?.withRenderingMode(.alwaysTemplate)
 		button.setImage(image, for: .normal)
 		button.tintColor = .white
@@ -60,12 +59,10 @@ class ViewController: UIViewController {
 		switch sender.tag {
 		case SelectedButton.from.rawValue:
 			vc.buttonIndex = sender.tag
-			navigationController?.pushViewController(vc, animated: true)
-//			navigationController?.present(vc, animated: true, completion: nil)
+			navigationController?.present(vc, animated: true, completion: nil)
 		case SelectedButton.to.rawValue:
 			vc.buttonIndex = sender.tag
-			navigationController?.pushViewController(vc, animated: true)
-//			navigationController?.present(vc, animated: true, completion: nil)
+			navigationController?.present(vc, animated: true, completion: nil)
 		default:
 			break
 		}
@@ -79,9 +76,30 @@ class ViewController: UIViewController {
 		textView.textColor = .lightGray
 		textView.backgroundColor = .systemBackground
 		textView.isScrollEnabled = true
-		textView.layer.borderWidth = 0.5
+		textView.layer.borderWidth = 0.3
+		textView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 50)
 		return textView
 	}()
+	
+	let clearButton: UIButton = {
+		let button = UIButton()
+		let image = UIImage(systemName: "xmark")?.withRenderingMode(.alwaysTemplate)
+		button.setImage(image, for: .normal)
+		button.tintColor = .black
+		button.isHidden = true
+		button.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
+		return button
+	}()
+	
+	@objc func clearButtonTapped() {
+		inputTextView.text = ""
+		
+		UIView.animate(withDuration: 0.15) {
+			self.outputTextView.isHidden = true
+		}
+		clearButton.isHidden = true
+		
+	}
 	
 	let outputTextView: UITextView = {
 		let textView = UITextView()
@@ -90,7 +108,7 @@ class ViewController: UIViewController {
 		textView.font = UIFont.preferredFont(forTextStyle: .body)
 		textView.adjustsFontForContentSizeCategory = true
 		textView.isUserInteractionEnabled = false
-		textView.layer.borderWidth = 0.5
+		textView.layer.borderWidth = 0.3
 		return textView
 	}()
 	
@@ -106,12 +124,12 @@ class ViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 		fireOffNetwork()
 		
 		swapLanguagesButton.rx.tap
 			.throttle(.milliseconds(500), scheduler: MainScheduler.instance)
 			.subscribe(onNext: { [unowned self] _ in
+				#warning("пофиксить from кнопку когда меняешь ее на английский и печатаешь по-русски")
 				self.rotateSwapButton()
 				(self.fromLanguage, self.toLanguage) = (self.toLanguage, self.fromLanguage)
 				if !self.outputTextView.isHidden {
@@ -120,6 +138,7 @@ class ViewController: UIViewController {
 			})
 			.disposed(by: disposeBag)
 		
+
 		let titleImage = UIImage(named: "hyyandex")
 		let titleImageView = UIImageView(image: titleImage)
 		titleImageView.contentMode = .scaleAspectFit
@@ -141,9 +160,9 @@ class ViewController: UIViewController {
 	
 	func fireOffNetwork() {
 		let search = inputTextView.rx.text.orEmpty
-			.filter { !$0.isEmpty }
+			.filter { !$0.isEmpty && $0 != "Введите текст" }
+			.debug()
 			.debounce(.milliseconds(300), scheduler: MainScheduler.instance)
-			.distinctUntilChanged()
 			.flatMapLatest { text in
 				self.translationProvider.rx.request(.requestTranslation(text: [text], targetLanguageCode: self.toLanguage.rawValue), callbackQueue: .global(qos: .userInitiated))
 			}
@@ -203,6 +222,12 @@ extension ViewController {
 			make.height.equalTo(120)
 		}
 		
+		view.addSubview(clearButton)
+		clearButton.snp.makeConstraints { (make) in
+			make.top.equalTo(inputTextView.snp.top).offset(8)
+			make.trailing.equalTo(inputTextView.snp.trailing).offset(-8)
+		}
+		
 		outputTextView.snp.makeConstraints { (make) in
 			make.height.equalTo(120)
 		}
@@ -234,6 +259,7 @@ extension ViewController: UITextViewDelegate {
 	
 	func textViewDidChange(_ textView: UITextView) {
 		if textView == inputTextView {
+			clearButton.isHidden = !textView.hasText
 			if textView.hasText && textView.text.count == 1 {
 				UIView.animate(withDuration: 0.2) {
 					self.outputTextView.isHidden = false
@@ -265,26 +291,28 @@ extension ViewController: UITextViewDelegate {
 }
 
 extension ViewController: LanguageSwitcherDelegate {
+	func swapLanguagesIfMirrored() {
+		(fromLanguage, toLanguage) = (toLanguage, fromLanguage)
+		if !self.outputTextView.isHidden {
+			(self.inputTextView.text, self.outputTextView.text) = (self.outputTextView.text, self.inputTextView.text)
+		}
+	}
+	
 	func onLanguageChosen(language: Languages, buttonIndex: Int) {
+		inputTextView.becomeFirstResponder()
 		switch buttonIndex {
 		case SelectedButton.from.rawValue:
 			if language != toLanguage {
 				fromLanguage = language
 			} else {
-				(fromLanguage, toLanguage) = (toLanguage, fromLanguage)
-				if !self.outputTextView.isHidden {
-					(self.inputTextView.text, self.outputTextView.text) = (self.outputTextView.text, self.inputTextView.text)
-				}
+				swapLanguagesIfMirrored()
 			}
 		case SelectedButton.to.rawValue:
 			if language != fromLanguage {
 				toLanguage = language
 				fireOffNetwork()
 			} else {
-				(fromLanguage, toLanguage) = (toLanguage, fromLanguage)
-				if !self.outputTextView.isHidden {
-					(self.inputTextView.text, self.outputTextView.text) = (self.outputTextView.text, self.inputTextView.text)
-				}
+				swapLanguagesIfMirrored()
 			}
 		default:
 			break
