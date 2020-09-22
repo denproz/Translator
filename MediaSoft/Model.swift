@@ -14,17 +14,17 @@ struct TranslationResponse: Decodable {
 }
 
 struct Translation: Decodable {
-	var detectedLanguage: String?
+//	var detectedLanguage: String?
 	var text: String?
 	
 	enum CodingKeys: String, CodingKey {
-		case detectedLanguage = "detectedLanguageCode"
+//		case detectedLanguage = "detectedLanguageCode"
 		case text
 	}
 	
 	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		detectedLanguage = try container.decode(String.self, forKey: .detectedLanguage)
+//		detectedLanguage = try container.decode(String.self, forKey: .detectedLanguage)
 		text = try container.decode(String.self, forKey: .text)
 	}
 }
