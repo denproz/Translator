@@ -81,7 +81,7 @@ class ViewController: UIViewController {
 	let inputTextView: UITextView = {
 		let textView = UITextView()
 		textView.text = "Введите текст"
-		textView.font = UIFont.preferredFont(forTextStyle: .body)
+		textView.font = UIFont.preferredFont(forTextStyle: .title3)
 		textView.adjustsFontForContentSizeCategory = true
 		textView.textColor = .lightGray
 		textView.backgroundColor = .systemBackground
@@ -107,7 +107,13 @@ class ViewController: UIViewController {
 	}()
 	
 	@objc func clearButtonTapped() {
-		inputTextView.text = ""
+		
+		if !inputTextView.isFirstResponder {
+			inputTextView.text = nil
+			inputTextView.becomeFirstResponder()
+		} else {
+			inputTextView.text = ""
+		}
 		
 		UIView.animate(withDuration: 0.15) {
 			self.outputTextView.isHidden = true
@@ -115,11 +121,12 @@ class ViewController: UIViewController {
 		clearButton.isHidden = true
 	}
 	
+	#warning("положить outputTextView в collection view cell")
 	let outputTextView: UITextView = {
 		let textView = UITextView()
 		textView.backgroundColor = .systemBackground
 		textView.isHidden = true
-		textView.font = UIFont.preferredFont(forTextStyle: .body)
+		textView.font = UIFont.preferredFont(forTextStyle: .title3)
 		textView.adjustsFontForContentSizeCategory = true
 		textView.isScrollEnabled = true
 		textView.isEditable = false
@@ -241,13 +248,14 @@ extension ViewController {
 		
 		view.addSubview(stackView)
 		view.addSubview(clearButton)
+		view.addSubview(tableView)
 		
 		inputTextView.snp.makeConstraints { (make) in
-			make.height.equalTo(120)
+			make.height.equalTo(100)
 		}
 		
 		outputTextView.snp.makeConstraints { (make) in
-			make.height.equalTo(120)
+			make.height.equalTo(200)
 		}
 		
 		stackView.snp.makeConstraints { (make) in
@@ -264,7 +272,6 @@ extension ViewController {
 			make.width.equalTo(18)
 		}
 		
-		view.addSubview(tableView)
 		tableView.snp.makeConstraints { (make) in
 			make.top.equalTo(stackView.snp.bottom)
 			make.leading.equalToSuperview()
