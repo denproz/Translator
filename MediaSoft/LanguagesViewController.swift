@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-protocol LanguageSwitcherDelegate: class {
+protocol LanguagesViewControllerDelegate: class {
 	func onLanguageChosen(language: Languages, buttonIndex: Int)
 }
 
@@ -9,9 +9,9 @@ class LanguageCell: UITableViewCell {
 	
 }
 
-class LanguageSwitcherViewController: UIViewController {
+class LanguagesViewController: UIViewController {
 	var buttonIndex: Int!
-	weak var delegate: LanguageSwitcherDelegate?
+	weak var delegate: LanguagesViewControllerDelegate?
 	
 	let tableView: UITableView = {
 		let tableView = UITableView()
@@ -34,7 +34,7 @@ class LanguageSwitcherViewController: UIViewController {
 	}
 }
 
-extension LanguageSwitcherViewController: UITableViewDataSource {
+extension LanguagesViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return Languages.allCases.count
 	}
@@ -46,7 +46,7 @@ extension LanguageSwitcherViewController: UITableViewDataSource {
 	}
 }
 
-extension LanguageSwitcherViewController: UITableViewDelegate {
+extension LanguagesViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let language = Languages.allCases[indexPath.row]
 		delegate?.onLanguageChosen(language: language, buttonIndex: buttonIndex)

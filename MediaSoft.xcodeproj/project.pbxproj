@@ -10,7 +10,7 @@
 		0659A31F6FE6D18A451790F1 /* Pods_MediaSoft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */; };
 		DF4100022505844100EDA819 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4100012505844100EDA819 /* Model.swift */; };
 		DF4100052506B5DE00EDA819 /* YandexService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4100042506B5DE00EDA819 /* YandexService.swift */; };
-		DF41000A250FE63000EDA819 /* LanguageSwitcherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF410009250FE63000EDA819 /* LanguageSwitcherViewController.swift */; };
+		DF41000A250FE63000EDA819 /* LanguagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF410009250FE63000EDA819 /* LanguagesViewController.swift */; };
 		DF41000C250FE65000EDA819 /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41000B250FE65000EDA819 /* Languages.swift */; };
 		DF41FFD32502ACCB00EDA819 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */; };
 		DF41FFD52502ACCB00EDA819 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */; };
@@ -28,7 +28,7 @@
 		9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediaSoft.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF4100012505844100EDA819 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DF4100042506B5DE00EDA819 /* YandexService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexService.swift; sourceTree = "<group>"; };
-		DF410009250FE63000EDA819 /* LanguageSwitcherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSwitcherViewController.swift; sourceTree = "<group>"; };
+		DF410009250FE63000EDA819 /* LanguagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesViewController.swift; sourceTree = "<group>"; };
 		DF41000B250FE65000EDA819 /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
 		DF41FFCF2502ACCB00EDA819 /* MediaSoft.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaSoft.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,8 +95,8 @@
 				DF41FFE9250551E400EDA819 /* Extensions */,
 				DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */,
 				DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */,
+				DF410009250FE63000EDA819 /* LanguagesViewController.swift */,
 				DF41FFD62502ACCB00EDA819 /* ViewController.swift */,
-				DF410009250FE63000EDA819 /* LanguageSwitcherViewController.swift */,
 				DF4100012505844100EDA819 /* Model.swift */,
 				DF41000B250FE65000EDA819 /* Languages.swift */,
 				DF4100042506B5DE00EDA819 /* YandexService.swift */,
@@ -238,7 +238,7 @@
 				DF4100022505844100EDA819 /* Model.swift in Sources */,
 				DF41FFDD2502ACCB00EDA819 /* MediaSoft.xcdatamodeld in Sources */,
 				DF4100052506B5DE00EDA819 /* YandexService.swift in Sources */,
-				DF41000A250FE63000EDA819 /* LanguageSwitcherViewController.swift in Sources */,
+				DF41000A250FE63000EDA819 /* LanguagesViewController.swift in Sources */,
 				DF41FFD52502ACCB00EDA819 /* SceneDelegate.swift in Sources */,
 				DF41000C250FE65000EDA819 /* Languages.swift in Sources */,
 			);

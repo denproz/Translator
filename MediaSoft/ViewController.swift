@@ -58,7 +58,7 @@ class ViewController: UIViewController {
 	}()
 	
 	@objc func languageButtonTapped(_ sender: UIButton) {
-		let vc = LanguageSwitcherViewController()
+		let vc = LanguagesViewController()
 		vc.delegate = self
 		switch sender.tag {
 			case SelectedButton.from.rawValue:
@@ -346,7 +346,7 @@ extension ViewController: UITextViewDelegate {
 	}
 }
 
-extension ViewController: LanguageSwitcherDelegate {
+extension ViewController: LanguagesViewControllerDelegate {
 	func swapLanguagesIfMirrored() {
 		(fromLanguage, toLanguage) = (toLanguage, fromLanguage)
 		if !self.outputTextView.isHidden {
