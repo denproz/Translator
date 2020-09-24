@@ -11,11 +11,6 @@ class LanguageCell: UITableViewCell {
 
 class LanguageSwitcherViewController: UIViewController {
 	var buttonIndex: Int!
-	
-	func languageButtonChosen(index: Int) {
-		buttonIndex = index
-	}
-	
 	weak var delegate: LanguageSwitcherDelegate?
 	
 	let tableView: UITableView = {
