@@ -1,16 +1,5 @@
-//
-//  LanguageSwitcher.swift
-//  MediaSoft
-//
-//  Created by Denis Prozukin on 14.09.2020.
-//  Copyright © 2020 Denis Prozukin. All rights reserved.
-//
-
 import UIKit
 import SnapKit
-
-protocol LanguageSwitcherProtocol: class {
-}
 
 protocol LanguageSwitcherDelegate: class {
 	func onLanguageChosen(language: Languages, buttonIndex: Int)
@@ -20,7 +9,7 @@ class LanguageCell: UITableViewCell {
 	
 }
 
-class LanguageSwitcherViewController: UIViewController, ViewControllerOutput {
+class LanguageSwitcherViewController: UIViewController {
 	var buttonIndex: Int!
 	
 	func languageButtonChosen(index: Int) {

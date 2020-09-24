@@ -5,12 +5,7 @@ import Moya
 import SnapKit
 import NaturalLanguage
 
-protocol ViewControllerOutput: class {
-	func languageButtonChosen(index: Int)
-}
-
 class ViewController: UIViewController {
-	weak var output: ViewControllerOutput?
 	
 	enum SelectedButton: Int {
 		case from
@@ -81,7 +76,7 @@ class ViewController: UIViewController {
 	let inputTextView: UITextView = {
 		let textView = UITextView()
 		textView.text = "Введите текст"
-		textView.font = UIFont.preferredFont(forTextStyle: .title3)
+		textView.font = UIFont.preferredFont(forTextStyle: .body)
 		textView.adjustsFontForContentSizeCategory = true
 		textView.textColor = .lightGray
 		textView.backgroundColor = .systemBackground
@@ -107,7 +102,6 @@ class ViewController: UIViewController {
 	}()
 	
 	@objc func clearButtonTapped() {
-		
 		if !inputTextView.isFirstResponder {
 			inputTextView.text = nil
 			inputTextView.becomeFirstResponder()
@@ -117,11 +111,11 @@ class ViewController: UIViewController {
 		
 		UIView.animate(withDuration: 0.15) {
 			self.outputTextView.isHidden = true
+			self.containerActivitiesView.isHidden = true
 		}
 		clearButton.isHidden = true
 	}
 	
-	#warning("положить outputTextView в collection view cell")
 	let outputTextView: UITextView = {
 		let textView = UITextView()
 		textView.backgroundColor = .systemBackground
@@ -131,13 +125,28 @@ class ViewController: UIViewController {
 		textView.isScrollEnabled = true
 		textView.isEditable = false
 		textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 10)
-		textView.layer.borderWidth = 0.3
+		textView.layer.borderWidth = 0
 		return textView
 	}()
 	
-	let tableView: UITableView = {
-		let tableView = UITableView()
-		return tableView
+	let shareButton: UIButton = {
+		let button = UIButton()
+		let image = UIImage(systemName: "square.and.arrow.up")?.withRenderingMode(.alwaysTemplate)
+		button.setImage(image, for: .normal)
+		button.tintColor = .black
+		return button
+	}()
+	
+	let containerActivitiesView: UIView = {
+		let view = UIView(frame: .zero)
+		view.isHidden = true
+		return view
+	}()
+	
+	let collectionView: UICollectionView = {
+		let layout = UICollectionViewCompositionalLayout.list(using: UICollectionLayoutListConfiguration(appearance: .plain))
+		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+		return collectionView
 	}()
 	
 	var languageButtonsStackView: UIStackView!
@@ -163,8 +172,7 @@ class ViewController: UIViewController {
 		navigationItem.titleView = titleImageView
 		
 		navigationController?.navigationBar.barTintColor = hexStringToUIColor(hex: "#FFCC00")
-		tableView.backgroundColor = hexStringToUIColor(hex: "#FFCC00")
-		tableView.separatorStyle = .none
+		collectionView.backgroundColor = hexStringToUIColor(hex: "#FFCC00")
 		
 		configureLanguagesButtonsStackView()
 		hideKeyboardWhenTappedAround()
@@ -181,6 +189,7 @@ class ViewController: UIViewController {
 			.debounce(.milliseconds(500), scheduler: MainScheduler.instance)
 			.filter { $0.count >= 1 && $0 != "Введите текст" }
 			.map { text in
+				self.outputTextView.showSpinner()
 				let languageRecognizer = NLLanguageRecognizer()
 				languageRecognizer.languageConstraints = [.english, .italian, .spanish, .german, .portuguese, .russian, .french]
 				languageRecognizer.languageHints = [.english: 0.9, .italian: 0.5, .spanish: 0.7, .german: 0.7, .portuguese: 0.3, .russian: 0.9, .french: 0.7]
@@ -201,6 +210,7 @@ class ViewController: UIViewController {
 				do {
 					let translationResponse = try JSONDecoder().decode(TranslationResponse.self, from: response.data)
 					let translatedText = translationResponse.items?.first?.text ?? ""
+					self.outputTextView.hideSpinner()
 					return translatedText
 				}
 				catch let error {
@@ -242,13 +252,15 @@ extension ViewController {
 	}
 	
 	func configureStackView() {
-		stackView = UIStackView(arrangedSubviews: [inputTextView, outputTextView])
+		stackView = UIStackView(arrangedSubviews: [inputTextView, outputTextView, containerActivitiesView])
 		stackView.axis = .vertical
 		stackView.spacing = 0.2
 		
+		containerActivitiesView.addSubview(shareButton)
 		view.addSubview(stackView)
 		view.addSubview(clearButton)
-		view.addSubview(tableView)
+		view.addSubview(collectionView)
+		
 		
 		inputTextView.snp.makeConstraints { (make) in
 			make.height.equalTo(100)
@@ -272,7 +284,17 @@ extension ViewController {
 			make.width.equalTo(18)
 		}
 		
-		tableView.snp.makeConstraints { (make) in
+		containerActivitiesView.snp.makeConstraints { (make) in
+			make.height.equalTo(50)
+		}
+		
+		shareButton.snp.makeConstraints { (make) in
+			make.trailing.equalToSuperview().offset(-8)
+			make.top.equalToSuperview()
+			make.bottom.equalToSuperview()
+		}
+		
+		collectionView.snp.makeConstraints { (make) in
 			make.top.equalTo(stackView.snp.bottom)
 			make.leading.equalToSuperview()
 			make.trailing.equalToSuperview()
@@ -295,10 +317,12 @@ extension ViewController: UITextViewDelegate {
 			if textView.text.count >= 1 {
 				UIView.animate(withDuration: 0.2) {
 					self.outputTextView.isHidden = false
+					self.containerActivitiesView.isHidden = false
 				}
 			} else if textView.text.count == 0 {
 				UIView.animate(withDuration: 0.15) {
 					self.outputTextView.isHidden = true
+					self.containerActivitiesView.isHidden = true
 				}
 			}
 		}
@@ -312,7 +336,7 @@ extension ViewController: UITextViewDelegate {
 	}
 	
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-		if (range.location == 0 && text == "\n") {
+		if (range.location == 0 && text == "\n") || (range.location == 0 && text == " ") {
 			return false
 		}
 		if outputTextView.isHidden == true {

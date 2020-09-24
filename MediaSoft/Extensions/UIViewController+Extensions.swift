@@ -9,9 +9,7 @@ extension UIViewController {
 	@objc func dismissKeyboard() {
 		view.endEditing(true)
 	}
-}
-
-extension UIViewController {
+	
 	func hexStringToUIColor(hex:String) -> UIColor {
 		var colorString = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 		
@@ -33,4 +31,21 @@ extension UIViewController {
 			alpha: CGFloat(1.0)
 		)
 	}
+	
+	func addСhildViewController(_ child: UIViewController) {
+		addChild(child)
+		view.addSubview(child.view)
+		child.didMove(toParent: self)
+	}
+	
+	func removeChildViewController() {
+		guard parent != nil else {
+			return
+		}
+		
+		willMove(toParent: nil)
+		view.removeFromSuperview()
+		removeFromParent()
+	}
 }
+

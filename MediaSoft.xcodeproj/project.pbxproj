@@ -19,6 +19,8 @@
 		DF41FFDF2502ACCD00EDA819 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF41FFDE2502ACCD00EDA819 /* Assets.xcassets */; };
 		DF41FFE22502ACCD00EDA819 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF41FFE02502ACCD00EDA819 /* LaunchScreen.storyboard */; };
 		DF41FFEB2505520100EDA819 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */; };
+		DF6F7390251BD82100C777A2 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F738F251BD82100C777A2 /* UITextView+Extensions.swift */; };
+		DF6F7394251CCEA300C777A2 /* LanguageHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F7393251CCEA300C777A2 /* LanguageHeaderViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		DF41FFE12502ACCD00EDA819 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DF41FFE32502ACCD00EDA819 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		DF6F738F251BD82100C777A2 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
+		DF6F7393251CCEA300C777A2 /* LanguageHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageHeaderViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +99,7 @@
 				DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */,
 				DF41FFD62502ACCB00EDA819 /* ViewController.swift */,
 				DF410009250FE63000EDA819 /* LanguageSwitcherViewController.swift */,
+				DF6F7393251CCEA300C777A2 /* LanguageHeaderViewController.swift */,
 				DF4100012505844100EDA819 /* Model.swift */,
 				DF41000B250FE65000EDA819 /* Languages.swift */,
 				DF4100042506B5DE00EDA819 /* YandexService.swift */,
@@ -110,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */,
+				DF6F738F251BD82100C777A2 /* UITextView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -231,12 +237,14 @@
 				DF41FFD72502ACCB00EDA819 /* ViewController.swift in Sources */,
 				DF41FFD32502ACCB00EDA819 /* AppDelegate.swift in Sources */,
 				DF41FFEB2505520100EDA819 /* UIViewController+Extensions.swift in Sources */,
+				DF6F7390251BD82100C777A2 /* UITextView+Extensions.swift in Sources */,
 				DF4100022505844100EDA819 /* Model.swift in Sources */,
 				DF41FFDD2502ACCB00EDA819 /* MediaSoft.xcdatamodeld in Sources */,
 				DF4100052506B5DE00EDA819 /* YandexService.swift in Sources */,
 				DF41000A250FE63000EDA819 /* LanguageSwitcherViewController.swift in Sources */,
 				DF41FFD52502ACCB00EDA819 /* SceneDelegate.swift in Sources */,
 				DF41000C250FE65000EDA819 /* Languages.swift in Sources */,
+				DF6F7394251CCEA300C777A2 /* LanguageHeaderViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
