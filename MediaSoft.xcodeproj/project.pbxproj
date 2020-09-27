@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0659A31F6FE6D18A451790F1 /* Pods_MediaSoft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */; };
+		DF377A3A2520EC00003FB2A1 /* TextViewsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF377A392520EC00003FB2A1 /* TextViewsStackView.swift */; };
+		DF377A4225211254003FB2A1 /* ClearableTextViewStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF377A4125211254003FB2A1 /* ClearableTextViewStack.swift */; };
 		DF4100022505844100EDA819 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4100012505844100EDA819 /* Model.swift */; };
 		DF4100052506B5DE00EDA819 /* YandexService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4100042506B5DE00EDA819 /* YandexService.swift */; };
 		DF41000A250FE63000EDA819 /* LanguagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF410009250FE63000EDA819 /* LanguagesViewController.swift */; };
@@ -20,6 +22,9 @@
 		DF41FFE22502ACCD00EDA819 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF41FFE02502ACCD00EDA819 /* LaunchScreen.storyboard */; };
 		DF41FFEB2505520100EDA819 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */; };
 		DF673322251F70B800A77134 /* LanguagesStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF673321251F70B800A77134 /* LanguagesStackView.swift */; };
+		DF6D7AD1251FB71100A7E15D /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6D7AD0251FB71100A7E15D /* UIButton+Extensions.swift */; };
+		DF6E4B5C251FBDAE0075A88D /* ActivitiesStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E4B5B251FBDAE0075A88D /* ActivitiesStackView.swift */; };
+		DF6E4B5F251FC4A70075A88D /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E4B5E251FC4A70075A88D /* UIView+Extensions.swift */; };
 		DF6F7390251BD82100C777A2 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F738F251BD82100C777A2 /* UITextView+Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +32,8 @@
 		23F7665A69758F32508B2A5A /* Pods-MediaSoft.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaSoft.release.xcconfig"; path = "Target Support Files/Pods-MediaSoft/Pods-MediaSoft.release.xcconfig"; sourceTree = "<group>"; };
 		5BEC48347EE69F4115B397A4 /* Pods-MediaSoft.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaSoft.debug.xcconfig"; path = "Target Support Files/Pods-MediaSoft/Pods-MediaSoft.debug.xcconfig"; sourceTree = "<group>"; };
 		9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediaSoft.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF377A392520EC00003FB2A1 /* TextViewsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewsStackView.swift; sourceTree = "<group>"; };
+		DF377A4125211254003FB2A1 /* ClearableTextViewStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearableTextViewStack.swift; sourceTree = "<group>"; };
 		DF4100012505844100EDA819 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		DF4100042506B5DE00EDA819 /* YandexService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexService.swift; sourceTree = "<group>"; };
 		DF410009250FE63000EDA819 /* LanguagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesViewController.swift; sourceTree = "<group>"; };
@@ -41,6 +48,9 @@
 		DF41FFE32502ACCD00EDA819 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		DF673321251F70B800A77134 /* LanguagesStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesStackView.swift; sourceTree = "<group>"; };
+		DF6D7AD0251FB71100A7E15D /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
+		DF6E4B5B251FBDAE0075A88D /* ActivitiesStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesStackView.swift; sourceTree = "<group>"; };
+		DF6E4B5E251FC4A70075A88D /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		DF6F738F251BD82100C777A2 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -116,6 +126,8 @@
 			children = (
 				DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */,
 				DF6F738F251BD82100C777A2 /* UITextView+Extensions.swift */,
+				DF6D7AD0251FB71100A7E15D /* UIButton+Extensions.swift */,
+				DF6E4B5E251FC4A70075A88D /* UIView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -124,6 +136,9 @@
 			isa = PBXGroup;
 			children = (
 				DF673321251F70B800A77134 /* LanguagesStackView.swift */,
+				DF6E4B5B251FBDAE0075A88D /* ActivitiesStackView.swift */,
+				DF377A4125211254003FB2A1 /* ClearableTextViewStack.swift */,
+				DF377A392520EC00003FB2A1 /* TextViewsStackView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -242,15 +257,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF6E4B5F251FC4A70075A88D /* UIView+Extensions.swift in Sources */,
 				DF41FFD72502ACCB00EDA819 /* ViewController.swift in Sources */,
+				DF6D7AD1251FB71100A7E15D /* UIButton+Extensions.swift in Sources */,
 				DF41FFD32502ACCB00EDA819 /* AppDelegate.swift in Sources */,
+				DF377A3A2520EC00003FB2A1 /* TextViewsStackView.swift in Sources */,
 				DF41FFEB2505520100EDA819 /* UIViewController+Extensions.swift in Sources */,
 				DF6F7390251BD82100C777A2 /* UITextView+Extensions.swift in Sources */,
 				DF4100022505844100EDA819 /* Model.swift in Sources */,
 				DF41FFDD2502ACCB00EDA819 /* MediaSoft.xcdatamodeld in Sources */,
 				DF4100052506B5DE00EDA819 /* YandexService.swift in Sources */,
+				DF377A4225211254003FB2A1 /* ClearableTextViewStack.swift in Sources */,
 				DF673322251F70B800A77134 /* LanguagesStackView.swift in Sources */,
 				DF41000A250FE63000EDA819 /* LanguagesViewController.swift in Sources */,
+				DF6E4B5C251FBDAE0075A88D /* ActivitiesStackView.swift in Sources */,
 				DF41FFD52502ACCB00EDA819 /* SceneDelegate.swift in Sources */,
 				DF41000C250FE65000EDA819 /* Languages.swift in Sources */,
 			);

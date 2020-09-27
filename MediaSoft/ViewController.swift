@@ -4,8 +4,14 @@ import RxCocoa
 import Moya
 import SnapKit
 import NaturalLanguage
+import AVFoundation
 
 class ViewController: UIViewController {
+	var isSpeakerPressed = false {
+		didSet {
+			isSpeakerPressed ? self.activitiesStackView.pronounceButton.setImage(UIImage(systemName: "stop.fill"), for: .normal) : self.activitiesStackView.pronounceButton.setImage(UIImage(systemName: "speaker.1.fill"), for: .normal)
+		}
+	}
 	var fromLanguage: Languages! = .ru {
 		didSet {
 			languagesStackView.fromLanguageButton.setTitle(fromLanguage.languageName, for: .normal)
@@ -17,90 +23,31 @@ class ViewController: UIViewController {
 			languagesStackView.toLanguageButton.setTitle(toLanguage.languageName, for: .normal)
 		}
 	}
-	// MARK: - Textfields
-	let inputTextView: UITextView = {
-		let textView = UITextView()
-		textView.text = "Введите текст"
-		textView.font = UIFont.preferredFont(forTextStyle: .body)
-		textView.adjustsFontForContentSizeCategory = true
-		textView.textColor = .lightGray
-		textView.backgroundColor = .systemBackground
-		textView.isScrollEnabled = true
-		textView.layer.borderWidth = 0.3
-		textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 20)
-		return textView
-	}()
 	
-	let clearButton: UIButton = {
-		let button = UIButton()
-		let image = UIImage(systemName: "xmark")!.withRenderingMode(.alwaysTemplate)
-		button.setImage(image, for: .normal)
-		
-		button.imageView?.contentMode = .scaleAspectFill
-		button.contentHorizontalAlignment = .fill
-		button.contentVerticalAlignment = .fill
-		
-		button.tintColor = .black
-		button.isHidden = true
-		button.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
-		return button
-	}()
-	
-	@objc func clearButtonTapped() {
-		if !inputTextView.isFirstResponder {
-			inputTextView.text = nil
-			inputTextView.becomeFirstResponder()
-		} else {
-			inputTextView.text = ""
-		}
-		
-		UIView.animate(withDuration: 0.15) {
-			self.outputTextView.isHidden = true
-			self.containerActivitiesView.isHidden = true
-		}
-		clearButton.isHidden = true
-	}
-	
-	let outputTextView: UITextView = {
-		let textView = UITextView()
-		textView.backgroundColor = .systemBackground
-		textView.isHidden = true
-		textView.font = UIFont.preferredFont(forTextStyle: .title3)
-		textView.adjustsFontForContentSizeCategory = true
-		textView.isScrollEnabled = true
-		textView.isEditable = false
-		textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 10)
-		textView.layer.borderWidth = 0
-		return textView
-	}()
-	
-	let shareButton: UIButton = {
-		let button = UIButton()
-		let image = UIImage(systemName: "square.and.arrow.up")?.withRenderingMode(.alwaysTemplate)
-		button.setImage(image, for: .normal)
-		button.tintColor = .black
-		return button
-	}()
-	
-	let containerActivitiesView: UIView = {
-		let view = UIView(frame: .zero)
-		view.isHidden = true
-		return view
-	}()
-	
-	let collectionView: UICollectionView = {
-		let layout = UICollectionViewCompositionalLayout.list(using: UICollectionLayoutListConfiguration(appearance: .plain))
-		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		return collectionView
-	}()
-	
-	var stackView: UIStackView!
 	let disposeBag = DisposeBag()
 	let translationProvider = MoyaProvider<YandexService>()
 	
 	lazy var languagesStackView: LanguagesStackView = {
 		let stack = LanguagesStackView(fromLanguage: fromLanguage, toLanguage: toLanguage)
 		return stack
+	}()
+	
+	lazy var textViewsStackView: TextViewsStackView = {
+		let stack = TextViewsStackView()
+		return stack
+	}()
+	
+	lazy var activitiesStackView: ActivitiesStackView = {
+		let stack = ActivitiesStackView()
+		return stack
+	}()
+	
+	lazy var synthesizer = AVSpeechSynthesizer()
+	
+	let collectionView: UICollectionView = {
+		let layout = UICollectionViewCompositionalLayout.list(using: UICollectionLayoutListConfiguration(appearance: .plain))
+		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+		return collectionView
 	}()
 	
 	override func viewDidLoad() {
@@ -116,37 +63,104 @@ class ViewController: UIViewController {
 		
 		languagesStackView.onSwapPressed = { [weak self] in
 			guard let self = self else { return }
-			self.rotateSwapButton()
+			self.synthesizer.stopSpeaking(at: .immediate)
+			self.isSpeakerPressed = false
+			self.languagesStackView.swapLanguagesButton.rotate()
 			(self.fromLanguage, self.toLanguage) = (self.toLanguage, self.fromLanguage)
-			if !self.outputTextView.isHidden {
-				(self.inputTextView.text, self.outputTextView.text) = (self.outputTextView.text, self.inputTextView.text)
+			if !self.textViewsStackView.outputTextView.isHidden {
+				(self.textViewsStackView.inputTextViewStack.inputTextView.text, self.textViewsStackView.outputTextView.text) = (self.textViewsStackView.outputTextView.text, self.textViewsStackView.inputTextViewStack.inputTextView.text)
 			}
 		}
 		
 		languagesStackView.onLanguagePressed = { [weak self] tag in
 			guard let self = self else { return }
-					let vc = LanguagesViewController()
-					vc.delegate = self
-					switch tag {
-						case self.languagesStackView.fromLanguageButton.tag:
-							vc.buttonIndex = tag
-							self.navigationController?.present(vc, animated: true, completion: nil)
-						case self.languagesStackView.toLanguageButton.tag:
-							vc.buttonIndex = tag
-							self.navigationController?.present(vc, animated: true, completion: nil)
-						default:
-							break
-					}
+			let vc = LanguagesViewController()
+			vc.delegate = self
+			switch tag {
+				case self.languagesStackView.fromLanguageButton.tag:
+					vc.buttonIndex = tag
+					self.navigationController?.present(vc, animated: true, completion: nil)
+				case self.languagesStackView.toLanguageButton.tag:
+					vc.buttonIndex = tag
+					self.navigationController?.present(vc, animated: true, completion: nil)
+				default:
+					break
+			}
 		}
 		
-		fireOffNetwork()
-		
 		languagesStackView.swapLanguagesButton.rx.tap
-			.throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+			.throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
 			.subscribe(onNext: {
 				print("Swap button tapped")
 			})
 			.disposed(by: disposeBag)
+		
+		view.addSubview(textViewsStackView)
+		textViewsStackView.snp.makeConstraints { (make) in
+			make.top.equalTo(languagesStackView.snp.bottom)
+			make.leading.equalToSuperview()
+			make.trailing.equalToSuperview()
+		}
+		
+		textViewsStackView.inputTextViewStack.onClearPressed = { [weak self] in
+			guard let self = self else { return }
+			self.textViewsStackView.outputTextView.text = nil
+			self.synthesizer.stopSpeaking(at: .immediate)
+			if !self.textViewsStackView.inputTextViewStack.inputTextView.isFirstResponder {
+				self.textViewsStackView.inputTextViewStack.inputTextView.text = nil
+				self.textViewsStackView.inputTextViewStack.inputTextView.becomeFirstResponder()
+			} else {
+				self.textViewsStackView.inputTextViewStack.inputTextView.text = ""
+			}
+			
+			UIView.animate(withDuration: 0.15) {
+				self.textViewsStackView.outputTextView.isHidden = true
+				self.activitiesStackView.isHidden = true
+				self.textViewsStackView.inputTextViewStack.clearButton.isHidden = true
+			}
+			
+			self.activitiesStackView.pronounceButton.isEnabled = false
+			self.activitiesStackView.shareButton.isEnabled = false
+		}
+		
+		view.addSubview(activitiesStackView)
+		activitiesStackView.snp.makeConstraints { (make) in
+			make.leading.equalToSuperview().offset(32)
+			make.trailing.equalToSuperview().offset(-32)
+			make.top.equalTo(textViewsStackView.snp.bottom)
+			make.height.equalTo(44)
+		}
+		
+		synthesizer.delegate = self
+		
+		activitiesStackView.onPronouncePressed = { [weak self] in
+			guard let self = self, let text = self.textViewsStackView.outputTextView.text else { return }
+			if !self.isSpeakerPressed {
+				self.isSpeakerPressed = true
+				let utterance = AVSpeechUtterance(string: text)
+				utterance.voice = AVSpeechSynthesisVoice(language: self.toLanguage.rawValue)
+				self.synthesizer.speak(utterance)
+			} else {
+				self.isSpeakerPressed = false
+				self.synthesizer.stopSpeaking(at: .immediate)
+			}
+		}
+		
+		activitiesStackView.onSharePressed = { [weak self] in
+			guard let self = self, let text = self.textViewsStackView.outputTextView.text  else { return }
+			let activityController = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+			self.present(activityController, animated: true)
+		}
+		
+		view.addSubview(collectionView)
+		collectionView.snp.makeConstraints { (make) in
+			make.top.equalTo(activitiesStackView.snp.bottom)
+			make.leading.equalToSuperview()
+			make.trailing.equalToSuperview()
+			make.bottom.equalToSuperview()
+		}
+		
+		fireOffNetwork()
 		
 		let titleImage = UIImage(named: "hyyandex")
 		let titleImageView = UIImageView(image: titleImage)
@@ -157,26 +171,32 @@ class ViewController: UIViewController {
 		collectionView.backgroundColor = hexStringToUIColor(hex: "#FFCC00")
 		
 		hideKeyboardWhenTappedAround()
-		configureStackView()
 		
-		view.backgroundColor = .white
 		
-		inputTextView.delegate = self
-		outputTextView.delegate = self
+		view.backgroundColor = hexStringToUIColor(hex: "#FFCC00")
+		
+		textViewsStackView.inputTextViewStack.inputTextView.delegate = self
+		textViewsStackView.outputTextView.delegate = self
 	}
 	
 	func fireOffNetwork() {
-		_ = inputTextView.rx.text.orEmpty
+		_ = textViewsStackView.inputTextViewStack.inputTextView.rx.text.orEmpty
 			.debounce(.milliseconds(500), scheduler: MainScheduler.instance)
 			.filter { $0.count >= 1 && $0 != "Введите текст" }
 			.map { text in
-				self.outputTextView.showSpinner()
+				self.textViewsStackView.outputTextView.text = nil
+				self.textViewsStackView.outputTextView.showSpinner()
+				
+				self.activitiesStackView.pronounceButton.isEnabled = false
+				self.activitiesStackView.shareButton.isEnabled = false
+				
 				let languageRecognizer = NLLanguageRecognizer()
 				languageRecognizer.languageConstraints = [.english, .italian, .spanish, .german, .portuguese, .russian, .french]
 				languageRecognizer.languageHints = [.english: 0.9, .italian: 0.5, .spanish: 0.7, .german: 0.7, .portuguese: 0.3, .russian: 0.9, .french: 0.7]
 				languageRecognizer.processString(text)
 				
 				let hypotheses = languageRecognizer.languageHypotheses(withMaximum: 1)
+				
 				if !hypotheses.keys.contains(NLLanguage(self.fromLanguage.rawValue)) && hypotheses.keys.contains(NLLanguage(self.toLanguage.rawValue)) {
 					(self.fromLanguage, self.toLanguage)  = (self.toLanguage, self.fromLanguage)
 				} else if !hypotheses.keys.contains(NLLanguage(self.fromLanguage.rawValue)) && !hypotheses.keys.contains(NLLanguage(self.toLanguage.rawValue)) {
@@ -191,7 +211,9 @@ class ViewController: UIViewController {
 				do {
 					let translationResponse = try JSONDecoder().decode(TranslationResponse.self, from: response.data)
 					let translatedText = translationResponse.items?.first?.text ?? ""
-					self.outputTextView.hideSpinner()
+					self.textViewsStackView.outputTextView.hideSpinner()
+					self.activitiesStackView.pronounceButton.isEnabled = true
+					self.activitiesStackView.shareButton.isEnabled = true
 					return translatedText
 				}
 				catch let error {
@@ -200,68 +222,8 @@ class ViewController: UIViewController {
 				}
 			}
 			.observeOn(MainScheduler.instance)
-			.bind(to: outputTextView.rx.text)
+			.bind(to: textViewsStackView.outputTextView.rx.text)
 			.disposed(by: disposeBag)
-	}
-	
-	
-	func rotateSwapButton() {
-		UIView.animate(withDuration: 0.3) {
-			self.languagesStackView.swapLanguagesButton.transform = self.languagesStackView.swapLanguagesButton.transform.rotated(by: .pi)
-		}
-	}
-}
-
-extension ViewController {
-	func configureStackView() {
-		stackView = UIStackView(arrangedSubviews: [inputTextView, outputTextView, containerActivitiesView])
-		stackView.axis = .vertical
-		stackView.spacing = 0.2
-		
-		containerActivitiesView.addSubview(shareButton)
-		view.addSubview(stackView)
-		view.addSubview(clearButton)
-		view.addSubview(collectionView)
-		
-		
-		inputTextView.snp.makeConstraints { (make) in
-			make.height.equalTo(100)
-		}
-		
-		outputTextView.snp.makeConstraints { (make) in
-			make.height.equalTo(200)
-		}
-		
-		stackView.snp.makeConstraints { (make) in
-			make.leading.equalToSuperview()
-			make.trailing.equalToSuperview()
-			make.top.equalTo(languagesStackView.snp.bottom)
-		}
-		inputTextView.layoutIfNeeded()
-		
-		clearButton.snp.makeConstraints { (make) in
-			make.top.equalTo(languagesStackView.snp.bottom).offset(8)
-			make.trailing.equalToSuperview().offset(-8)
-			make.height.equalTo(18)
-			make.width.equalTo(18)
-		}
-		
-		containerActivitiesView.snp.makeConstraints { (make) in
-			make.height.equalTo(50)
-		}
-		
-		shareButton.snp.makeConstraints { (make) in
-			make.trailing.equalToSuperview().offset(-8)
-			make.top.equalToSuperview()
-			make.bottom.equalToSuperview()
-		}
-		
-		collectionView.snp.makeConstraints { (make) in
-			make.top.equalTo(stackView.snp.bottom)
-			make.leading.equalToSuperview()
-			make.trailing.equalToSuperview()
-			make.bottom.equalToSuperview()
-		}
 	}
 }
 
@@ -274,24 +236,24 @@ extension ViewController: UITextViewDelegate {
 	}
 	
 	func textViewDidChange(_ textView: UITextView) {
-		if textView == inputTextView {
-			clearButton.isHidden = !textView.hasText
+		if textView == textViewsStackView.inputTextViewStack.inputTextView {
+			textViewsStackView.inputTextViewStack.clearButton.isHidden = !textView.hasText
 			if textView.text.count >= 1 {
 				UIView.animate(withDuration: 0.2) {
-					self.outputTextView.isHidden = false
-					self.containerActivitiesView.isHidden = false
+					self.textViewsStackView.outputTextView.isHidden = false
+					self.activitiesStackView.isHidden = false
 				}
 			} else if textView.text.count == 0 {
 				UIView.animate(withDuration: 0.15) {
-					self.outputTextView.isHidden = true
-					self.containerActivitiesView.isHidden = true
+					self.textViewsStackView.outputTextView.isHidden = true
+					self.activitiesStackView.isHidden = true
 				}
 			}
 		}
 	}
 	
 	func textViewDidEndEditing(_ textView: UITextView) {
-		if textView == inputTextView && textView.text.isEmpty {
+		if textView == textViewsStackView.inputTextViewStack.inputTextView && textView.text.isEmpty {
 			textView.text = "Введите текст"
 			textView.textColor = UIColor.lightGray
 		}
@@ -301,8 +263,8 @@ extension ViewController: UITextViewDelegate {
 		if (range.location == 0 && text == "\n") || (range.location == 0 && text == " ") {
 			return false
 		}
-		if outputTextView.isHidden == true {
-			outputTextView.text = nil
+		if textViewsStackView.outputTextView.isHidden == true {
+			self.textViewsStackView.outputTextView.text = nil
 		}
 		return true
 	}
@@ -311,13 +273,13 @@ extension ViewController: UITextViewDelegate {
 extension ViewController: LanguagesViewControllerDelegate {
 	func swapLanguagesIfMirrored() {
 		(fromLanguage, toLanguage) = (toLanguage, fromLanguage)
-		if !self.outputTextView.isHidden {
-			(self.inputTextView.text, self.outputTextView.text) = (self.outputTextView.text, self.inputTextView.text)
+		if !self.textViewsStackView.outputTextView.isHidden {
+			(self.textViewsStackView.inputTextViewStack.inputTextView.text, self.textViewsStackView.outputTextView.text) = (self.textViewsStackView.outputTextView.text, self.textViewsStackView.inputTextViewStack.inputTextView.text)
 		}
 	}
 	
 	func onLanguageChosen(language: Languages, buttonIndex: Int) {
-		inputTextView.becomeFirstResponder()
+		textViewsStackView.inputTextViewStack.inputTextView.becomeFirstResponder()
 		switch buttonIndex {
 			case languagesStackView.fromLanguageButton.tag:
 				if language != toLanguage {
@@ -328,15 +290,28 @@ extension ViewController: LanguagesViewControllerDelegate {
 			case languagesStackView.toLanguageButton.tag:
 				if language != fromLanguage {
 					toLanguage = language
-					let text = inputTextView.text
-					inputTextView.text = nil
-					inputTextView.text = text
+					let text = textViewsStackView.inputTextViewStack.inputTextView.text
+					textViewsStackView.inputTextViewStack.inputTextView.text = nil
+					textViewsStackView.inputTextViewStack.inputTextView.text = text
 				} else {
 					swapLanguagesIfMirrored()
 				}
 			default:
 				break
 		}
+	}
+}
+
+extension ViewController: AVSpeechSynthesizerDelegate {
+	
+	func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
+		isSpeakerPressed = true
+//		self.activitiesStackView.pronounceButton.setImage(UIImage(systemName: "stop.fill"), for: .normal)
+	}
+	
+	func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+		isSpeakerPressed = false
+//		self.activitiesStackView.pronounceButton.setImage(UIImage(systemName: "speaker.1.fill"), for: .normal)
 	}
 }
 

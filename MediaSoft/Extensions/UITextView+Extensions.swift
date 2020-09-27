@@ -3,7 +3,6 @@ import UIKit
 fileprivate var activityView: UIView?
 
 extension UITextView {
-	
 	func showSpinner() {
 		activityView = UIView(frame: self.bounds)
 		activityView?.backgroundColor = .init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.2)
