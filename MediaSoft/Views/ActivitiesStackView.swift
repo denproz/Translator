@@ -29,8 +29,8 @@ class ActivitiesStackView: UIStackView {
 		button.contentHorizontalAlignment = .fill
 		button.contentVerticalAlignment = .fill
 		button.translatesAutoresizingMaskIntoConstraints = false
-		button.heightAnchor.constraint(equalToConstant: 24).isActive = true
-		button.widthAnchor.constraint(equalToConstant: 24).isActive = true
+		button.heightAnchor.constraint(equalToConstant: 22).isActive = true
+		button.widthAnchor.constraint(equalToConstant: 22).isActive = true
 		return button
 	}()
 	
@@ -43,8 +43,8 @@ class ActivitiesStackView: UIStackView {
 		button.imageView?.contentMode = .scaleAspectFit
 		button.contentHorizontalAlignment = .fill
 		button.contentVerticalAlignment = .fill
-		button.heightAnchor.constraint(equalToConstant: 24).isActive = true
-		button.widthAnchor.constraint(equalToConstant: 24).isActive = true
+		button.heightAnchor.constraint(equalToConstant: 22).isActive = true
+		button.widthAnchor.constraint(equalToConstant: 22).isActive = true
 		return button
 	}()
 	

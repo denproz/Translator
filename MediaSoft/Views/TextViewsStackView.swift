@@ -1,7 +1,6 @@
 import UIKit
 
 class TextViewsStackView: UIStackView {
-	
 	private override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupViews()
@@ -22,7 +21,7 @@ class TextViewsStackView: UIStackView {
 		textView.adjustsFontForContentSizeCategory = true
 		textView.isScrollEnabled = true
 		textView.isEditable = false
-		textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 10)
+		textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
 		textView.layer.borderWidth = 0.3
 		textView.alpha = 0
 		return textView

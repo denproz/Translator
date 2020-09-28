@@ -1,15 +1,6 @@
-//
-//  ClearableTextViewStack.swift
-//  MediaSoft
-//
-//  Created by Denis Prozukin on 27.09.2020.
-//  Copyright © 2020 Denis Prozukin. All rights reserved.
-//
-
 import UIKit
 
 class ClearableTextViewStack: UIStackView {
-	
 	private override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupViews()
@@ -46,8 +37,8 @@ class ClearableTextViewStack: UIStackView {
 		button.contentVerticalAlignment = .fill
 		
 		button.translatesAutoresizingMaskIntoConstraints = false
-		button.heightAnchor.constraint(equalToConstant: 28).isActive = true
-		button.widthAnchor.constraint(equalToConstant: 28).isActive = true
+		button.heightAnchor.constraint(equalToConstant: 26).isActive = true
+		button.widthAnchor.constraint(equalToConstant: 26).isActive = true
 		button.tintColor = .red
 		button.isHidden = true
 		button.backgroundColor = .white
