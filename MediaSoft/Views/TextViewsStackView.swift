@@ -24,6 +24,7 @@ class TextViewsStackView: UIStackView {
 		textView.isEditable = false
 		textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 10)
 		textView.layer.borderWidth = 0.3
+		textView.alpha = 0
 		return textView
 	}()
 	

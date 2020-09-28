@@ -115,10 +115,12 @@ class ViewController: UIViewController {
 			
 			UIView.animate(withDuration: 0.15) {
 				self.textViewsStackView.outputTextView.isHidden = true
+				self.textViewsStackView.outputTextView.alpha = 0
+				self.activitiesStackView.alpha = 0
+			} completion: { _ in
 				self.activitiesStackView.isHidden = true
-				self.textViewsStackView.inputTextViewStack.clearButton.isHidden = true
 			}
-			
+			self.textViewsStackView.inputTextViewStack.clearButton.isHidden = true
 			self.activitiesStackView.pronounceButton.isEnabled = false
 			self.activitiesStackView.shareButton.isEnabled = false
 		}
@@ -162,10 +164,10 @@ class ViewController: UIViewController {
 		
 		fireOffNetwork()
 		
-		let titleImage = UIImage(named: "hyyandex")
-		let titleImageView = UIImageView(image: titleImage)
-		titleImageView.contentMode = .scaleAspectFit
-		navigationItem.titleView = titleImageView
+				let titleImage = UIImage(named: "hyyandex")
+				let titleImageView = UIImageView(image: titleImage)
+				titleImageView.contentMode = .scaleAspectFit
+				navigationItem.titleView = titleImageView
 		
 		navigationController?.navigationBar.barTintColor = hexStringToUIColor(hex: "#FFCC00")
 		collectionView.backgroundColor = hexStringToUIColor(hex: "#FFCC00")
@@ -241,11 +243,17 @@ extension ViewController: UITextViewDelegate {
 			if textView.text.count >= 1 {
 				UIView.animate(withDuration: 0.2) {
 					self.textViewsStackView.outputTextView.isHidden = false
+					self.activitiesStackView.alpha = 1
+					self.textViewsStackView.outputTextView.alpha = 1
 					self.activitiesStackView.isHidden = false
 				}
 			} else if textView.text.count == 0 {
+				self.textViewsStackView.outputTextView.text = nil
 				UIView.animate(withDuration: 0.15) {
 					self.textViewsStackView.outputTextView.isHidden = true
+					self.textViewsStackView.outputTextView.alpha = 0
+					self.activitiesStackView.alpha = 0
+				} completion: { _ in
 					self.activitiesStackView.isHidden = true
 				}
 			}
@@ -306,12 +314,12 @@ extension ViewController: AVSpeechSynthesizerDelegate {
 	
 	func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
 		isSpeakerPressed = true
-//		self.activitiesStackView.pronounceButton.setImage(UIImage(systemName: "stop.fill"), for: .normal)
+		//		self.activitiesStackView.pronounceButton.setImage(UIImage(systemName: "stop.fill"), for: .normal)
 	}
 	
 	func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
 		isSpeakerPressed = false
-//		self.activitiesStackView.pronounceButton.setImage(UIImage(systemName: "speaker.1.fill"), for: .normal)
+		//		self.activitiesStackView.pronounceButton.setImage(UIImage(systemName: "speaker.1.fill"), for: .normal)
 	}
 }
 

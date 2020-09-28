@@ -25,6 +25,12 @@ class ActivitiesStackView: UIStackView {
 		button.setImage(image, for: .normal)
 		button.tintColor = .white
 		button.isEnabled = false
+		button.imageView?.contentMode = .scaleAspectFit
+		button.contentHorizontalAlignment = .fill
+		button.contentVerticalAlignment = .fill
+		button.translatesAutoresizingMaskIntoConstraints = false
+		button.heightAnchor.constraint(equalToConstant: 24).isActive = true
+		button.widthAnchor.constraint(equalToConstant: 24).isActive = true
 		return button
 	}()
 	
@@ -34,6 +40,11 @@ class ActivitiesStackView: UIStackView {
 		button.setImage(image, for: .normal)
 		button.tintColor = .white
 		button.isEnabled = false
+		button.imageView?.contentMode = .scaleAspectFit
+		button.contentHorizontalAlignment = .fill
+		button.contentVerticalAlignment = .fill
+		button.heightAnchor.constraint(equalToConstant: 24).isActive = true
+		button.widthAnchor.constraint(equalToConstant: 24).isActive = true
 		return button
 	}()
 	
@@ -42,8 +53,10 @@ class ActivitiesStackView: UIStackView {
 		addArrangedSubview(shareButton)
 		axis = .horizontal
 		distribution = .fillEqually
+		alignment = .center
 		backgroundColor = .red
 		isHidden = true
+		alpha = 0
 	}
 	
 	private func addActions() {

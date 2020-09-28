@@ -38,15 +38,20 @@ class ClearableTextViewStack: UIStackView {
 	let clearButton: UIButton = {
 		let button = UIButton()
 		let image = UIImage(systemName: "xmark")!.withRenderingMode(.alwaysTemplate)
+		button.imageEdgeInsets = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 4)
 		button.setImage(image, for: .normal)
 		
 		button.imageView?.contentMode = .scaleAspectFit
 		button.contentHorizontalAlignment = .fill
 		button.contentVerticalAlignment = .fill
 		
+		button.translatesAutoresizingMaskIntoConstraints = false
+		button.heightAnchor.constraint(equalToConstant: 28).isActive = true
+		button.widthAnchor.constraint(equalToConstant: 28).isActive = true
 		button.tintColor = .red
 		button.isHidden = true
 		button.backgroundColor = .white
+
 		return button
 	}()
 	
@@ -55,9 +60,10 @@ class ClearableTextViewStack: UIStackView {
 		addArrangedSubview(inputTextView)
 		addArrangedSubview(clearButton)
 		axis = .horizontal
-		alignment = .center
-		layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
-		isLayoutMarginsRelativeArrangement = true
+		alignment = .top
+		distribution = .fill
+//		layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//		isLayoutMarginsRelativeArrangement = true
 	}
 	
 	private func setupConstraints() {
