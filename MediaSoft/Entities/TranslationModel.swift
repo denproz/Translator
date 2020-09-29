@@ -12,27 +12,8 @@ class TranslationModel: Object  {
 		return "id"
 	}
 	
-	func incrementID() -> Int{
+	func incrementID() -> Int {
 		let realm = try! Realm()
-		if let retNext = realm.objects(TranslationModel.self).sorted(byKeyPath: "id").first?.id {
-			return retNext + 1
-		} else {
-			return 1
-		}
+		return (realm.objects(TranslationModel.self).max(ofProperty: "id") as Int? ?? 0) + 1
 	}
-	
-//	private enum CodingKeys: String, CodingKey {
-//		case inputText, outputText, fromLanguage, toLanguage
-//	}
-	
-//	init(inputText: String, outputText: String, fromLanguage: String, toLanguage: String) {
-//		self.inputText = inputText
-//		self.outputText = outputText
-//		self.fromLanguage = fromLanguage
-//		self.toLanguage = toLanguage
-//	}
-	
-//	static func == (lhs: TranslationModel, rhs: TranslationModel) -> Bool {
-//		lhs.id == rhs.id
-//	}
 }

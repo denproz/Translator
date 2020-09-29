@@ -74,26 +74,16 @@ class MainViewController: UIViewController {
 		}
 	}
 	
-	func populate(with translation: [TranslationModel]) {
+	func populate(with translation: Results<TranslationModel>) {
 		var snapshot = NSDiffableDataSourceSnapshot<Section, TranslationModel>()
+		let array = translation.toArray()
 		snapshot.appendSections([.main])
-		snapshot.appendItems(translation)
+		snapshot.appendItems(array)
 		dataSource?.apply(snapshot)
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		translations = realmService.realm.objects(TranslationModel.self)
-		
-//		notificationToken = realmService.realm.observe({ [weak self] (notification, realm) in
-//			guard let self = self else { return }
-//			var snapshot = self.dataSource?.snapshot()
-//			snapshot?.appendSections([.main])
-//			snapshot?.appendItems(realm.objects(TranslationModel.self))
-//			self.dataSource?.apply(snapshot!)
-//		})
-		
 		
 		executeTranslation()
 		
@@ -156,6 +146,7 @@ class MainViewController: UIViewController {
 			translation.fromLanguage = self.fromLanguage.rawValue
 			translation.toLanguage = self.toLanguage.rawValue
 			self.realmService.save(translation)
+			self.populate(with: self.translations)
 			
 			self.textViewsStackView.outputTextView.text = nil
 			self.synthesizer.stopSpeaking(at: .immediate)
@@ -215,6 +206,9 @@ class MainViewController: UIViewController {
 			make.trailing.equalToSuperview()
 			make.bottom.equalToSuperview()
 		}
+		
+		translations = realmService.realm.objects(TranslationModel.self)
+		populate(with: translations)
 		
 		// MARK: - Всякая херота
 		let titleImage = UIImage(named: "hyyandex")
@@ -325,12 +319,10 @@ extension MainViewController: AVSpeechSynthesizerDelegate {
 	
 	func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
 		isSpeakerPressed = true
-//				self.activitiesStackView.pronounceButton.setImage(UIImage(systemName: "stop.fill"), for: .normal)
 	}
 	
 	func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
 		isSpeakerPressed = false
-		//		self.activitiesStackView.pronounceButton.setImage(UIImage(systemName: "speaker.1.fill"), for: .normal)
 	}
 }
 
