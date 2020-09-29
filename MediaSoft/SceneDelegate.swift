@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 			window?.overrideUserInterfaceStyle = .light
 		}
 		
-		let mainVC = ViewController()
+		let mainVC = MainViewController()
 		let navCon = UINavigationController(rootViewController: mainVC)
 		window?.rootViewController = navCon
 		window?.makeKeyAndVisible()

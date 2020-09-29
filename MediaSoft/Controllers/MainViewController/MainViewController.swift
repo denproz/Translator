@@ -5,6 +5,7 @@ import Moya
 import SnapKit
 import NaturalLanguage
 import AVFoundation
+import RealmSwift
 
 class MainViewController: UIViewController {
 	var isSpeakerPressed = false {
@@ -24,8 +25,12 @@ class MainViewController: UIViewController {
 		}
 	}
 	
+	var translations: Results<TranslationModel>!
+	var notificationToken: NotificationToken?
+	
 	let disposeBag = DisposeBag()
 	let translationProvider = MoyaProvider<YandexService>()
+	let realmService = RealmService.shared
 	
 	lazy var languagesStackView: LanguagesStackView = {
 		let stack = LanguagesStackView(fromLanguage: fromLanguage, toLanguage: toLanguage)
@@ -44,14 +49,51 @@ class MainViewController: UIViewController {
 	
 	lazy var synthesizer = AVSpeechSynthesizer()
 	
+	var dataSource: UICollectionViewDiffableDataSource<Section, TranslationModel>?
+	
 	let collectionView: UICollectionView = {
-		let layout = UICollectionViewCompositionalLayout.list(using: UICollectionLayoutListConfiguration(appearance: .plain))
+		let configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+		let layout = UICollectionViewCompositionalLayout.list(using: configuration)
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+		collectionView.backgroundColor = .systemGroupedBackground
 		return collectionView
 	}()
 	
+	func setupCollectionView() {
+		let registration = UICollectionView.CellRegistration<UICollectionViewListCell, TranslationModel> { (cell, indexPath, translation) in
+			var content = cell.defaultContentConfiguration()
+			
+			content.text = translation.outputText
+			content.secondaryText = translation.inputText
+			
+			cell.contentConfiguration = content
+		}
+		
+		dataSource = UICollectionViewDiffableDataSource<Section, TranslationModel>(collectionView: collectionView) { (collectionView, indexPath, translation) in
+			collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: translation)
+		}
+	}
+	
+	func populate(with translation: [TranslationModel]) {
+		var snapshot = NSDiffableDataSourceSnapshot<Section, TranslationModel>()
+		snapshot.appendSections([.main])
+		snapshot.appendItems(translation)
+		dataSource?.apply(snapshot)
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		translations = realmService.realm.objects(TranslationModel.self)
+		
+//		notificationToken = realmService.realm.observe({ [weak self] (notification, realm) in
+//			guard let self = self else { return }
+//			var snapshot = self.dataSource?.snapshot()
+//			snapshot?.appendSections([.main])
+//			snapshot?.appendItems(realm.objects(TranslationModel.self))
+//			self.dataSource?.apply(snapshot!)
+//		})
+		
 		
 		executeTranslation()
 		
@@ -106,6 +148,15 @@ class MainViewController: UIViewController {
 		
 		textViewsStackView.inputTextViewStack.onClearPressed = { [weak self] in
 			guard let self = self else { return }
+			
+			let translation = TranslationModel()
+			translation.id = translation.incrementID()
+			translation.inputText = self.textViewsStackView.inputTextViewStack.inputTextView.text
+			translation.outputText = self.textViewsStackView.outputTextView.text
+			translation.fromLanguage = self.fromLanguage.rawValue
+			translation.toLanguage = self.toLanguage.rawValue
+			self.realmService.save(translation)
+			
 			self.textViewsStackView.outputTextView.text = nil
 			self.synthesizer.stopSpeaking(at: .immediate)
 			if !self.textViewsStackView.inputTextViewStack.inputTextView.isFirstResponder {
@@ -132,7 +183,7 @@ class MainViewController: UIViewController {
 			make.leading.equalToSuperview().offset(32)
 			make.trailing.equalToSuperview().offset(-32)
 			make.top.equalTo(textViewsStackView.snp.bottom)
-			make.height.equalTo(44)
+			make.height.equalTo(60)
 		}
 		
 		synthesizer.delegate = self
@@ -157,15 +208,15 @@ class MainViewController: UIViewController {
 		}
 		
 		view.addSubview(collectionView)
+		setupCollectionView()
 		collectionView.snp.makeConstraints { (make) in
-			make.top.equalTo(activitiesStackView.snp.bottom)
+			make.top.equalTo(activitiesStackView.snp.bottom).offset(16)
 			make.leading.equalToSuperview()
 			make.trailing.equalToSuperview()
 			make.bottom.equalToSuperview()
 		}
 		
-		
-		
+		// MARK: - Всякая херота
 		let titleImage = UIImage(named: "hyyandex")
 		let titleImageView = UIImageView(image: titleImage)
 		titleImageView.contentMode = .scaleAspectFit
@@ -176,14 +227,17 @@ class MainViewController: UIViewController {
 		
 		hideKeyboardWhenTappedAround()
 		
-		
 		view.backgroundColor = hexStringToUIColor(hex: "#FFCC00")
 		
 		textViewsStackView.inputTextViewStack.inputTextView.delegate = self
 		textViewsStackView.outputTextView.delegate = self
 	}
-	
-	
+}
+
+extension MainViewController {
+	enum Section {
+		case main
+	}
 }
 
 extension MainViewController: UITextViewDelegate {
@@ -271,7 +325,7 @@ extension MainViewController: AVSpeechSynthesizerDelegate {
 	
 	func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
 		isSpeakerPressed = true
-		//		self.activitiesStackView.pronounceButton.setImage(UIImage(systemName: "stop.fill"), for: .normal)
+//				self.activitiesStackView.pronounceButton.setImage(UIImage(systemName: "stop.fill"), for: .normal)
 	}
 	
 	func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {

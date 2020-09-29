@@ -10,13 +10,13 @@
 		0659A31F6FE6D18A451790F1 /* Pods_MediaSoft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */; };
 		DF377A3A2520EC00003FB2A1 /* TextViewsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF377A392520EC00003FB2A1 /* TextViewsStackView.swift */; };
 		DF377A4225211254003FB2A1 /* ClearableTextViewStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF377A4125211254003FB2A1 /* ClearableTextViewStack.swift */; };
-		DF4100022505844100EDA819 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4100012505844100EDA819 /* Model.swift */; };
+		DF4100022505844100EDA819 /* TranslationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4100012505844100EDA819 /* TranslationResponse.swift */; };
 		DF4100052506B5DE00EDA819 /* YandexService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4100042506B5DE00EDA819 /* YandexService.swift */; };
 		DF41000A250FE63000EDA819 /* LanguagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF410009250FE63000EDA819 /* LanguagesViewController.swift */; };
 		DF41000C250FE65000EDA819 /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41000B250FE65000EDA819 /* Languages.swift */; };
 		DF41FFD32502ACCB00EDA819 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */; };
 		DF41FFD52502ACCB00EDA819 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */; };
-		DF41FFD72502ACCB00EDA819 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFD62502ACCB00EDA819 /* ViewController.swift */; };
+		DF41FFD72502ACCB00EDA819 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFD62502ACCB00EDA819 /* MainViewController.swift */; };
 		DF41FFDD2502ACCB00EDA819 /* MediaSoft.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFDB2502ACCB00EDA819 /* MediaSoft.xcdatamodeld */; };
 		DF41FFDF2502ACCD00EDA819 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF41FFDE2502ACCD00EDA819 /* Assets.xcassets */; };
 		DF41FFE22502ACCD00EDA819 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF41FFE02502ACCD00EDA819 /* LaunchScreen.storyboard */; };
@@ -25,6 +25,9 @@
 		DF6D7AD1251FB71100A7E15D /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6D7AD0251FB71100A7E15D /* UIButton+Extensions.swift */; };
 		DF6E4B5C251FBDAE0075A88D /* ActivitiesStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E4B5B251FBDAE0075A88D /* ActivitiesStackView.swift */; };
 		DF6E4B5F251FC4A70075A88D /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E4B5E251FC4A70075A88D /* UIView+Extensions.swift */; };
+		DF6F086B252236980034FEE0 /* MainViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F086A252236980034FEE0 /* MainViewController+Extensions.swift */; };
+		DF6F0875252247DC0034FEE0 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F0874252247DC0034FEE0 /* RealmService.swift */; };
+		DF6F087B25224B9C0034FEE0 /* TranslationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F087A25224B9C0034FEE0 /* TranslationModel.swift */; };
 		DF6F7390251BD82100C777A2 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F738F251BD82100C777A2 /* UITextView+Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,14 +37,14 @@
 		9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediaSoft.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF377A392520EC00003FB2A1 /* TextViewsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewsStackView.swift; sourceTree = "<group>"; };
 		DF377A4125211254003FB2A1 /* ClearableTextViewStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearableTextViewStack.swift; sourceTree = "<group>"; };
-		DF4100012505844100EDA819 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		DF4100012505844100EDA819 /* TranslationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationResponse.swift; sourceTree = "<group>"; };
 		DF4100042506B5DE00EDA819 /* YandexService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YandexService.swift; sourceTree = "<group>"; };
 		DF410009250FE63000EDA819 /* LanguagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesViewController.swift; sourceTree = "<group>"; };
 		DF41000B250FE65000EDA819 /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
 		DF41FFCF2502ACCB00EDA819 /* MediaSoft.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaSoft.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		DF41FFD62502ACCB00EDA819 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DF41FFD62502ACCB00EDA819 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DF41FFDC2502ACCB00EDA819 /* MediaSoft.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MediaSoft.xcdatamodel; sourceTree = "<group>"; };
 		DF41FFDE2502ACCD00EDA819 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF41FFE12502ACCD00EDA819 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +54,9 @@
 		DF6D7AD0251FB71100A7E15D /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		DF6E4B5B251FBDAE0075A88D /* ActivitiesStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesStackView.swift; sourceTree = "<group>"; };
 		DF6E4B5E251FC4A70075A88D /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		DF6F086A252236980034FEE0 /* MainViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+Extensions.swift"; sourceTree = "<group>"; };
+		DF6F0874252247DC0034FEE0 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
+		DF6F087A25224B9C0034FEE0 /* TranslationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationModel.swift; sourceTree = "<group>"; };
 		DF6F738F251BD82100C777A2 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,11 +114,9 @@
 				DF41FFE9250551E400EDA819 /* Extensions */,
 				DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */,
 				DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */,
-				DF410009250FE63000EDA819 /* LanguagesViewController.swift */,
-				DF41FFD62502ACCB00EDA819 /* ViewController.swift */,
-				DF4100012505844100EDA819 /* Model.swift */,
-				DF41000B250FE65000EDA819 /* Languages.swift */,
-				DF4100042506B5DE00EDA819 /* YandexService.swift */,
+				DF6F08692522367E0034FEE0 /* Controllers */,
+				DF6F087825224B800034FEE0 /* Entities */,
+				DF6F0873252247CB0034FEE0 /* Services */,
 				DF41FFDE2502ACCD00EDA819 /* Assets.xcassets */,
 				DF41FFE02502ACCD00EDA819 /* LaunchScreen.storyboard */,
 				DF41FFE32502ACCD00EDA819 /* Info.plist */,
@@ -141,6 +145,43 @@
 				DF377A392520EC00003FB2A1 /* TextViewsStackView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		DF6F08692522367E0034FEE0 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				DF6F086E252237600034FEE0 /* MainViewController */,
+				DF410009250FE63000EDA819 /* LanguagesViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		DF6F086E252237600034FEE0 /* MainViewController */ = {
+			isa = PBXGroup;
+			children = (
+				DF41FFD62502ACCB00EDA819 /* MainViewController.swift */,
+				DF6F086A252236980034FEE0 /* MainViewController+Extensions.swift */,
+			);
+			path = MainViewController;
+			sourceTree = "<group>";
+		};
+		DF6F0873252247CB0034FEE0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				DF4100042506B5DE00EDA819 /* YandexService.swift */,
+				DF6F0874252247DC0034FEE0 /* RealmService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		DF6F087825224B800034FEE0 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				DF6F087A25224B9C0034FEE0 /* TranslationModel.swift */,
+				DF4100012505844100EDA819 /* TranslationResponse.swift */,
+				DF41000B250FE65000EDA819 /* Languages.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,17 +299,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF6E4B5F251FC4A70075A88D /* UIView+Extensions.swift in Sources */,
-				DF41FFD72502ACCB00EDA819 /* ViewController.swift in Sources */,
+				DF41FFD72502ACCB00EDA819 /* MainViewController.swift in Sources */,
 				DF6D7AD1251FB71100A7E15D /* UIButton+Extensions.swift in Sources */,
 				DF41FFD32502ACCB00EDA819 /* AppDelegate.swift in Sources */,
+				DF6F086B252236980034FEE0 /* MainViewController+Extensions.swift in Sources */,
 				DF377A3A2520EC00003FB2A1 /* TextViewsStackView.swift in Sources */,
 				DF41FFEB2505520100EDA819 /* UIViewController+Extensions.swift in Sources */,
 				DF6F7390251BD82100C777A2 /* UITextView+Extensions.swift in Sources */,
-				DF4100022505844100EDA819 /* Model.swift in Sources */,
+				DF4100022505844100EDA819 /* TranslationResponse.swift in Sources */,
 				DF41FFDD2502ACCB00EDA819 /* MediaSoft.xcdatamodeld in Sources */,
 				DF4100052506B5DE00EDA819 /* YandexService.swift in Sources */,
 				DF377A4225211254003FB2A1 /* ClearableTextViewStack.swift in Sources */,
 				DF673322251F70B800A77134 /* LanguagesStackView.swift in Sources */,
+				DF6F087B25224B9C0034FEE0 /* TranslationModel.swift in Sources */,
+				DF6F0875252247DC0034FEE0 /* RealmService.swift in Sources */,
 				DF41000A250FE63000EDA819 /* LanguagesViewController.swift in Sources */,
 				DF6E4B5C251FBDAE0075A88D /* ActivitiesStackView.swift in Sources */,
 				DF41FFD52502ACCB00EDA819 /* SceneDelegate.swift in Sources */,
