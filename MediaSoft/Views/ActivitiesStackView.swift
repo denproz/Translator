@@ -1,6 +1,12 @@
 import UIKit
 
 class ActivitiesStackView: UIStackView {
+	var isSpeakerPressed = false {
+		didSet {
+			isSpeakerPressed ? self.pronounceButton.setImage(UIImage(systemName: "stop.fill"), for: .normal) : self.pronounceButton.setImage(UIImage(systemName: "speaker.1.fill"), for: .normal)
+		}
+	}
+	
 	private override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupViews()

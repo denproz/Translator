@@ -30,6 +30,7 @@ class LanguagesViewController: UIViewController {
 		
 		tableView.dataSource = self
 		tableView.delegate = self
+		tableView.separatorStyle = .none
 		tableView.register(LanguageCell.self, forCellReuseIdentifier: "LanguageCell")
 	}
 }

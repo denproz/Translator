@@ -6,10 +6,11 @@ class TranslationModel: Object  {
 	@objc dynamic var outputText: String = ""
 	@objc dynamic var fromLanguage: String = ""
 	@objc dynamic var toLanguage: String = ""
-	@objc dynamic var id = 0
+	@objc dynamic var isFavorite: Bool = false
+//	@objc dynamic var id = 0
 	
 	override static func primaryKey() -> String? {
-		return "id"
+		return "outputText"
 	}
 	
 	func incrementID() -> Int {
