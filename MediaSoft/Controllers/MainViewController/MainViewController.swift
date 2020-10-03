@@ -37,14 +37,14 @@ class MainViewController: UIViewController, TappableStar {
 	lazy var textViewsStackView: TextViewsStackView = {
 		let stack = TextViewsStackView()
 		stack.inputTextViewStack.inputTextView.delegate = self
-		stack.outputTextView.delegate = self
+		stack.outputTextViewStack.outputTextView.delegate = self
 		return stack
 	}()
 	
-	lazy var activitiesStackView: ActivitiesStackView = {
-		let stack = ActivitiesStackView()
-		return stack
-	}()
+//	lazy var activitiesStackView: ActivitiesStackView = {
+//		let stack = ActivitiesStackView()
+//		return stack
+//	}()
 	
 	lazy var synthesizer: AVSpeechSynthesizer = {
 		let synthesizer = AVSpeechSynthesizer()
@@ -55,7 +55,8 @@ class MainViewController: UIViewController, TappableStar {
 	var dataSource: UICollectionViewDiffableDataSource<Section, TranslationModel>!
 	
 	lazy var collectionView: UICollectionView = {
-		var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+		var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+		
 		configuration.backgroundColor = .systemGray5
 		
 		configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
@@ -86,6 +87,7 @@ class MainViewController: UIViewController, TappableStar {
 		}
 		
 		let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+		layout.configuration.interSectionSpacing = 0
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		collectionView.backgroundColor = .systemGray5
 		return collectionView
@@ -143,7 +145,7 @@ class MainViewController: UIViewController, TappableStar {
 		translations.forEach { (translation) in
 			snapshot.appendItems([translation])
 		}
-		dataSource?.apply(snapshot, animatingDifferences: true)
+		dataSource?.apply(snapshot, animatingDifferences: false)
 	}
 	
 	func populate(with translation: TranslationModel) {
@@ -176,33 +178,26 @@ class MainViewController: UIViewController, TappableStar {
 		
 		view.addSubview(languagesStackView)
 		languagesStackView.snp.makeConstraints { (make) in
-			make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-			make.leading.equalToSuperview()
-			make.trailing.equalToSuperview()
+			make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
+			make.leading.equalToSuperview().offset(8)
+			make.trailing.equalToSuperview().offset(-8)
 			make.height.equalTo(50)
 		}
 		
 		view.addSubview(textViewsStackView)
 		textViewsStackView.snp.makeConstraints { (make) in
 			make.top.equalTo(languagesStackView.snp.bottom)
-			make.leading.equalToSuperview()
-			make.trailing.equalToSuperview()
-		}
-		
-		view.addSubview(activitiesStackView)
-		activitiesStackView.snp.makeConstraints { (make) in
-			make.leading.equalToSuperview().offset(32)
-			make.trailing.equalToSuperview().offset(-32)
-			make.top.equalTo(textViewsStackView.snp.bottom)
-			make.height.equalTo(40)
+			make.leading.equalToSuperview().offset(8)
+			make.trailing.equalToSuperview().offset(-8)
 		}
 
 		view.addSubview(collectionView)
 		setupCollectionView()
 		collectionView.snp.makeConstraints { (make) in
-			make.top.equalTo(textViewsStackView.snp.bottom).offset(8)
-			make.leading.equalToSuperview().offset(8)
-			make.trailing.equalToSuperview().offset(-8)
+//			make.top.equalTo(textViewsStackView.snp.bottom).inset(15)
+			make.top.equalTo(textViewsStackView.snp.bottom)
+			make.leading.equalToSuperview()
+			make.trailing.equalToSuperview()
 			make.bottom.equalToSuperview()
 		}
 		collectionView.layoutIfNeeded()
@@ -211,11 +206,11 @@ class MainViewController: UIViewController, TappableStar {
 		languagesStackView.onSwapPressed = { [weak self] in
 			guard let self = self else { return }
 			self.synthesizer.stopSpeaking(at: .immediate)
-			self.activitiesStackView.isSpeakerPressed = false
+			self.textViewsStackView.outputTextViewStack.isSpeakerPressed = false
 			self.languagesStackView.swapLanguagesButton.rotate()
 			(self.fromLanguage, self.toLanguage) = (self.toLanguage, self.fromLanguage)
-			if !self.textViewsStackView.outputTextView.isHidden {
-				(self.textViewsStackView.inputTextViewStack.inputTextView.text, self.textViewsStackView.outputTextView.text) = (self.textViewsStackView.outputTextView.text, self.textViewsStackView.inputTextViewStack.inputTextView.text)
+			if !self.textViewsStackView.outputTextViewStack.outputTextView.isHidden {
+				(self.textViewsStackView.inputTextViewStack.inputTextView.text, self.textViewsStackView.outputTextViewStack.outputTextView.text) = (self.textViewsStackView.outputTextViewStack.outputTextView.text, self.textViewsStackView.inputTextViewStack.inputTextView.text)
 			}
 		}
 		
@@ -249,7 +244,7 @@ class MainViewController: UIViewController, TappableStar {
 			
 			let translation = TranslationModel()
 			translation.inputText = self.textViewsStackView.inputTextViewStack.inputTextView.text
-			translation.outputText = self.textViewsStackView.outputTextView.text
+			translation.outputText = self.textViewsStackView.outputTextViewStack.outputTextView.text
 			translation.fromLanguage = self.fromLanguage.rawValue
 			translation.toLanguage = self.toLanguage.rawValue
 			
@@ -269,42 +264,34 @@ class MainViewController: UIViewController, TappableStar {
 			}
 			
 			UIView.animate(withDuration: 0.15) {
-				self.textViewsStackView.outputTextView.isHidden = true
-				self.textViewsStackView.outputTextView.alpha = 0
-				self.activitiesStackView.alpha = 0
-				
-				self.collectionView.snp.remakeConstraints { (make) in
-					make.top.equalTo(self.textViewsStackView.snp.bottom).offset(8)
-					make.leading.equalToSuperview().offset(8)
-					make.trailing.equalToSuperview().offset(-8)
-					make.bottom.equalToSuperview()
-				}
-			} completion: { _ in
-				self.activitiesStackView.isHidden = true
+				self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = true
+				self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = true
+				self.textViewsStackView.outputTextViewStack.pronounceButton.alpha = 0
+				self.textViewsStackView.outputTextViewStack.shareButton.alpha = 0
+				self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 0
+				self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 0
 			}
+			
 			self.textViewsStackView.inputTextViewStack.clearButton.isHidden = true
 			self.textViewsStackView.inputTextViewStack.clearButton.isEnabled = false
-			self.activitiesStackView.pronounceButton.isEnabled = false
-			self.activitiesStackView.shareButton.isEnabled = false
 		}
 		
 		
-		
-		activitiesStackView.onPronouncePressed = { [weak self] in
-			guard let self = self, let text = self.textViewsStackView.outputTextView.text else { return }
-			if !self.activitiesStackView.isSpeakerPressed {
-				self.activitiesStackView.isSpeakerPressed = true
+		textViewsStackView.outputTextViewStack.onPronouncePressed = { [weak self] in
+			guard let self = self, let text = self.textViewsStackView.outputTextViewStack.outputTextView.text else { return }
+			if !self.textViewsStackView.outputTextViewStack.isSpeakerPressed {
+				self.textViewsStackView.outputTextViewStack.isSpeakerPressed = true
 				let utterance = AVSpeechUtterance(string: text)
 				utterance.voice = AVSpeechSynthesisVoice(language: self.toLanguage.rawValue)
 				self.synthesizer.speak(utterance)
 			} else {
-				self.activitiesStackView.isSpeakerPressed = false
+				self.textViewsStackView.outputTextViewStack.isSpeakerPressed = false
 				self.synthesizer.stopSpeaking(at: .immediate)
 			}
 		}
 		
-		activitiesStackView.onSharePressed = { [weak self] in
-			guard let self = self, let text = self.textViewsStackView.outputTextView.text  else { return }
+		textViewsStackView.outputTextViewStack.onSharePressed = { [weak self] in
+			guard let self = self, let text = self.textViewsStackView.outputTextViewStack.outputTextView.text  else { return }
 			let activityController = UIActivityViewController(activityItems: [text], applicationActivities: nil)
 			self.present(activityController, animated: true)
 		}
@@ -319,35 +306,16 @@ class MainViewController: UIViewController, TappableStar {
 		titleImageView.contentMode = .scaleAspectFit
 		navigationItem.titleView = titleImageView
 		
-		navigationController?.navigationBar.barTintColor = hexStringToUIColor(hex: "#FFCC00")
+//		navigationController?.navigationBar.barTintColor = hexStringToUIColor(hex: "#FFCC00")
+		navigationController?.navigationBar.barTintColor = .white
 		
 		
 		hideKeyboardWhenTappedAround()
 		
 		view.backgroundColor = .systemGray5
 		
-		// The normal navigation bar frame, i.e. fully visible
-		normalNavBarFrame = self.navigationController?.navigationBar.frame
-		
-		// The frame of the hidden navigation bar (moved up by its height)
-		hiddenNavBarFrame = normalNavBarFrame
-		hiddenNavBarFrame.origin.y -= normalNavBarFrame.height
-		
-		// The frame of your view as specified in the nib file
-		normalViewFrame = self.view.frame
-		
-		// The frame of your view moved up by the height of the navigation bar
-		// and increased in height by the same amount
-		fullViewFrame = normalViewFrame
-		fullViewFrame.origin.y -= normalNavBarFrame.height;
-		fullViewFrame.size.height += normalNavBarFrame.height;
 	}
 	
-	var normalNavBarFrame: CGRect!
-	var hiddenNavBarFrame: CGRect!
-	var normalViewFrame: CGRect!
-	var fullViewFrame: CGRect!
-		
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
@@ -374,32 +342,36 @@ extension MainViewController: UITextViewDelegate {
 		if textView == textViewsStackView.inputTextViewStack.inputTextView {
 			textViewsStackView.inputTextViewStack.clearButton.isHidden = !textView.hasText
 			if textView.text.count >= 1 {
-				self.collectionView.snp.remakeConstraints { (make) in
-					make.top.equalTo(self.activitiesStackView.snp.bottom).offset(8)
-					make.leading.equalToSuperview().offset(8)
-					make.trailing.equalToSuperview().offset(-8)
-					make.bottom.equalToSuperview()
-				}
+//				self.collectionView.snp.remakeConstraints { (make) in
+//					make.top.equalTo(self.textViewsStackView.outputTextViewStack.activityButtonsStack).offset(8)
+//					make.leading.equalToSuperview().offset(8)
+//					make.trailing.equalToSuperview().offset(-8)
+//					make.bottom.equalToSuperview()
+//				}
 				UIView.animate(withDuration: 0.2) {
-					self.textViewsStackView.outputTextView.isHidden = false
-					self.activitiesStackView.alpha = 1
-					self.textViewsStackView.outputTextView.alpha = 1
-					self.activitiesStackView.isHidden = false
+					self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = false
+					self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 1
+					self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = false
+					self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 1
+					self.textViewsStackView.outputTextViewStack.pronounceButton.alpha = 1
+					self.textViewsStackView.outputTextViewStack.shareButton.alpha = 1
 				}
 			} else if textView.text.count == 0 {
 				UIView.animate(withDuration: 0.15) {
-					self.textViewsStackView.outputTextView.isHidden = true
-					self.textViewsStackView.outputTextView.alpha = 0
-					self.activitiesStackView.alpha = 0
-				} completion: { _ in
-					self.activitiesStackView.isHidden = true
+					self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 0
+					self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 0
+					self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = true
+					self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = true
+					self.textViewsStackView.outputTextViewStack.pronounceButton.alpha = 0
+					self.textViewsStackView.outputTextViewStack.shareButton.alpha = 0
 				}
-				self.collectionView.snp.remakeConstraints { (make) in
-					make.top.equalTo(self.textViewsStackView.snp.bottom).offset(8)
-					make.leading.equalToSuperview().offset(8)
-					make.trailing.equalToSuperview().offset(-8)
-					make.bottom.equalToSuperview()
-				}
+//				self.collectionView.snp.remakeConstraints { (make) in
+////					make.top.equalTo(self.textViewsStackView.snp.bottom).offset(8)
+//					make.top.equalTo(self.textViewsStackView.snp.bottom)
+//					make.leading.equalToSuperview().offset(8)
+//					make.trailing.equalToSuperview().offset(-8)
+//					make.bottom.equalToSuperview()
+//				}
 			}
 		}
 	}
@@ -421,8 +393,8 @@ extension MainViewController: UITextViewDelegate {
 			return false
 		}
 		
-		if textViewsStackView.outputTextView.isHidden == true {
-			self.textViewsStackView.outputTextView.text = nil
+		if textViewsStackView.outputTextViewStack.outputTextView.isHidden == true {
+			self.textViewsStackView.outputTextViewStack.outputTextView.text = nil
 		}
 		return true
 	}
@@ -431,8 +403,8 @@ extension MainViewController: UITextViewDelegate {
 extension MainViewController: LanguagesViewControllerDelegate {
 	func swapLanguagesIfMirrored() {
 		(fromLanguage, toLanguage) = (toLanguage, fromLanguage)
-		if !self.textViewsStackView.outputTextView.isHidden {
-			(self.textViewsStackView.inputTextViewStack.inputTextView.text, self.textViewsStackView.outputTextView.text) = (self.textViewsStackView.outputTextView.text, self.textViewsStackView.inputTextViewStack.inputTextView.text)
+		if !self.textViewsStackView.outputTextViewStack.outputTextView.isHidden {
+			(self.textViewsStackView.inputTextViewStack.inputTextView.text, self.textViewsStackView.outputTextViewStack.outputTextView.text) = (self.textViewsStackView.outputTextViewStack.outputTextView.text, self.textViewsStackView.inputTextViewStack.inputTextView.text)
 		}
 	}
 	
@@ -463,11 +435,11 @@ extension MainViewController: LanguagesViewControllerDelegate {
 extension MainViewController: AVSpeechSynthesizerDelegate {
 	
 	func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
-		activitiesStackView.isSpeakerPressed  = true
+		textViewsStackView.outputTextViewStack.isSpeakerPressed  = true
 	}
 	
 	func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-		activitiesStackView.isSpeakerPressed = false
+		textViewsStackView.outputTextViewStack.isSpeakerPressed  = false
 	}
 }
 
@@ -480,22 +452,21 @@ extension MainViewController: UICollectionViewDelegate {
 		
 		textViewsStackView.inputTextViewStack.inputTextView.text = item.inputText
 		textViewsStackView.inputTextViewStack.inputTextView.textColor = UIColor.black
-		textViewsStackView.outputTextView.text = item.outputText
+		textViewsStackView.outputTextViewStack.outputTextView.text = item.outputText
 		fromLanguage = Languages(rawValue: item.fromLanguage)
 		toLanguage = Languages(rawValue: item.toLanguage)
 		
 		self.collectionView.snp.remakeConstraints { (make) in
-			make.top.equalTo(self.activitiesStackView.snp.bottom).offset(8)
+			make.top.equalTo(self.textViewsStackView.outputTextViewStack.activityButtonsStack.snp.bottom).offset(8)
 			make.leading.equalToSuperview().offset(8)
 			make.trailing.equalToSuperview().offset(-8)
 			make.bottom.equalToSuperview()
 		}
 		UIView.animate(withDuration: 0.2) {
-			self.textViewsStackView.outputTextView.isHidden = false
-			self.activitiesStackView.alpha = 1
-			self.textViewsStackView.outputTextView.alpha = 1
-			self.activitiesStackView.isHidden = false
-			
+			self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = false
+			self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 1
+			self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = false
+			self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 1
 		}
 		self.textViewsStackView.inputTextViewStack.clearButton.isHidden = false
 		collectionView.deselectItem(at: indexPath, animated: true)

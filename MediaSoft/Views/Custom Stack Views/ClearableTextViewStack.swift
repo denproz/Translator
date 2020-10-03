@@ -11,6 +11,7 @@ class ClearableTextViewStack: UIStackView {
 	required init(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+	
 
 	var onClearTapped: (() -> Void)?
 	
@@ -24,6 +25,7 @@ class ClearableTextViewStack: UIStackView {
 		textView.backgroundColor = .systemBackground
 		textView.isScrollEnabled = true
 		textView.layer.borderWidth = 0
+		
 		return textView
 	}()
 	
@@ -43,7 +45,7 @@ class ClearableTextViewStack: UIStackView {
 		button.tintColor = .red
 		button.isHidden = true
 		button.isEnabled = false
-		button.backgroundColor = .white
+		button.backgroundColor = .clear
 
 		return button
 	}()

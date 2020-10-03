@@ -22,7 +22,8 @@
 		DF41FFEB2505520100EDA819 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */; };
 		DF673322251F70B800A77134 /* LanguagesStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF673321251F70B800A77134 /* LanguagesStackView.swift */; };
 		DF6D7AD1251FB71100A7E15D /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6D7AD0251FB71100A7E15D /* UIButton+Extensions.swift */; };
-		DF6E4B5C251FBDAE0075A88D /* ActivitiesStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E4B5B251FBDAE0075A88D /* ActivitiesStackView.swift */; };
+		DF6E36592528F11A00D2E1F7 /* TextViewWithAcitivitiesStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E36582528F11A00D2E1F7 /* TextViewWithAcitivitiesStack.swift */; };
+		DF6E3666252918BC00D2E1F7 /* ActivitiesStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E3665252918BC00D2E1F7 /* ActivitiesStack.swift */; };
 		DF6E4B5F251FC4A70075A88D /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E4B5E251FC4A70075A88D /* UIView+Extensions.swift */; };
 		DF6F086B252236980034FEE0 /* MainViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F086A252236980034FEE0 /* MainViewController+Extensions.swift */; };
 		DF6F0875252247DC0034FEE0 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F0874252247DC0034FEE0 /* RealmService.swift */; };
@@ -54,7 +55,8 @@
 		DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		DF673321251F70B800A77134 /* LanguagesStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesStackView.swift; sourceTree = "<group>"; };
 		DF6D7AD0251FB71100A7E15D /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
-		DF6E4B5B251FBDAE0075A88D /* ActivitiesStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesStackView.swift; sourceTree = "<group>"; };
+		DF6E36582528F11A00D2E1F7 /* TextViewWithAcitivitiesStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewWithAcitivitiesStack.swift; sourceTree = "<group>"; };
+		DF6E3665252918BC00D2E1F7 /* ActivitiesStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesStack.swift; sourceTree = "<group>"; };
 		DF6E4B5E251FC4A70075A88D /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		DF6F086A252236980034FEE0 /* MainViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+Extensions.swift"; sourceTree = "<group>"; };
 		DF6F0874252247DC0034FEE0 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
@@ -155,8 +157,9 @@
 			isa = PBXGroup;
 			children = (
 				DF673321251F70B800A77134 /* LanguagesStackView.swift */,
-				DF6E4B5B251FBDAE0075A88D /* ActivitiesStackView.swift */,
 				DF377A4125211254003FB2A1 /* ClearableTextViewStack.swift */,
+				DF6E3665252918BC00D2E1F7 /* ActivitiesStack.swift */,
+				DF6E36582528F11A00D2E1F7 /* TextViewWithAcitivitiesStack.swift */,
 				DF377A392520EC00003FB2A1 /* TextViewsStackView.swift */,
 			);
 			path = "Custom Stack Views";
@@ -342,15 +345,16 @@
 				DF4100022505844100EDA819 /* TranslationResponse.swift in Sources */,
 				DF750A84252646D3004615E3 /* TranslationListCell.swift in Sources */,
 				DF7985772523A8FE0070E952 /* Realm+Extensions.swift in Sources */,
+				DF6E36592528F11A00D2E1F7 /* TextViewWithAcitivitiesStack.swift in Sources */,
 				DF750A8125252781004615E3 /* TranslationContentView.swift in Sources */,
 				DF4100052506B5DE00EDA819 /* YandexService.swift in Sources */,
+				DF6E3666252918BC00D2E1F7 /* ActivitiesStack.swift in Sources */,
 				DF377A4225211254003FB2A1 /* ClearableTextViewStack.swift in Sources */,
 				DF673322251F70B800A77134 /* LanguagesStackView.swift in Sources */,
 				DF6F087B25224B9C0034FEE0 /* TranslationModel.swift in Sources */,
 				DF750A7E25252732004615E3 /* TranslationContentConfiguration.swift in Sources */,
 				DF6F0875252247DC0034FEE0 /* RealmService.swift in Sources */,
 				DF41000A250FE63000EDA819 /* LanguagesViewController.swift in Sources */,
-				DF6E4B5C251FBDAE0075A88D /* ActivitiesStackView.swift in Sources */,
 				DF41FFD52502ACCB00EDA819 /* SceneDelegate.swift in Sources */,
 				DF41000C250FE65000EDA819 /* Languages.swift in Sources */,
 			);

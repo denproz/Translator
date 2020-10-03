@@ -12,31 +12,21 @@ class TextViewsStackView: UIStackView {
 	}
 
 	let inputTextViewStack = ClearableTextViewStack()
-	
-	let outputTextView: UITextView = {
-		let textView = UITextView()
-		textView.backgroundColor = .systemBackground
-		textView.isHidden = true
-		textView.font = UIFont.preferredFont(forTextStyle: .title3)
-		textView.adjustsFontForContentSizeCategory = true
-		textView.isScrollEnabled = true
-		textView.isEditable = false
-		textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
-		textView.layer.borderWidth = 0.3
-		textView.alpha = 0
-		return textView
-	}()
+	let outputTextViewStack = TextViewWithAcitivitiesStack()
 	
 	private func setupConstraints() {
-		outputTextView.snp.makeConstraints { (make) in
+		outputTextViewStack.outputTextView.snp.makeConstraints { (make) in
 			make.height.equalTo(200)
 		}
 	}
 	
+	
 	private func setupViews() {
 		addArrangedSubview(inputTextViewStack)
-		addArrangedSubview(outputTextView)
+		addArrangedSubview(outputTextViewStack)
 		axis = .vertical
-		spacing = 0.2
+		spacing = 1
+		layer.borderColor = UIColor.systemGray.cgColor
+		layer.borderWidth = 0.3
 	}
 }

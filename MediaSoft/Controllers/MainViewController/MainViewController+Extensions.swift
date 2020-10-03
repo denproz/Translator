@@ -10,12 +10,12 @@ extension MainViewController {
 			.debounce(.milliseconds(500), scheduler: MainScheduler.instance)
 			.filter { $0.count >= 1 && $0 != "Введите текст" }
 			.map { text in
-				if !self.textViewsStackView.outputTextView.text.isEmpty {
-					self.textViewsStackView.outputTextView.text = nil
+				if !self.textViewsStackView.outputTextViewStack.outputTextView.text.isEmpty {
+					self.textViewsStackView.outputTextViewStack.outputTextView.text = nil
 				}
-				self.activitiesStackView.pronounceButton.isEnabled = false
-				self.activitiesStackView.shareButton.isEnabled = false
-				self.textViewsStackView.outputTextView.showSpinner()
+				self.textViewsStackView.outputTextViewStack.pronounceButton.isEnabled = false
+				self.textViewsStackView.outputTextViewStack.shareButton.isEnabled = false
+				self.textViewsStackView.outputTextViewStack.outputTextView.showSpinner()
 				// Use NLP to get the most predictable result of language detection
 				// Instantiate NlLanguageRecognizer and give it the list of available languages
 				// And their relative probability usages (English and Russian are most likely to be used)
@@ -43,10 +43,12 @@ extension MainViewController {
 				do {
 					let translationResponse = try JSONDecoder().decode(TranslationResponse.self, from: response.data)
 					let translatedText = translationResponse.items?.first?.text ?? ""
-					self.textViewsStackView.outputTextView.hideSpinner()
-					self.activitiesStackView.pronounceButton.isEnabled = true
-					self.activitiesStackView.shareButton.isEnabled = true
+					
+					self.textViewsStackView.outputTextViewStack.outputTextView.hideSpinner()
+					self.textViewsStackView.outputTextViewStack.pronounceButton.isEnabled = true
+					self.textViewsStackView.outputTextViewStack.shareButton.isEnabled = true
 					self.textViewsStackView.inputTextViewStack.clearButton.isEnabled = true
+					
 					return translatedText
 				}
 				catch let error {
@@ -55,7 +57,7 @@ extension MainViewController {
 				}
 			}
 			.observeOn(MainScheduler.instance)
-			.bind(to: textViewsStackView.outputTextView.rx.text)
+			.bind(to: textViewsStackView.outputTextViewStack.outputTextView.rx.text)
 			.disposed(by: disposeBag)
 	}
 }
