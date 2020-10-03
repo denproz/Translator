@@ -11,16 +11,11 @@ class RealmService {
 		do {
 			try realm.write {
 				realm.add(object)
-				print("SAVED TO REALM")
 			}
 		} catch {
 			postRealmError(error)
 		}
 	}
-	
-//	func get<T: Object>(_ object: T) -> Results<T> {
-//		return realm.objects(T.self)
-//	}
 	
 	func delete<T: Object>(_ object: T) {
 		do {
@@ -42,7 +37,7 @@ extension RealmService {
 		NotificationCenter.default.addObserver(forName: NSNotification.Name("RealmError"),
 																					 object: nil,
 																					 queue: nil) { notification in
-																				   completion(notification.object as? Error)
+			completion(notification.object as? Error)
 		}
 	}
 	

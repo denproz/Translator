@@ -6,7 +6,7 @@ import NaturalLanguage
 extension MainViewController {
 	/// Reactive implementation of networking and translation logic
 	func executeTranslation() {
-		_ = textViewsStackView.inputTextViewStack.inputTextView.rx.text.orEmpty
+		textViewsStackView.inputTextViewStack.inputTextView.rx.text.orEmpty
 			.debounce(.milliseconds(500), scheduler: MainScheduler.instance)
 			.filter { $0.count >= 1 && $0 != "Введите текст" }
 			.map { text in
@@ -16,7 +16,6 @@ extension MainViewController {
 				self.activitiesStackView.pronounceButton.isEnabled = false
 				self.activitiesStackView.shareButton.isEnabled = false
 				self.textViewsStackView.outputTextView.showSpinner()
-		
 				// Use NLP to get the most predictable result of language detection
 				// Instantiate NlLanguageRecognizer and give it the list of available languages
 				// And their relative probability usages (English and Russian are most likely to be used)
@@ -47,6 +46,7 @@ extension MainViewController {
 					self.textViewsStackView.outputTextView.hideSpinner()
 					self.activitiesStackView.pronounceButton.isEnabled = true
 					self.activitiesStackView.shareButton.isEnabled = true
+					self.textViewsStackView.inputTextViewStack.clearButton.isEnabled = true
 					return translatedText
 				}
 				catch let error {

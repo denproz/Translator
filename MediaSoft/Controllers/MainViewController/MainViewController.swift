@@ -7,9 +7,7 @@ import NaturalLanguage
 import AVFoundation
 import RealmSwift
 
-class MainViewController: UIViewController {
-	
-	var isOn: Bool = false
+class MainViewController: UIViewController, TappableStar {
 	
 	var fromLanguage: Languages! = .ru {
 		didSet {
@@ -24,6 +22,7 @@ class MainViewController: UIViewController {
 	}
 	
 	var translations: Results<TranslationModel>!
+	
 	var notificationToken: NotificationToken?
 	
 	let disposeBag = DisposeBag()
@@ -58,8 +57,11 @@ class MainViewController: UIViewController {
 	lazy var collectionView: UICollectionView = {
 		var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
 		configuration.backgroundColor = .systemGray5
-		configuration.trailingSwipeActionsConfigurationProvider = { [unowned self] indexPath in
-			UISwipeActionsConfiguration(
+		
+		configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+			guard let self = self else { return nil }
+			
+			let deleteAction = UISwipeActionsConfiguration(
 				actions: [UIContextualAction(
 					style: .destructive,
 					title: "Удалить",
@@ -69,12 +71,20 @@ class MainViewController: UIViewController {
 							return
 						}
 						self.remove(itemToDelete)
-						self.realmService.delete(itemToDelete)
+						DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+							if itemToDelete.isInvalidated {
+								completion(false)
+								return
+							}
+							self.realmService.delete(itemToDelete)
+						}
 						completion(true)
 					}
 				)]
 			)
+			return deleteAction
 		}
+		
 		let layout = UICollectionViewCompositionalLayout.list(using: configuration)
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		collectionView.backgroundColor = .systemGray5
@@ -82,59 +92,73 @@ class MainViewController: UIViewController {
 	}()
 	
 	func setupCollectionView() {
-		let registration = UICollectionView.CellRegistration<UICollectionViewListCell, TranslationModel> { (cell, indexPath, translation) in
-			var content = cell.defaultContentConfiguration()
-			content.text = translation.outputText
-			content.secondaryText = translation.inputText
-			cell.contentConfiguration = content
-			
-			let star = UIImage(systemName: "star")!
-			let starFilled = UIImage(systemName: "star.fill")!
-			let button = UIButton()
-			button.setImage(star, for: .normal)
-			button.setImage(starFilled, for: .selected)
-			button.addTarget(self, action: #selector(self.favoritesPressed(_:)), for: .touchUpInside)
-			
-			let customAccessory = UICellAccessory.CustomViewConfiguration(
-				customView: button,
-				placement: .trailing(displayed: .always, at: { accessories in
-					return 0
-				}),
-				reservedLayoutWidth: .standard,
-				tintColor: .black,
-				maintainsFixedSize: false)
-			
-			cell.accessories = [.customView(configuration: customAccessory)]
+//				let registration = UICollectionView.CellRegistration<UICollectionViewListCell, TranslationModel> { (cell, indexPath, translation) in
+//
+//					//			var content = cell.defaultContentConfiguration()
+//					var content = UIListContentConfiguration.subtitleCell()
+//					content.text = translation.outputText
+//					content.secondaryText = translation.inputText
+//					cell.contentConfiguration = content
+//
+//					//			let customAccessory = UICellAccessory.CustomViewConfiguration(
+//					//				customView: button,
+//					//				placement: .trailing(displayed: .always, at: { accessories in
+//					//					return 0
+//					//				}),
+//					//				reservedLayoutWidth: .standard,
+//					//				tintColor: .black,
+//					//				maintainsFixedSize: false)
+//					//
+//					//			cell.accessories = [.reorder(displayed: .always, options: .init())]
+//				}
+		
+		let registration = UICollectionView.CellRegistration<TranslationListCell, TranslationModel> { (cell, indexPath, translation) in
+			cell.link = self
+			cell.translation = translation
 		}
 		
 		dataSource = UICollectionViewDiffableDataSource<Section, TranslationModel>(collectionView: collectionView) { (collectionView, indexPath, translation) in
-			collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: translation)
+			let cell = collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: translation)
+//			let image = translation.isFavorite ? UIImage(systemName: "star.fill")!
+//																				 : UIImage(systemName: "star")!
+//			cell.starButton.setImage(image, for: .normal)
+			cell.toggleFavorite()
+			return cell
 		}
 	}
 	
-	@objc func favoritesPressed(_ sender: UIButton) {
-		isOn.toggle()
-		sender.imageView?.tintColor = isOn ? .orange : .black
-		let star = UIImage(systemName: "star")!
-		let starFilled = UIImage(systemName: "star.fill")!
-		let image = isOn ? starFilled : star
-		sender.setImage(image, for: .normal)
+	func onStarTapped(_ cell: TranslationListCell) {
+		guard let indexPathTapped = collectionView.indexPath(for: cell),
+					let translation = dataSource.itemIdentifier(for: indexPathTapped) else { return }
+		translation.toggleFavorite()
+		cell.toggleFavorite()
+//		let image = translation.isFavorite ? UIImage(systemName: "star.fill")!
+//																		   : UIImage(systemName: "star")!
+//		cell.starButton.setImage(image, for: .normal)
 	}
 	
 	func populate(with translation: Results<TranslationModel>) {
 		var snapshot = NSDiffableDataSourceSnapshot<Section, TranslationModel>()
-		let reversed = translation.sorted { _,_ in true }
 		snapshot.appendSections([.main])
-		snapshot.appendItems(reversed)
-		dataSource?.apply(snapshot, animatingDifferences: false)
+		translations.forEach { (translation) in
+			snapshot.appendItems([translation])
+		}
+		dataSource?.apply(snapshot, animatingDifferences: true)
 	}
 	
 	func populate(with translation: TranslationModel) {
 		var snapshot = NSDiffableDataSourceSnapshot<Section, TranslationModel>()
-//		let reversed = translation.sorted { _,_ in true }
+		//		let reversed = translation.sorted { _,_ in true }
 		snapshot.appendSections([.main])
 		snapshot.appendItems([translation])
 		dataSource?.apply(snapshot, animatingDifferences: false)
+	}
+	
+	func reload() {
+		var snapshot = dataSource.snapshot()
+		snapshot.reloadSections([.main])
+		snapshot.reloadItems(translations.toArray())
+		dataSource.apply(snapshot, animatingDifferences: true)
 	}
 	
 	func remove(_ translation: TranslationModel) {
@@ -146,6 +170,8 @@ class MainViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		print(Realm.Configuration.defaultConfiguration.fileURL)
+		
 		executeTranslation()
 		
 		view.addSubview(languagesStackView)
@@ -155,6 +181,32 @@ class MainViewController: UIViewController {
 			make.trailing.equalToSuperview()
 			make.height.equalTo(50)
 		}
+		
+		view.addSubview(textViewsStackView)
+		textViewsStackView.snp.makeConstraints { (make) in
+			make.top.equalTo(languagesStackView.snp.bottom)
+			make.leading.equalToSuperview()
+			make.trailing.equalToSuperview()
+		}
+		
+		view.addSubview(activitiesStackView)
+		activitiesStackView.snp.makeConstraints { (make) in
+			make.leading.equalToSuperview().offset(32)
+			make.trailing.equalToSuperview().offset(-32)
+			make.top.equalTo(textViewsStackView.snp.bottom)
+			make.height.equalTo(40)
+		}
+
+		view.addSubview(collectionView)
+		setupCollectionView()
+		collectionView.snp.makeConstraints { (make) in
+			make.top.equalTo(textViewsStackView.snp.bottom).offset(8)
+			make.leading.equalToSuperview().offset(8)
+			make.trailing.equalToSuperview().offset(-8)
+			make.bottom.equalToSuperview()
+		}
+		collectionView.layoutIfNeeded()
+		collectionView.delegate = self
 		
 		languagesStackView.onSwapPressed = { [weak self] in
 			guard let self = self else { return }
@@ -190,31 +242,24 @@ class MainViewController: UIViewController {
 			})
 			.disposed(by: disposeBag)
 		
-		view.addSubview(textViewsStackView)
-		textViewsStackView.snp.makeConstraints { (make) in
-			make.top.equalTo(languagesStackView.snp.bottom)
-			make.leading.equalToSuperview()
-			make.trailing.equalToSuperview()
-		}
 		
-		textViewsStackView.inputTextViewStack.onClearPressed = { [weak self] in
+		
+		textViewsStackView.inputTextViewStack.onClearTapped = { [weak self] in
 			guard let self = self else { return }
 			
 			let translation = TranslationModel()
-//			translation.id = translation.incrementID()
 			translation.inputText = self.textViewsStackView.inputTextViewStack.inputTextView.text
 			translation.outputText = self.textViewsStackView.outputTextView.text
 			translation.fromLanguage = self.fromLanguage.rawValue
 			translation.toLanguage = self.toLanguage.rawValue
 			
-			let existingTranslation = self.realmService.realm.object(ofType: TranslationModel.self, forPrimaryKey: translation.outputText)
+			let existingTranslation = self.realmService.realm.object(ofType: TranslationModel.self, forPrimaryKey: translation.id)
 			if existingTranslation == nil {
-				// Translation already exists
+				// Translation does not exist
 				self.realmService.save(translation)
 				self.populate(with: self.translations)
 			}
 			
-			//			self.textViewsStackView.outputTextView.text = nil
 			self.synthesizer.stopSpeaking(at: .immediate)
 			if !self.textViewsStackView.inputTextViewStack.inputTextView.isFirstResponder {
 				self.textViewsStackView.inputTextViewStack.inputTextView.text = nil
@@ -238,17 +283,12 @@ class MainViewController: UIViewController {
 				self.activitiesStackView.isHidden = true
 			}
 			self.textViewsStackView.inputTextViewStack.clearButton.isHidden = true
+			self.textViewsStackView.inputTextViewStack.clearButton.isEnabled = false
 			self.activitiesStackView.pronounceButton.isEnabled = false
 			self.activitiesStackView.shareButton.isEnabled = false
 		}
 		
-		view.addSubview(activitiesStackView)
-		activitiesStackView.snp.makeConstraints { (make) in
-			make.leading.equalToSuperview().offset(32)
-			make.trailing.equalToSuperview().offset(-32)
-			make.top.equalTo(textViewsStackView.snp.bottom)
-			make.height.equalTo(40)
-		}
+		
 		
 		activitiesStackView.onPronouncePressed = { [weak self] in
 			guard let self = self, let text = self.textViewsStackView.outputTextView.text else { return }
@@ -269,18 +309,9 @@ class MainViewController: UIViewController {
 			self.present(activityController, animated: true)
 		}
 		
-		view.addSubview(collectionView)
-		setupCollectionView()
-		collectionView.snp.makeConstraints { (make) in
-			make.top.equalTo(textViewsStackView.snp.bottom).offset(8)
-			make.leading.equalToSuperview().offset(8)
-			make.trailing.equalToSuperview().offset(-8)
-			make.bottom.equalToSuperview()
-		}
-		collectionView.layoutIfNeeded()
 		
-		translations = realmService.realm.objects(TranslationModel.self)
-		populate(with: translations)
+		
+		translations = realmService.realm.objects(TranslationModel.self).sorted(byKeyPath: "timestamp", ascending: false)
 		
 		// MARK: - Всякая херота
 		let titleImage = UIImage(named: "hyyandex")
@@ -294,8 +325,35 @@ class MainViewController: UIViewController {
 		hideKeyboardWhenTappedAround()
 		
 		view.backgroundColor = .systemGray5
-		collectionView.delegate = self
+		
+		// The normal navigation bar frame, i.e. fully visible
+		normalNavBarFrame = self.navigationController?.navigationBar.frame
+		
+		// The frame of the hidden navigation bar (moved up by its height)
+		hiddenNavBarFrame = normalNavBarFrame
+		hiddenNavBarFrame.origin.y -= normalNavBarFrame.height
+		
+		// The frame of your view as specified in the nib file
+		normalViewFrame = self.view.frame
+		
+		// The frame of your view moved up by the height of the navigation bar
+		// and increased in height by the same amount
+		fullViewFrame = normalViewFrame
+		fullViewFrame.origin.y -= normalNavBarFrame.height;
+		fullViewFrame.size.height += normalNavBarFrame.height;
 	}
+	
+	var normalNavBarFrame: CGRect!
+	var hiddenNavBarFrame: CGRect!
+	var normalViewFrame: CGRect!
+	var fullViewFrame: CGRect!
+		
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		populate(with: translations)
+	}
+	
 }
 
 extension MainViewController {
@@ -354,9 +412,15 @@ extension MainViewController: UITextViewDelegate {
 	}
 	
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-		if (range.location == 0 && text == "\n") || (range.location == 0 && text == " ") {
+		if (range.location == 0 && text == " ") {
 			return false
 		}
+		
+		if let character = text.first, character.isNewline {
+			textView.resignFirstResponder()
+			return false
+		}
+		
 		if textViewsStackView.outputTextView.isHidden == true {
 			self.textViewsStackView.outputTextView.text = nil
 		}
@@ -413,7 +477,7 @@ extension MainViewController: UICollectionViewDelegate {
 			collectionView.deselectItem(at: indexPath, animated: true)
 			return
 		}
-
+		
 		textViewsStackView.inputTextViewStack.inputTextView.text = item.inputText
 		textViewsStackView.inputTextViewStack.inputTextView.textColor = UIColor.black
 		textViewsStackView.outputTextView.text = item.outputText

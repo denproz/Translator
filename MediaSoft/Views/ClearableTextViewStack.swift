@@ -12,13 +12,14 @@ class ClearableTextViewStack: UIStackView {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	var onClearPressed: (() -> Void)?
+	var onClearTapped: (() -> Void)?
 	
 	let inputTextView: UITextView = {
 		let textView = UITextView()
 		textView.text = "Введите текст"
 		textView.font = UIFont.preferredFont(forTextStyle: .body)
 		textView.adjustsFontForContentSizeCategory = true
+		textView.returnKeyType = .done
 		textView.textColor = .lightGray
 		textView.backgroundColor = .systemBackground
 		textView.isScrollEnabled = true
@@ -29,7 +30,7 @@ class ClearableTextViewStack: UIStackView {
 	let clearButton: UIButton = {
 		let button = UIButton()
 		let image = UIImage(systemName: "xmark")!.withRenderingMode(.alwaysTemplate)
-		button.imageEdgeInsets = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 4)
+		button.imageEdgeInsets = UIEdgeInsets(top: 8, left: 0, bottom: 4, right: 4)
 		button.setImage(image, for: .normal)
 		
 		button.imageView?.contentMode = .scaleAspectFit
@@ -37,10 +38,11 @@ class ClearableTextViewStack: UIStackView {
 		button.contentVerticalAlignment = .fill
 		
 		button.translatesAutoresizingMaskIntoConstraints = false
-		button.heightAnchor.constraint(equalToConstant: 26).isActive = true
-		button.widthAnchor.constraint(equalToConstant: 26).isActive = true
+		button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+		button.widthAnchor.constraint(equalToConstant: 30).isActive = true
 		button.tintColor = .red
 		button.isHidden = true
+		button.isEnabled = false
 		button.backgroundColor = .white
 
 		return button
@@ -53,8 +55,8 @@ class ClearableTextViewStack: UIStackView {
 		axis = .horizontal
 		alignment = .top
 		distribution = .fill
-//		layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//		isLayoutMarginsRelativeArrangement = true
+		layoutMargins = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
+		isLayoutMarginsRelativeArrangement = true
 	}
 	
 	private func setupConstraints() {
@@ -68,7 +70,7 @@ class ClearableTextViewStack: UIStackView {
 	}
 	
 	@objc private func clearButtonPressed(_ sender: UIButton) {
-		onClearPressed?()
+		onClearTapped?()
 	}
 
 }

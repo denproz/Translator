@@ -7,14 +7,18 @@ class TranslationModel: Object  {
 	@objc dynamic var fromLanguage: String = ""
 	@objc dynamic var toLanguage: String = ""
 	@objc dynamic var isFavorite: Bool = false
-//	@objc dynamic var id = 0
+	@objc dynamic var id = UUID().uuidString
+	@objc dynamic var timestamp = Date().timeIntervalSinceReferenceDate
+	
 	
 	override static func primaryKey() -> String? {
-		return "outputText"
+		return "id"
 	}
 	
-	func incrementID() -> Int {
+	func toggleFavorite() {
 		let realm = try! Realm()
-		return (realm.objects(TranslationModel.self).max(ofProperty: "id") as Int? ?? 0) + 1
+		try! realm.write {
+			isFavorite.toggle()
+		}
 	}
 }

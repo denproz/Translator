@@ -5,11 +5,11 @@ PODS:
   - Moya/RxSwift (14.0.0):
     - Moya/Core
     - RxSwift (~> 5.0)
-  - Realm (5.3.6):
-    - Realm/Headers (= 5.3.6)
-  - Realm/Headers (5.3.6)
-  - RealmSwift (5.3.6):
-    - Realm (= 5.3.6)
+  - Realm (5.4.7):
+    - Realm/Headers (= 5.4.7)
+  - Realm/Headers (5.4.7)
+  - RealmSwift (5.4.7):
+    - Realm (= 5.4.7)
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
@@ -39,8 +39,8 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
-  Realm: cd400dd7e5b5bb5c8ae9842eecd73792369e6ec0
-  RealmSwift: 99a16dbdee5d6dfb3d91d56088a9f8c15c0871d1
+  Realm: 4bfc08e376b2e30c84ec3200ebe715574da05cc0
+  RealmSwift: ed40f371b62e8677141939e05b44a0c1a0a2d965
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
