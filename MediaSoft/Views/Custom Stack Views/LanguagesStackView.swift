@@ -16,6 +16,11 @@ class LanguagesStackView: UIStackView {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		roundCorners(corners: [.topLeft, .topRight], radius: 10)
+	}
+	
 	convenience init(fromLanguage: Languages, toLanguage: Languages) {
 		self.init(frame: .zero)
 		fromLanguageButton.setTitle(fromLanguage.languageName, for: .normal)
