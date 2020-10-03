@@ -264,12 +264,7 @@ class MainViewController: UIViewController, TappableStar {
 			}
 			
 			UIView.animate(withDuration: 0.15) {
-				self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = true
-				self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = true
-				self.textViewsStackView.outputTextViewStack.pronounceButton.alpha = 0
-				self.textViewsStackView.outputTextViewStack.shareButton.alpha = 0
-				self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 0
-				self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 0
+				self.textViewsStackView.outputTextViewStack.isHidden = true
 			}
 			
 			self.textViewsStackView.inputTextViewStack.clearButton.isHidden = true
@@ -349,21 +344,23 @@ extension MainViewController: UITextViewDelegate {
 //					make.bottom.equalToSuperview()
 //				}
 				UIView.animate(withDuration: 0.2) {
-					self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = false
-					self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 1
-					self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = false
-					self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 1
-					self.textViewsStackView.outputTextViewStack.pronounceButton.alpha = 1
-					self.textViewsStackView.outputTextViewStack.shareButton.alpha = 1
+//					self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = false
+//					self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 1
+//					self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = false
+//					self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 1
+//					self.textViewsStackView.outputTextViewStack.pronounceButton.alpha = 1
+//					self.textViewsStackView.outputTextViewStack.shareButton.alpha = 1
+					self.textViewsStackView.outputTextViewStack.isHidden = false
 				}
 			} else if textView.text.count == 0 {
 				UIView.animate(withDuration: 0.15) {
-					self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 0
-					self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 0
-					self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = true
-					self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = true
-					self.textViewsStackView.outputTextViewStack.pronounceButton.alpha = 0
-					self.textViewsStackView.outputTextViewStack.shareButton.alpha = 0
+//					self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 0
+//					self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 0
+//					self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = true
+//					self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = true
+//					self.textViewsStackView.outputTextViewStack.pronounceButton.alpha = 0
+//					self.textViewsStackView.outputTextViewStack.shareButton.alpha = 0
+					self.textViewsStackView.outputTextViewStack.isHidden = true
 				}
 //				self.collectionView.snp.remakeConstraints { (make) in
 ////					make.top.equalTo(self.textViewsStackView.snp.bottom).offset(8)
@@ -463,10 +460,11 @@ extension MainViewController: UICollectionViewDelegate {
 			make.bottom.equalToSuperview()
 		}
 		UIView.animate(withDuration: 0.2) {
-			self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = false
-			self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 1
-			self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = false
-			self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 1
+			self.textViewsStackView.outputTextViewStack.isHidden = false
+//			self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = false
+//			self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 1
+//			self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = false
+//			self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 1
 		}
 		self.textViewsStackView.inputTextViewStack.clearButton.isHidden = false
 		collectionView.deselectItem(at: indexPath, animated: true)

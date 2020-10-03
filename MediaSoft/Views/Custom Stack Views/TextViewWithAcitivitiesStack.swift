@@ -23,14 +23,13 @@ class TextViewWithAcitivitiesStack: UIStackView {
 	let outputTextView: UITextView = {
 		let textView = UITextView()
 		textView.backgroundColor = .systemBackground
-		textView.isHidden = true
+		textView.isHidden = false
 		textView.font = UIFont.preferredFont(forTextStyle: .title3)
 		textView.adjustsFontForContentSizeCategory = true
 		textView.isScrollEnabled = true
 		textView.isEditable = false
 		textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
 		textView.layer.borderWidth = 0
-		textView.alpha = 0
 		return textView
 	}()
 	
@@ -43,7 +42,6 @@ class TextViewWithAcitivitiesStack: UIStackView {
 		button.imageView?.contentMode = .scaleAspectFit
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.heightAnchor.constraint(equalToConstant: 22).isActive = true
-		button.alpha = 0
 		return button
 	}()
 	
@@ -55,7 +53,6 @@ class TextViewWithAcitivitiesStack: UIStackView {
 		button.isEnabled = false
 		button.imageView?.contentMode = .scaleAspectFit
 		button.heightAnchor.constraint(equalToConstant: 22).isActive = true
-		button.alpha = 0
 		return button
 	}()
 	
@@ -65,7 +62,7 @@ class TextViewWithAcitivitiesStack: UIStackView {
 		stack.distribution = .fillEqually
 		stack.alignment = .center
 		stack.backgroundColor = .white
-		stack.isHidden = true
+		stack.isHidden = false
 		stack.layer.borderWidth = 0
 		stack.translatesAutoresizingMaskIntoConstraints = false
 		stack.heightAnchor.constraint(equalToConstant: 44).isActive = true
