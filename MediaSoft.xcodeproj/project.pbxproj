@@ -145,13 +145,21 @@
 		DF673320251F708C00A77134 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DF6E36562528F07D00D2E1F7 /* Custom Stack Views */,
 				DF750A7C2525270F004615E3 /* Custom List Cell */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DF6E36562528F07D00D2E1F7 /* Custom Stack Views */ = {
+			isa = PBXGroup;
+			children = (
 				DF673321251F70B800A77134 /* LanguagesStackView.swift */,
 				DF6E4B5B251FBDAE0075A88D /* ActivitiesStackView.swift */,
 				DF377A4125211254003FB2A1 /* ClearableTextViewStack.swift */,
 				DF377A392520EC00003FB2A1 /* TextViewsStackView.swift */,
 			);
-			path = Views;
+			path = "Custom Stack Views";
 			sourceTree = "<group>";
 		};
 		DF6F08692522367E0034FEE0 /* Controllers */ = {
