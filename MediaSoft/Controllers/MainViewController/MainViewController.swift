@@ -8,7 +8,6 @@ import AVFoundation
 import RealmSwift
 
 class MainViewController: UIViewController, TappableStar {
-	
 	var fromLanguage: Languages! = .ru {
 		didSet {
 			languagesStackView.fromLanguageButton.setTitle(fromLanguage.languageName, for: .normal)
@@ -22,7 +21,6 @@ class MainViewController: UIViewController, TappableStar {
 	}
 	
 	var translations: Results<TranslationModel>!
-	
 	var notificationToken: NotificationToken?
 	
 	let disposeBag = DisposeBag()
@@ -40,11 +38,6 @@ class MainViewController: UIViewController, TappableStar {
 		stack.outputTextViewStack.outputTextView.delegate = self
 		return stack
 	}()
-	
-//	lazy var activitiesStackView: ActivitiesStackView = {
-//		let stack = ActivitiesStackView()
-//		return stack
-//	}()
 	
 	lazy var synthesizer: AVSpeechSynthesizer = {
 		let synthesizer = AVSpeechSynthesizer()
@@ -94,26 +87,6 @@ class MainViewController: UIViewController, TappableStar {
 	}()
 	
 	func setupCollectionView() {
-//				let registration = UICollectionView.CellRegistration<UICollectionViewListCell, TranslationModel> { (cell, indexPath, translation) in
-//
-//					//			var content = cell.defaultContentConfiguration()
-//					var content = UIListContentConfiguration.subtitleCell()
-//					content.text = translation.outputText
-//					content.secondaryText = translation.inputText
-//					cell.contentConfiguration = content
-//
-//					//			let customAccessory = UICellAccessory.CustomViewConfiguration(
-//					//				customView: button,
-//					//				placement: .trailing(displayed: .always, at: { accessories in
-//					//					return 0
-//					//				}),
-//					//				reservedLayoutWidth: .standard,
-//					//				tintColor: .black,
-//					//				maintainsFixedSize: false)
-//					//
-//					//			cell.accessories = [.reorder(displayed: .always, options: .init())]
-//				}
-		
 		let registration = UICollectionView.CellRegistration<TranslationListCell, TranslationModel> { (cell, indexPath, translation) in
 			cell.link = self
 			cell.translation = translation
@@ -121,9 +94,6 @@ class MainViewController: UIViewController, TappableStar {
 		
 		dataSource = UICollectionViewDiffableDataSource<Section, TranslationModel>(collectionView: collectionView) { (collectionView, indexPath, translation) in
 			let cell = collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: translation)
-//			let image = translation.isFavorite ? UIImage(systemName: "star.fill")!
-//																				 : UIImage(systemName: "star")!
-//			cell.starButton.setImage(image, for: .normal)
 			cell.toggleFavorite()
 			return cell
 		}
@@ -134,9 +104,6 @@ class MainViewController: UIViewController, TappableStar {
 					let translation = dataSource.itemIdentifier(for: indexPathTapped) else { return }
 		translation.toggleFavorite()
 		cell.toggleFavorite()
-//		let image = translation.isFavorite ? UIImage(systemName: "star.fill")!
-//																		   : UIImage(systemName: "star")!
-//		cell.starButton.setImage(image, for: .normal)
 	}
 	
 	func populate(with translation: Results<TranslationModel>) {
@@ -150,7 +117,6 @@ class MainViewController: UIViewController, TappableStar {
 	
 	func populate(with translation: TranslationModel) {
 		var snapshot = NSDiffableDataSourceSnapshot<Section, TranslationModel>()
-		//		let reversed = translation.sorted { _,_ in true }
 		snapshot.appendSections([.main])
 		snapshot.appendItems([translation])
 		dataSource?.apply(snapshot, animatingDifferences: false)
