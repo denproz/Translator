@@ -7,12 +7,21 @@ class TranslationModel: Object  {
 	@objc dynamic var fromLanguage: String = ""
 	@objc dynamic var toLanguage: String = ""
 	@objc dynamic var isFavorite: Bool = false
-	@objc dynamic var id = UUID().uuidString
+	@objc dynamic var compoundKey = ""
 	@objc dynamic var timestamp = Date().timeIntervalSinceReferenceDate
 	
 	
 	override static func primaryKey() -> String? {
-		return "id"
+		return "compoundKey"
+	}
+	
+	func configure(inputText: String, outputText: String, fromLanguage: String, toLanguage: String){
+		self.inputText = inputText
+		self.outputText = outputText
+		self.fromLanguage = fromLanguage
+		self.toLanguage = toLanguage
+		self.compoundKey = self.inputText + self.outputText
+		
 	}
 	
 	func toggleFavorite() {

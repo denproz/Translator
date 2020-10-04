@@ -1,4 +1,5 @@
 import UIKit
+import RxSwift
 
 class LanguagesStackView: UIStackView {
 	enum SelectedButton: Int {
@@ -25,6 +26,7 @@ class LanguagesStackView: UIStackView {
 		self.init(frame: .zero)
 		fromLanguageButton.setTitle(fromLanguage.languageName, for: .normal)
 		toLanguageButton.setTitle(toLanguage.languageName, for: .normal)
+		
 	}
 	
 	var onLanguagePressed: ((Int) -> Void)?
@@ -32,23 +34,28 @@ class LanguagesStackView: UIStackView {
 	
 	let fromLanguageButton: UIButton = {
 		let button = UIButton()
+		button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+		button.titleLabel?.adjustsFontSizeToFitWidth = true
 		button.tag = SelectedButton.from.rawValue
-		button.contentHorizontalAlignment = .center
+		button.contentHorizontalAlignment = .trailing
 		return button
 	}()
 	
 	let swapLanguagesButton: UIButton = {
-		let button = UIButton()
+		let button = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
 		let image = UIImage(systemName: "arrow.right.arrow.left")!.withRenderingMode(.alwaysTemplate)
 		button.setImage(image, for: .normal)
+		button.setImage(image, for: .disabled)
 		button.tintColor = .white
 		return button
 	}()
 	
 	let toLanguageButton: UIButton = {
 		let button = UIButton()
+		button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+		button.titleLabel?.adjustsFontSizeToFitWidth = true
 		button.tag = SelectedButton.to.rawValue
-		button.contentHorizontalAlignment = .center
+		button.contentHorizontalAlignment = .leading
 		return button
 	}()
 	
@@ -59,6 +66,9 @@ class LanguagesStackView: UIStackView {
 		axis = .horizontal
 		distribution = .fillEqually
 		backgroundColor = .red
+		
+		layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+		isLayoutMarginsRelativeArrangement = true
 	}
 	
 	private func addActions() {
@@ -72,6 +82,7 @@ class LanguagesStackView: UIStackView {
 	}
 	
 	@objc private func swapButtonTapped(_ sender: UIButton) {
+		sender.debounce()
 		onSwapPressed?()
 	}
 }

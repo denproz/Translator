@@ -11,7 +11,6 @@ class TextViewsStackView: UIStackView {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-
 	let inputTextViewStack = ClearableTextViewStack()
 	let outputTextViewStack = TextViewWithAcitivitiesStack()
 	
@@ -20,7 +19,6 @@ class TextViewsStackView: UIStackView {
 			make.height.equalTo(200)
 		}
 	}
-	
 	
 	private func setupViews() {
 		addArrangedSubview(inputTextViewStack)
@@ -33,6 +31,7 @@ class TextViewsStackView: UIStackView {
 		
 		clipsToBounds = true
 		layer.cornerRadius = 10
+//		layer.cornerCurve = .continuous
 		layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
 	}
 }

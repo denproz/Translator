@@ -39,6 +39,8 @@ private extension TranslationContentView {
 	private func setupAllViews() {
 		inputLabel.textAlignment = .left
 		outputLabel.textAlignment = .left
+		inputLabel.textColor = .label
+		outputLabel.textColor = .secondaryLabel
 
 		let labelsStackView = UIStackView(arrangedSubviews: [inputLabel, outputLabel])
 		labelsStackView.axis = .vertical

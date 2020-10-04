@@ -3,7 +3,7 @@ import UIKit
 class TextViewWithAcitivitiesStack: UIStackView {
 	var isSpeakerPressed = false {
 		didSet {
-			isSpeakerPressed ? self.pronounceButton.setImage(UIImage(systemName: "stop.fill"), for: .normal) : self.pronounceButton.setImage(UIImage(systemName: "speaker.1.fill"), for: .normal)
+			isSpeakerPressed ? self.pronounceButton.setImage(UIImage(systemName: "speaker.slash"), for: .normal) : self.pronounceButton.setImage(UIImage(systemName: "speaker.wave.1"), for: .normal)
 		}
 	}
 	
@@ -40,19 +40,20 @@ class TextViewWithAcitivitiesStack: UIStackView {
 		button.tintColor = .black
 		button.isEnabled = false
 		button.imageView?.contentMode = .scaleAspectFit
-		button.translatesAutoresizingMaskIntoConstraints = false
-		button.heightAnchor.constraint(equalToConstant: 22).isActive = true
+		button.contentVerticalAlignment = .fill
+		button.contentHorizontalAlignment = .fill
 		return button
 	}()
 	
 	let pronounceButton: UIButton = {
 		let button = UIButton()
-		let image = UIImage(systemName: "speaker.1.fill")?.withRenderingMode(.alwaysTemplate)
+		let image = UIImage(systemName: "speaker.wave.1")?.withRenderingMode(.alwaysTemplate)
 		button.setImage(image, for: .normal)
 		button.tintColor = .black
 		button.isEnabled = false
 		button.imageView?.contentMode = .scaleAspectFit
-		button.heightAnchor.constraint(equalToConstant: 22).isActive = true
+		button.contentVerticalAlignment = .fill
+		button.contentHorizontalAlignment = .fill
 		return button
 	}()
 	
@@ -60,12 +61,13 @@ class TextViewWithAcitivitiesStack: UIStackView {
 		let stack = UIStackView(arrangedSubviews: [pronounceButton, shareButton])
 		stack.axis = .horizontal
 		stack.distribution = .fillEqually
-		stack.alignment = .center
 		stack.backgroundColor = .white
 		stack.isHidden = false
 		stack.layer.borderWidth = 0
+		stack.layoutMargins = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
+		stack.isLayoutMarginsRelativeArrangement = true
 		stack.translatesAutoresizingMaskIntoConstraints = false
-		stack.heightAnchor.constraint(equalToConstant: 44).isActive = true
+		stack.heightAnchor.constraint(equalToConstant: 32).isActive = true
 		return stack
 	}()
 	

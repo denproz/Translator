@@ -46,14 +46,14 @@ class ClearableTextViewStack: UIStackView {
 		button.isHidden = true
 		button.isEnabled = false
 		button.backgroundColor = .clear
-
+		
 		return button
 	}()
 	
 	private func setupViews() {
 		backgroundColor = .white
 		addArrangedSubview(inputTextView)
-		addArrangedSubview(clearButton)
+//		addArrangedSubview(clearButton)
 		axis = .horizontal
 		alignment = .top
 		distribution = .fill

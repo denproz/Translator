@@ -55,36 +55,41 @@ class MainViewController: UIViewController, TappableStar {
 		configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
 			guard let self = self else { return nil }
 			
-			let deleteAction = UISwipeActionsConfiguration(
-				actions: [UIContextualAction(
-					style: .destructive,
-					title: "Удалить",
-					handler: { _, _, completion in
-						guard let itemToDelete = self.dataSource?.itemIdentifier(for: indexPath) else {
+			let delete = UIContextualAction(style: .destructive, title: nil, handler: { _, _, completion in
+					guard let itemToDelete = self.dataSource?.itemIdentifier(for: indexPath) else {
+						completion(false)
+						return
+					}
+					self.remove(itemToDelete)
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+						if itemToDelete.isInvalidated {
 							completion(false)
 							return
 						}
-						self.remove(itemToDelete)
-						DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-							if itemToDelete.isInvalidated {
-								completion(false)
-								return
-							}
-							self.realmService.delete(itemToDelete)
-						}
-						completion(true)
+						self.realmService.delete(itemToDelete)
 					}
-				)]
+					completion(true)
+				}
+			)
+			delete.image = UIImage(systemName: "trash")
+			
+			
+			let deleteAction = UISwipeActionsConfiguration(
+				actions: [delete]
 			)
 			return deleteAction
 		}
 		
 		let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-		layout.configuration.interSectionSpacing = 0
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		collectionView.backgroundColor = .systemGray5
+		collectionView.keyboardDismissMode = .onDrag
 		return collectionView
 	}()
+	
+	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+		textViewsStackView.inputTextViewStack.inputTextView.resignFirstResponder()
+	}
 	
 	func setupCollectionView() {
 		let registration = UICollectionView.CellRegistration<TranslationListCell, TranslationModel> { (cell, indexPath, translation) in
@@ -112,15 +117,16 @@ class MainViewController: UIViewController, TappableStar {
 		translations.forEach { (translation) in
 			snapshot.appendItems([translation])
 		}
-		dataSource?.apply(snapshot, animatingDifferences: false)
+//		let animated = translations.count <= 1 ? true : false
+		dataSource?.apply(snapshot, animatingDifferences: true)
 	}
 	
-	func populate(with translation: TranslationModel) {
-		var snapshot = NSDiffableDataSourceSnapshot<Section, TranslationModel>()
-		snapshot.appendSections([.main])
-		snapshot.appendItems([translation])
-		dataSource?.apply(snapshot, animatingDifferences: false)
-	}
+//	func populate(with translation: TranslationModel) {
+//		var snapshot = NSDiffableDataSourceSnapshot<Section, TranslationModel>()
+//		snapshot.appendSections([.main])
+//		snapshot.appendItems([translation])
+//		dataSource?.apply(snapshot, animatingDifferences: false)
+//	}
 	
 	func reload() {
 		var snapshot = dataSource.snapshot()
@@ -171,11 +177,17 @@ class MainViewController: UIViewController, TappableStar {
 		
 		languagesStackView.onSwapPressed = { [weak self] in
 			guard let self = self else { return }
+//			if !self.textViewsStackView.inputTextViewStack.inputTextView.isFirstResponder {
+//				self.textViewsStackView.inputTextViewStack.inputTextView.becomeFirstResponder()
+//			}
 			self.synthesizer.stopSpeaking(at: .immediate)
+			if self.textViewsStackView.inputTextViewStack.inputTextView.canBecomeFirstResponder {
+				self.view.endEditing(false)
+			}
 			self.textViewsStackView.outputTextViewStack.isSpeakerPressed = false
 			self.languagesStackView.swapLanguagesButton.rotate()
 			(self.fromLanguage, self.toLanguage) = (self.toLanguage, self.fromLanguage)
-			if !self.textViewsStackView.outputTextViewStack.outputTextView.isHidden {
+			if !self.textViewsStackView.outputTextViewStack.isHidden {
 				(self.textViewsStackView.inputTextViewStack.inputTextView.text, self.textViewsStackView.outputTextViewStack.outputTextView.text) = (self.textViewsStackView.outputTextViewStack.outputTextView.text, self.textViewsStackView.inputTextViewStack.inputTextView.text)
 			}
 		}
@@ -187,53 +199,47 @@ class MainViewController: UIViewController, TappableStar {
 			switch tag {
 				case self.languagesStackView.fromLanguageButton.tag:
 					vc.buttonIndex = tag
+					vc.selectedlanguageRow = self.fromLanguage.index
 					self.navigationController?.present(vc, animated: true, completion: nil)
 				case self.languagesStackView.toLanguageButton.tag:
 					vc.buttonIndex = tag
+					vc.selectedlanguageRow = self.toLanguage.index
 					self.navigationController?.present(vc, animated: true, completion: nil)
 				default:
 					break
 			}
 		}
-		
-		languagesStackView.swapLanguagesButton.rx.tap
-			.throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
-			.subscribe(onNext: {
-				print("Swap button tapped")
-			})
-			.disposed(by: disposeBag)
-		
-		
-		
+
 		textViewsStackView.inputTextViewStack.onClearTapped = { [weak self] in
 			guard let self = self else { return }
 			
 			let translation = TranslationModel()
-			translation.inputText = self.textViewsStackView.inputTextViewStack.inputTextView.text
-			translation.outputText = self.textViewsStackView.outputTextViewStack.outputTextView.text
-			translation.fromLanguage = self.fromLanguage.rawValue
-			translation.toLanguage = self.toLanguage.rawValue
+			translation.configure(inputText: self.textViewsStackView.inputTextViewStack.inputTextView.text,
+														outputText: self.textViewsStackView.outputTextViewStack.outputTextView.text,
+														fromLanguage: self.fromLanguage.rawValue,
+														toLanguage: self.toLanguage.rawValue)
 			
-			let existingTranslation = self.realmService.realm.object(ofType: TranslationModel.self, forPrimaryKey: translation.id)
+			let existingTranslation = self.realmService.realm.object(ofType: TranslationModel.self, forPrimaryKey: translation.compoundKey)
 			if existingTranslation == nil {
-				// Translation does not exist
 				self.realmService.save(translation)
 				self.populate(with: self.translations)
 			}
 			
 			self.synthesizer.stopSpeaking(at: .immediate)
+			
 			if !self.textViewsStackView.inputTextViewStack.inputTextView.isFirstResponder {
 				self.textViewsStackView.inputTextViewStack.inputTextView.text = nil
 				self.textViewsStackView.inputTextViewStack.inputTextView.becomeFirstResponder()
-			} else {
-				self.textViewsStackView.inputTextViewStack.inputTextView.text = ""
 			}
 			
 			UIView.animate(withDuration: 0.15) {
 				self.textViewsStackView.outputTextViewStack.isHidden = true
+				self.textViewsStackView.outputTextViewStack.outputTextView.text = nil
+				self.textViewsStackView.inputTextViewStack.clearButton.isHidden = true
+			} completion: { (_) in
+				self.textViewsStackView.inputTextViewStack.removeArrangedSubview(self.textViewsStackView.inputTextViewStack.clearButton)
 			}
 			
-			self.textViewsStackView.inputTextViewStack.clearButton.isHidden = true
 			self.textViewsStackView.inputTextViewStack.clearButton.isEnabled = false
 		}
 		
@@ -264,7 +270,7 @@ class MainViewController: UIViewController, TappableStar {
 		// MARK: - Всякая херота
 		let titleImage = UIImage(named: "hyyandex")
 		let titleImageView = UIImageView(image: titleImage)
-		titleImageView.contentMode = .scaleAspectFit
+		titleImageView.contentMode = .scaleAspectFill
 		navigationItem.titleView = titleImageView
 		
 //		navigationController?.navigationBar.barTintColor = hexStringToUIColor(hex: "#FFCC00")
@@ -301,40 +307,22 @@ extension MainViewController: UITextViewDelegate {
 	
 	func textViewDidChange(_ textView: UITextView) {
 		if textView == textViewsStackView.inputTextViewStack.inputTextView {
-			textViewsStackView.inputTextViewStack.clearButton.isHidden = !textView.hasText
+//			textViewsStackView.inputTextViewStack.clearButton.isHidden = textView.text.isEmpty
 			if textView.text.count >= 1 {
-//				self.collectionView.snp.remakeConstraints { (make) in
-//					make.top.equalTo(self.textViewsStackView.outputTextViewStack.activityButtonsStack).offset(8)
-//					make.leading.equalToSuperview().offset(8)
-//					make.trailing.equalToSuperview().offset(-8)
-//					make.bottom.equalToSuperview()
-//				}
 				UIView.animate(withDuration: 0.2) {
-//					self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = false
-//					self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 1
-//					self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = false
-//					self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 1
-//					self.textViewsStackView.outputTextViewStack.pronounceButton.alpha = 1
-//					self.textViewsStackView.outputTextViewStack.shareButton.alpha = 1
+					self.textViewsStackView.inputTextViewStack.addArrangedSubview(self.textViewsStackView.inputTextViewStack.clearButton)
 					self.textViewsStackView.outputTextViewStack.isHidden = false
+					self.textViewsStackView.inputTextViewStack.clearButton.isHidden = false
 				}
 			} else if textView.text.count == 0 {
 				UIView.animate(withDuration: 0.15) {
-//					self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 0
-//					self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 0
-//					self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = true
-//					self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = true
-//					self.textViewsStackView.outputTextViewStack.pronounceButton.alpha = 0
-//					self.textViewsStackView.outputTextViewStack.shareButton.alpha = 0
 					self.textViewsStackView.outputTextViewStack.isHidden = true
+					self.textViewsStackView.outputTextViewStack.outputTextView.text = nil
+					self.textViewsStackView.inputTextViewStack.clearButton.isHidden = true
+					self.textViewsStackView.inputTextViewStack.clearButton.isEnabled = false
+				} completion: { (_) in
+					self.textViewsStackView.inputTextViewStack.removeArrangedSubview(self.textViewsStackView.inputTextViewStack.clearButton)
 				}
-//				self.collectionView.snp.remakeConstraints { (make) in
-////					make.top.equalTo(self.textViewsStackView.snp.bottom).offset(8)
-//					make.top.equalTo(self.textViewsStackView.snp.bottom)
-//					make.leading.equalToSuperview().offset(8)
-//					make.trailing.equalToSuperview().offset(-8)
-//					make.bottom.equalToSuperview()
-//				}
 			}
 		}
 	}
@@ -413,8 +401,8 @@ extension MainViewController: UICollectionViewDelegate {
 			return
 		}
 		
-		textViewsStackView.inputTextViewStack.inputTextView.text = item.inputText
 		textViewsStackView.inputTextViewStack.inputTextView.textColor = UIColor.black
+		textViewsStackView.inputTextViewStack.inputTextView.text = item.inputText
 		textViewsStackView.outputTextViewStack.outputTextView.text = item.outputText
 		fromLanguage = Languages(rawValue: item.fromLanguage)
 		toLanguage = Languages(rawValue: item.toLanguage)
@@ -422,6 +410,8 @@ extension MainViewController: UICollectionViewDelegate {
 		UIView.animate(withDuration: 0.2) {
 			self.textViewsStackView.outputTextViewStack.isHidden = false
 		}
+
+		self.textViewsStackView.inputTextViewStack.addArrangedSubview(self.textViewsStackView.inputTextViewStack.clearButton)
 		self.textViewsStackView.inputTextViewStack.clearButton.isHidden = false
 		collectionView.deselectItem(at: indexPath, animated: true)
 	}
