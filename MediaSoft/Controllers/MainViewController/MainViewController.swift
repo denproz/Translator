@@ -453,18 +453,8 @@ extension MainViewController: UICollectionViewDelegate {
 		fromLanguage = Languages(rawValue: item.fromLanguage)
 		toLanguage = Languages(rawValue: item.toLanguage)
 		
-		self.collectionView.snp.remakeConstraints { (make) in
-			make.top.equalTo(self.textViewsStackView.outputTextViewStack.activityButtonsStack.snp.bottom).offset(8)
-			make.leading.equalToSuperview().offset(8)
-			make.trailing.equalToSuperview().offset(-8)
-			make.bottom.equalToSuperview()
-		}
 		UIView.animate(withDuration: 0.2) {
 			self.textViewsStackView.outputTextViewStack.isHidden = false
-//			self.textViewsStackView.outputTextViewStack.outputTextView.isHidden = false
-//			self.textViewsStackView.outputTextViewStack.outputTextView.alpha = 1
-//			self.textViewsStackView.outputTextViewStack.activityButtonsStack.isHidden = false
-//			self.textViewsStackView.outputTextViewStack.activityButtonsStack.alpha = 1
 		}
 		self.textViewsStackView.inputTextViewStack.clearButton.isHidden = false
 		collectionView.deselectItem(at: indexPath, animated: true)
