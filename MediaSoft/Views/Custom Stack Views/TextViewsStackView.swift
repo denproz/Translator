@@ -31,7 +31,7 @@ class TextViewsStackView: UIStackView {
 		
 		clipsToBounds = true
 		layer.cornerRadius = 10
-//		layer.cornerCurve = .continuous
+		layer.cornerCurve = .continuous
 		layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
 	}
 }

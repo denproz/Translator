@@ -93,7 +93,7 @@ class MainViewController: UIViewController, TappableStar {
 	
 	func setupCollectionView() {
 		let registration = UICollectionView.CellRegistration<TranslationListCell, TranslationModel> { (cell, indexPath, translation) in
-			cell.link = self
+			cell.tapper = self
 			cell.translation = translation
 		}
 		
@@ -120,13 +120,6 @@ class MainViewController: UIViewController, TappableStar {
 //		let animated = translations.count <= 1 ? true : false
 		dataSource?.apply(snapshot, animatingDifferences: true)
 	}
-	
-//	func populate(with translation: TranslationModel) {
-//		var snapshot = NSDiffableDataSourceSnapshot<Section, TranslationModel>()
-//		snapshot.appendSections([.main])
-//		snapshot.appendItems([translation])
-//		dataSource?.apply(snapshot, animatingDifferences: false)
-//	}
 	
 	func reload() {
 		var snapshot = dataSource.snapshot()
@@ -181,9 +174,9 @@ class MainViewController: UIViewController, TappableStar {
 //				self.textViewsStackView.inputTextViewStack.inputTextView.becomeFirstResponder()
 //			}
 			self.synthesizer.stopSpeaking(at: .immediate)
-			if self.textViewsStackView.inputTextViewStack.inputTextView.canBecomeFirstResponder {
-				self.view.endEditing(false)
-			}
+//			if self.textViewsStackView.inputTextViewStack.inputTextView.canBecomeFirstResponder {
+//				self.view.endEditing(false)
+//			}
 			self.textViewsStackView.outputTextViewStack.isSpeakerPressed = false
 			self.languagesStackView.swapLanguagesButton.rotate()
 			(self.fromLanguage, self.toLanguage) = (self.toLanguage, self.fromLanguage)
@@ -263,8 +256,6 @@ class MainViewController: UIViewController, TappableStar {
 			self.present(activityController, animated: true)
 		}
 		
-		
-		
 		translations = realmService.realm.objects(TranslationModel.self).sorted(byKeyPath: "timestamp", ascending: false)
 		
 		// MARK: - Всякая херота
@@ -277,7 +268,7 @@ class MainViewController: UIViewController, TappableStar {
 		navigationController?.navigationBar.barTintColor = .white
 		
 		
-		hideKeyboardWhenTappedAround()
+//		hideKeyboardWhenTappedAround()
 		
 		view.backgroundColor = .systemGray5
 		

@@ -17,7 +17,7 @@ class TranslationListCell: UICollectionViewListCell {
 	}()
 	
 	var translation: TranslationModel!
-	weak var link: TappableStar?
+	weak var tapper: TappableStar?
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -29,7 +29,6 @@ class TranslationListCell: UICollectionViewListCell {
 		customAccessory.customView.addGestureRecognizer(tapGesture)
 		
 		accessories = [.customView(configuration: customAccessory)]
-
 	}
 	
 	required init?(coder: NSCoder) {
@@ -37,10 +36,7 @@ class TranslationListCell: UICollectionViewListCell {
 	}
 	
 	@objc private func starButtonPressed(_ sender: UIButton) {
-//		let image = translation.isFavorite ? UIImage(systemName: "star")!
-//																		   : UIImage(systemName: "star.fill")!
-//		starButton.setImage(image, for: .normal)
-		link?.onStarTapped(self)
+		tapper?.onStarTapped(self)
 	}
 	
 	override func updateConfiguration(using state: UICellConfigurationState) {
