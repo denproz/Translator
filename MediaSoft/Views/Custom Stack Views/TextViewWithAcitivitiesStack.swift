@@ -35,9 +35,11 @@ class TextViewWithAcitivitiesStack: UIStackView {
 	
 	let shareButton: UIButton = {
 		let button = UIButton()
-		let image = UIImage(systemName: "square.and.arrow.up")?.withRenderingMode(.alwaysTemplate)
-		button.setImage(image, for: .normal)
 		button.tintColor = .black
+		let image = UIImage(systemName: "square.and.arrow.up")!
+		let highlightedImage = UIImage(systemName: "square.and.arrow.up")!.withTintColor(.systemRed, renderingMode: .alwaysOriginal)
+		button.setImage(image, for: .normal)
+		button.setImage(highlightedImage, for: .highlighted)
 		button.isEnabled = false
 		button.imageView?.contentMode = .scaleAspectFit
 		button.contentVerticalAlignment = .fill
@@ -47,9 +49,11 @@ class TextViewWithAcitivitiesStack: UIStackView {
 	
 	let pronounceButton: UIButton = {
 		let button = UIButton()
-		let image = UIImage(systemName: "speaker.wave.1")?.withRenderingMode(.alwaysTemplate)
-		button.setImage(image, for: .normal)
 		button.tintColor = .black
+		let image = UIImage(systemName: "speaker.wave.1")!
+		let highlightedImage = UIImage(systemName: "speaker.wave.1")!.withTintColor(.systemRed, renderingMode: .alwaysOriginal)
+		button.setImage(image, for: .normal)
+		button.setImage(highlightedImage, for: .highlighted)
 		button.isEnabled = false
 		button.imageView?.contentMode = .scaleAspectFit
 		button.contentVerticalAlignment = .fill
@@ -64,10 +68,10 @@ class TextViewWithAcitivitiesStack: UIStackView {
 		stack.backgroundColor = .white
 		stack.isHidden = false
 		stack.layer.borderWidth = 0
-		stack.layoutMargins = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
+		stack.layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
 		stack.isLayoutMarginsRelativeArrangement = true
 		stack.translatesAutoresizingMaskIntoConstraints = false
-		stack.heightAnchor.constraint(equalToConstant: 32).isActive = true
+		stack.heightAnchor.constraint(equalToConstant: 40).isActive = true
 		return stack
 	}()
 	
