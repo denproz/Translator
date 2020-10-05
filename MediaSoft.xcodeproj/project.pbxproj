@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0659A31F6FE6D18A451790F1 /* Pods_MediaSoft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */; };
 		DF3769B0252A70870044545A /* UIControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3769AF252A70870044545A /* UIControl+Extensions.swift */; };
+		DF3769BB252B75AB0044545A /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3769BA252B75AB0044545A /* String+Extensions.swift */; };
 		DF377A3A2520EC00003FB2A1 /* TextViewsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF377A392520EC00003FB2A1 /* TextViewsStackView.swift */; };
 		DF377A4225211254003FB2A1 /* ClearableTextViewStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF377A4125211254003FB2A1 /* ClearableTextViewStack.swift */; };
 		DF4100022505844100EDA819 /* TranslationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4100012505844100EDA819 /* TranslationResponse.swift */; };
@@ -40,6 +41,7 @@
 		5BEC48347EE69F4115B397A4 /* Pods-MediaSoft.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaSoft.debug.xcconfig"; path = "Target Support Files/Pods-MediaSoft/Pods-MediaSoft.debug.xcconfig"; sourceTree = "<group>"; };
 		9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediaSoft.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF3769AF252A70870044545A /* UIControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Extensions.swift"; sourceTree = "<group>"; };
+		DF3769BA252B75AB0044545A /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		DF377A392520EC00003FB2A1 /* TextViewsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewsStackView.swift; sourceTree = "<group>"; };
 		DF377A4125211254003FB2A1 /* ClearableTextViewStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearableTextViewStack.swift; sourceTree = "<group>"; };
 		DF4100012505844100EDA819 /* TranslationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationResponse.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */,
+				DF3769BA252B75AB0044545A /* String+Extensions.swift */,
 				DF3769AF252A70870044545A /* UIControl+Extensions.swift */,
 				DF6F738F251BD82100C777A2 /* UITextView+Extensions.swift */,
 				DF6D7AD0251FB71100A7E15D /* UIButton+Extensions.swift */,
@@ -346,6 +349,7 @@
 				DF41FFD72502ACCB00EDA819 /* MainViewController.swift in Sources */,
 				DF6D7AD1251FB71100A7E15D /* UIButton+Extensions.swift in Sources */,
 				DF41FFD32502ACCB00EDA819 /* AppDelegate.swift in Sources */,
+				DF3769BB252B75AB0044545A /* String+Extensions.swift in Sources */,
 				DF6F086B252236980034FEE0 /* MainViewController+Extensions.swift in Sources */,
 				DF377A3A2520EC00003FB2A1 /* TextViewsStackView.swift in Sources */,
 				DF41FFEB2505520100EDA819 /* UIViewController+Extensions.swift in Sources */,

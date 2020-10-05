@@ -117,8 +117,7 @@ class MainViewController: UIViewController, TappableStar {
 		translations.forEach { (translation) in
 			snapshot.appendItems([translation])
 		}
-//		let animated = translations.count <= 1 ? true : false
-		dataSource?.apply(snapshot, animatingDifferences: true)
+		dataSource?.apply(snapshot, animatingDifferences: false)
 	}
 	
 	func reload() {
@@ -223,6 +222,8 @@ class MainViewController: UIViewController, TappableStar {
 			if !self.textViewsStackView.inputTextViewStack.inputTextView.isFirstResponder {
 				self.textViewsStackView.inputTextViewStack.inputTextView.text = nil
 				self.textViewsStackView.inputTextViewStack.inputTextView.becomeFirstResponder()
+			} else {
+				self.textViewsStackView.inputTextViewStack.inputTextView.text = nil
 			}
 			
 			UIView.animate(withDuration: 0.15) {
@@ -234,6 +235,7 @@ class MainViewController: UIViewController, TappableStar {
 			}
 			
 			self.textViewsStackView.inputTextViewStack.clearButton.isEnabled = false
+
 		}
 		
 		
