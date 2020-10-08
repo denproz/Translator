@@ -1,4 +1,5 @@
 import UIKit
+import SnapKit
 
 class TextViewWithAcitivitiesStack: UIStackView {
 	var isSpeakerPressed = false {
@@ -31,6 +32,17 @@ class TextViewWithAcitivitiesStack: UIStackView {
 		textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
 		textView.layer.borderWidth = 0
 		return textView
+	}()
+	
+	let noConnectionLabel: UILabel = {
+		let label = UILabel()
+		label.font = UIFont.preferredFont(forTextStyle: .title3)
+		label.adjustsFontSizeToFitWidth = true
+		label.textAlignment = .center
+		label.text = "Отсутствует интернет-соединение"
+		label.textColor = .systemGray
+		label.isHidden = true
+		return label
 	}()
 	
 	let shareButton: UIButton = {
@@ -76,6 +88,11 @@ class TextViewWithAcitivitiesStack: UIStackView {
 	}()
 	
 	private func setupViews() {
+		outputTextView.addSubview(noConnectionLabel)
+		noConnectionLabel.snp.makeConstraints { make in
+			make.center.equalToSuperview()
+		}
+		
 		addArrangedSubview(outputTextView)
 		addArrangedSubview(activityButtonsStack)
 		axis = .vertical

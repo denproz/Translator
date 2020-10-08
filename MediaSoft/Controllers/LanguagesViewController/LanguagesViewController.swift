@@ -35,7 +35,6 @@ class LanguagesViewController: UIViewController {
 		collectionView.delegate = self
 		collectionView.dataSource = self
 	}
-	
 }
 
 extension LanguagesViewController: UICollectionViewDataSource {

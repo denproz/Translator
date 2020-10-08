@@ -32,20 +32,12 @@ extension UIViewController {
 		)
 	}
 	
-	func addСhildViewController(_ child: UIViewController) {
-		addChild(child)
-		view.addSubview(child.view)
-		child.didMove(toParent: self)
-	}
-	
-	func removeChildViewController() {
-		guard parent != nil else {
-			return
-		}
-		
-		willMove(toParent: nil)
-		view.removeFromSuperview()
-		removeFromParent()
+	func configureTabBarItem(title: String, unselectedName: String, selectedName: String) {
+		let unselectedImage = UIImage(systemName: unselectedName)
+		let selectedImage = UIImage(systemName: selectedName)
+		let tbItem = UITabBarItem(title: nil, image: unselectedImage, selectedImage: selectedImage)
+		tbItem.title = title
+		tabBarItem = tbItem
 	}
 }
 

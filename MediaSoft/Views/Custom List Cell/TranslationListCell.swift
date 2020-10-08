@@ -12,7 +12,7 @@ class TranslationListCell: UICollectionViewListCell {
 		let starImage = UIImage(systemName: "star")!
 		starButton.setImage(starImage, for: .normal)
 		starButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-		starButton.tintColor = .systemOrange
+		starButton.tintColor = .systemRed
 		return starButton
 	}()
 	
@@ -40,9 +40,13 @@ class TranslationListCell: UICollectionViewListCell {
 	}
 	
 	override func updateConfiguration(using state: UICellConfigurationState) {
+		if translation.isInvalidated {
+			return
+		}
 		// Create new configuration object and update it base on state
 		var newConfiguration = TranslationContentConfiguration().updated(for: state)
 		// Update any configuration parameters related to data item
+		
 		newConfiguration.inputText = translation?.inputText
 		newConfiguration.outputText = translation?.outputText
 
@@ -52,6 +56,7 @@ class TranslationListCell: UICollectionViewListCell {
 	func toggleFavorite() {
 		let image = translation.isFavorite ? UIImage(systemName: "star.fill")!
 																		   : UIImage(systemName: "star")!
+		
 		starButton.setImage(image, for: .normal)
 	}
 }

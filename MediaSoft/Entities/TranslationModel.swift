@@ -9,7 +9,7 @@ class TranslationModel: Object  {
 	@objc dynamic var isFavorite: Bool = false
 	@objc dynamic var compoundKey = ""
 	@objc dynamic var timestamp = Date().timeIntervalSinceReferenceDate
-	
+	dynamic var isFavoriteTimestamp = RealmOptional<TimeInterval>()
 	
 	override static func primaryKey() -> String? {
 		return "compoundKey"
@@ -28,6 +28,9 @@ class TranslationModel: Object  {
 		let realm = try! Realm()
 		try! realm.write {
 			isFavorite.toggle()
+			if isFavorite {
+				isFavoriteTimestamp.value = Date().timeIntervalSinceReferenceDate
+			}
 		}
 	}
 }

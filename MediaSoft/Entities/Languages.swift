@@ -47,13 +47,13 @@ enum Languages: String, CaseIterable, Codable {
 	
 	var image: UIImage {
 		switch self {
-			case .en: return UIImage(named: "enFlag") ?? UIImage()
-			case .it: return UIImage(named: "itFlag") ?? UIImage()
-			case .es: return UIImage(named: "esFlag") ?? UIImage()
-			case .de: return UIImage(named: "deFlag") ?? UIImage()
-			case .pt: return UIImage(named: "ptFlag") ?? UIImage()
-			case .ru: return UIImage(named: "ruFlag") ?? UIImage()
-			case .fr: return UIImage(named: "frFlag") ?? UIImage()
+			case .en: return UIImage(named: "enFlag")!
+			case .it: return UIImage(named: "itFlag")!
+			case .es: return UIImage(named: "esFlag")!
+			case .de: return UIImage(named: "deFlag")!
+			case .pt: return UIImage(named: "ptFlag")!
+			case .ru: return UIImage(named: "ruFlag")!
+			case .fr: return UIImage(named: "frFlag")!
 		}
 	}
 	

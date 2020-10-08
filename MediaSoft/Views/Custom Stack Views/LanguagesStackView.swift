@@ -1,5 +1,6 @@
 import UIKit
 import RxSwift
+import SnapKit
 
 class LanguagesStackView: UIStackView {
 	enum SelectedButton: Int {
@@ -32,17 +33,17 @@ class LanguagesStackView: UIStackView {
 	var onLanguagePressed: ((Int) -> Void)?
 	var onSwapPressed: (() -> Void)?
 	
-	let fromLanguageButton: UIButton = {
+	lazy var fromLanguageButton: UIButton = {
 		let button = UIButton()
-		button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
-		button.titleLabel?.adjustsFontSizeToFitWidth = true
+		button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
+		button.titleLabel?.adjustsFontForContentSizeCategory = true
 		button.tag = SelectedButton.from.rawValue
 		button.contentHorizontalAlignment = .trailing
 		return button
 	}()
 	
-	let swapLanguagesButton: UIButton = {
-		let button = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+	lazy var swapLanguagesButton: UIButton = {
+		let button = UIButton()
 		let image = UIImage(systemName: "arrow.right.arrow.left")!.withRenderingMode(.alwaysTemplate)
 		button.setImage(image, for: .normal)
 		button.setImage(image, for: .disabled)
@@ -50,10 +51,10 @@ class LanguagesStackView: UIStackView {
 		return button
 	}()
 	
-	let toLanguageButton: UIButton = {
+	lazy var toLanguageButton: UIButton = {
 		let button = UIButton()
-		button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
-		button.titleLabel?.adjustsFontSizeToFitWidth = true
+		button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
+		button.titleLabel?.adjustsFontForContentSizeCategory = true
 		button.tag = SelectedButton.to.rawValue
 		button.contentHorizontalAlignment = .leading
 		return button
@@ -63,12 +64,25 @@ class LanguagesStackView: UIStackView {
 		addArrangedSubview(fromLanguageButton)
 		addArrangedSubview(swapLanguagesButton)
 		addArrangedSubview(toLanguageButton)
-		axis = .horizontal
-		distribution = .fillEqually
-		backgroundColor = .red
 		
-		layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
-		isLayoutMarginsRelativeArrangement = true
+		fromLanguageButton.snp.makeConstraints { make in
+			make.height.equalToSuperview()
+			make.width.equalToSuperview().multipliedBy(0.40)
+		}
+		
+		swapLanguagesButton.snp.makeConstraints { make in
+			make.height.equalToSuperview()
+			make.width.equalToSuperview().multipliedBy(0.2)
+		}
+		
+		toLanguageButton.snp.makeConstraints { make in
+			make.height.equalToSuperview()
+			make.width.equalToSuperview().multipliedBy(0.40)
+		}
+		
+		axis = .horizontal
+		distribution = .fill
+		backgroundColor = .red
 	}
 	
 	private func addActions() {

@@ -38,9 +38,15 @@ class TranslationContentView: UIView, UIContentView {
 private extension TranslationContentView {
 	private func setupAllViews() {
 		inputLabel.textAlignment = .left
-		outputLabel.textAlignment = .left
+		inputLabel.font = UIFont.preferredFont(forTextStyle: .body)
+		inputLabel.adjustsFontForContentSizeCategory = true
 		inputLabel.textColor = .label
+		
+		outputLabel.adjustsFontForContentSizeCategory = true
+		outputLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
 		outputLabel.textColor = .secondaryLabel
+		outputLabel.textAlignment = .left
+		
 
 		let labelsStackView = UIStackView(arrangedSubviews: [inputLabel, outputLabel])
 		labelsStackView.axis = .vertical
@@ -51,7 +57,7 @@ private extension TranslationContentView {
 		
 		cellStackView.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
-			cellStackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+			cellStackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor, constant: 10),
 			cellStackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
 			cellStackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
 			cellStackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),

@@ -10,6 +10,7 @@
 		0659A31F6FE6D18A451790F1 /* Pods_MediaSoft.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */; };
 		DF3769B0252A70870044545A /* UIControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3769AF252A70870044545A /* UIControl+Extensions.swift */; };
 		DF3769BB252B75AB0044545A /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3769BA252B75AB0044545A /* String+Extensions.swift */; };
+		DF3769BF252B7F8E0044545A /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3769BE252B7F8E0044545A /* FavoritesViewController.swift */; };
 		DF377A3A2520EC00003FB2A1 /* TextViewsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF377A392520EC00003FB2A1 /* TextViewsStackView.swift */; };
 		DF377A4225211254003FB2A1 /* ClearableTextViewStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF377A4125211254003FB2A1 /* ClearableTextViewStack.swift */; };
 		DF4100022505844100EDA819 /* TranslationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4100012505844100EDA819 /* TranslationResponse.swift */; };
@@ -34,6 +35,8 @@
 		DF750A8125252781004615E3 /* TranslationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF750A8025252781004615E3 /* TranslationContentView.swift */; };
 		DF750A84252646D3004615E3 /* TranslationListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF750A83252646D3004615E3 /* TranslationListCell.swift */; };
 		DF7985772523A8FE0070E952 /* Realm+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7985762523A8FE0070E952 /* Realm+Extensions.swift */; };
+		DF82C901252CC997000EBE97 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82C900252CC997000EBE97 /* UIImage+Extensions.swift */; };
+		DF82C904252CE199000EBE97 /* HapticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82C903252CE199000EBE97 /* HapticsService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,7 @@
 		9D00E6BA7D0185D7F516671B /* Pods_MediaSoft.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediaSoft.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF3769AF252A70870044545A /* UIControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Extensions.swift"; sourceTree = "<group>"; };
 		DF3769BA252B75AB0044545A /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		DF3769BE252B7F8E0044545A /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		DF377A392520EC00003FB2A1 /* TextViewsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewsStackView.swift; sourceTree = "<group>"; };
 		DF377A4125211254003FB2A1 /* ClearableTextViewStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearableTextViewStack.swift; sourceTree = "<group>"; };
 		DF4100012505844100EDA819 /* TranslationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationResponse.swift; sourceTree = "<group>"; };
@@ -68,6 +72,8 @@
 		DF750A8025252781004615E3 /* TranslationContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationContentView.swift; sourceTree = "<group>"; };
 		DF750A83252646D3004615E3 /* TranslationListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationListCell.swift; sourceTree = "<group>"; };
 		DF7985762523A8FE0070E952 /* Realm+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Realm+Extensions.swift"; sourceTree = "<group>"; };
+		DF82C900252CC997000EBE97 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		DF82C903252CE199000EBE97 /* HapticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +113,14 @@
 			path = LanguagesViewController;
 			sourceTree = "<group>";
 		};
+		DF3769BD252B7F570044545A /* FavoritesViewController */ = {
+			isa = PBXGroup;
+			children = (
+				DF3769BE252B7F8E0044545A /* FavoritesViewController.swift */,
+			);
+			path = FavoritesViewController;
+			sourceTree = "<group>";
+		};
 		DF41FFC62502ACCB00EDA819 = {
 			isa = PBXGroup;
 			children = (
@@ -128,8 +142,8 @@
 		DF41FFD12502ACCB00EDA819 /* MediaSoft */ = {
 			isa = PBXGroup;
 			children = (
-				DF673320251F708C00A77134 /* Views */,
 				DF41FFE9250551E400EDA819 /* Extensions */,
+				DF673320251F708C00A77134 /* Views */,
 				DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */,
 				DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */,
 				DF6F08692522367E0034FEE0 /* Controllers */,
@@ -146,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */,
+				DF82C900252CC997000EBE97 /* UIImage+Extensions.swift */,
 				DF3769BA252B75AB0044545A /* String+Extensions.swift */,
 				DF3769AF252A70870044545A /* UIControl+Extensions.swift */,
 				DF6F738F251BD82100C777A2 /* UITextView+Extensions.swift */,
@@ -179,6 +194,7 @@
 		DF6F08692522367E0034FEE0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				DF3769BD252B7F570044545A /* FavoritesViewController */,
 				DF3769B2252A726D0044545A /* LanguagesViewController */,
 				DF6F086E252237600034FEE0 /* MainViewController */,
 			);
@@ -199,6 +215,7 @@
 			children = (
 				DF4100042506B5DE00EDA819 /* YandexService.swift */,
 				DF6F0874252247DC0034FEE0 /* RealmService.swift */,
+				DF82C903252CE199000EBE97 /* HapticsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -353,6 +370,7 @@
 				DF6F086B252236980034FEE0 /* MainViewController+Extensions.swift in Sources */,
 				DF377A3A2520EC00003FB2A1 /* TextViewsStackView.swift in Sources */,
 				DF41FFEB2505520100EDA819 /* UIViewController+Extensions.swift in Sources */,
+				DF3769BF252B7F8E0044545A /* FavoritesViewController.swift in Sources */,
 				DF6F7390251BD82100C777A2 /* UITextView+Extensions.swift in Sources */,
 				DF4100022505844100EDA819 /* TranslationResponse.swift in Sources */,
 				DF750A84252646D3004615E3 /* TranslationListCell.swift in Sources */,
@@ -366,7 +384,9 @@
 				DF6F087B25224B9C0034FEE0 /* TranslationModel.swift in Sources */,
 				DF750A7E25252732004615E3 /* TranslationContentConfiguration.swift in Sources */,
 				DF6F0875252247DC0034FEE0 /* RealmService.swift in Sources */,
+				DF82C904252CE199000EBE97 /* HapticsService.swift in Sources */,
 				DF41000A250FE63000EDA819 /* LanguagesViewController.swift in Sources */,
+				DF82C901252CC997000EBE97 /* UIImage+Extensions.swift in Sources */,
 				DF41FFD52502ACCB00EDA819 /* SceneDelegate.swift in Sources */,
 				DF41000C250FE65000EDA819 /* Languages.swift in Sources */,
 			);

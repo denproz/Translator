@@ -6,6 +6,7 @@ import SnapKit
 import NaturalLanguage
 import AVFoundation
 import RealmSwift
+import Network
 
 class MainViewController: UIViewController, TappableStar {
 	var fromLanguage: Languages! = .ru {
@@ -13,12 +14,14 @@ class MainViewController: UIViewController, TappableStar {
 			languagesStackView.fromLanguageButton.setTitle(fromLanguage.languageName, for: .normal)
 		}
 	}
-	
 	var toLanguage: Languages! = .en {
 		didSet {
 			languagesStackView.toLanguageButton.setTitle(toLanguage.languageName, for: .normal)
 		}
 	}
+	
+	let monitor = NWPathMonitor()
+	var isConnectionEstablished = false
 	
 	var translations: Results<TranslationModel>!
 	var notificationToken: NotificationToken?
@@ -49,30 +52,32 @@ class MainViewController: UIViewController, TappableStar {
 	
 	lazy var collectionView: UICollectionView = {
 		var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-		
 		configuration.backgroundColor = .systemGray5
-		
 		configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
 			guard let self = self else { return nil }
-			
 			let delete = UIContextualAction(style: .destructive, title: nil, handler: { _, _, completion in
-					guard let itemToDelete = self.dataSource?.itemIdentifier(for: indexPath) else {
-						completion(false)
-						return
-					}
-					self.remove(itemToDelete)
-					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-						if itemToDelete.isInvalidated {
-							completion(false)
-							return
-						}
-						self.realmService.delete(itemToDelete)
-					}
-					completion(true)
+				guard let itemToDelete = self.dataSource?.itemIdentifier(for: indexPath) else {
+					completion(false)
+					return
 				}
+				print(itemToDelete)
+				//				self.realmService.delete(itemToDelete)
+				self.remove(itemToDelete)
+				try! self.realmService.realm.write {
+					self.realmService.realm.delete(itemToDelete)
+				}
+				
+				
+				//					self.remove(itemToDelete)
+				//					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+				//						self.realmService.delete(itemToDelete)
+				//					}
+				
+				
+				completion(true)
+			}
 			)
 			delete.image = UIImage(systemName: "trash")
-			
 			
 			let deleteAction = UISwipeActionsConfiguration(
 				actions: [delete]
@@ -108,23 +113,17 @@ class MainViewController: UIViewController, TappableStar {
 		guard let indexPathTapped = collectionView.indexPath(for: cell),
 					let translation = dataSource.itemIdentifier(for: indexPathTapped) else { return }
 		translation.toggleFavorite()
+		_ = translation.isFavorite ? Vibration.medium.vibrate() : Vibration.warning.vibrate()
 		cell.toggleFavorite()
 	}
 	
 	func populate(with translation: Results<TranslationModel>) {
 		var snapshot = NSDiffableDataSourceSnapshot<Section, TranslationModel>()
 		snapshot.appendSections([.main])
-		translations.forEach { (translation) in
+		translations.forEach { translation in
 			snapshot.appendItems([translation])
 		}
 		dataSource?.apply(snapshot, animatingDifferences: false)
-	}
-	
-	func reload() {
-		var snapshot = dataSource.snapshot()
-		snapshot.reloadSections([.main])
-		snapshot.reloadItems(translations.toArray())
-		dataSource.apply(snapshot, animatingDifferences: true)
 	}
 	
 	func remove(_ translation: TranslationModel) {
@@ -138,6 +137,17 @@ class MainViewController: UIViewController, TappableStar {
 		
 		print(Realm.Configuration.defaultConfiguration.fileURL)
 		
+		self.monitor.pathUpdateHandler = { path in
+			if path.status == .satisfied {
+				self.isConnectionEstablished = true
+			} else {
+				self.isConnectionEstablished = false
+			}
+		}
+		
+		let queue = DispatchQueue.global(qos: .background)
+		monitor.start(queue: queue)
+		
 		executeTranslation()
 		
 		view.addSubview(languagesStackView)
@@ -148,17 +158,19 @@ class MainViewController: UIViewController, TappableStar {
 			make.height.equalTo(50)
 		}
 		
+		fromLanguage = Languages(rawValue: UserDefaults.standard.string(forKey: "fromLanguage") ?? "ru")
+		toLanguage = Languages(rawValue: UserDefaults.standard.string(forKey: "toLanguage") ?? "en")
+		
 		view.addSubview(textViewsStackView)
 		textViewsStackView.snp.makeConstraints { (make) in
 			make.top.equalTo(languagesStackView.snp.bottom)
 			make.leading.equalToSuperview().offset(8)
 			make.trailing.equalToSuperview().offset(-8)
 		}
-
+		
 		view.addSubview(collectionView)
 		setupCollectionView()
 		collectionView.snp.makeConstraints { (make) in
-//			make.top.equalTo(textViewsStackView.snp.bottom).inset(15)
 			make.top.equalTo(textViewsStackView.snp.bottom)
 			make.leading.equalToSuperview()
 			make.trailing.equalToSuperview()
@@ -169,16 +181,11 @@ class MainViewController: UIViewController, TappableStar {
 		
 		languagesStackView.onSwapPressed = { [weak self] in
 			guard let self = self else { return }
-//			if !self.textViewsStackView.inputTextViewStack.inputTextView.isFirstResponder {
-//				self.textViewsStackView.inputTextViewStack.inputTextView.becomeFirstResponder()
-//			}
 			self.synthesizer.stopSpeaking(at: .immediate)
-//			if self.textViewsStackView.inputTextViewStack.inputTextView.canBecomeFirstResponder {
-//				self.view.endEditing(false)
-//			}
 			self.textViewsStackView.outputTextViewStack.isSpeakerPressed = false
 			self.languagesStackView.swapLanguagesButton.rotate()
 			(self.fromLanguage, self.toLanguage) = (self.toLanguage, self.fromLanguage)
+			
 			if !self.textViewsStackView.outputTextViewStack.isHidden {
 				(self.textViewsStackView.inputTextViewStack.inputTextView.text, self.textViewsStackView.outputTextViewStack.outputTextView.text) = (self.textViewsStackView.outputTextViewStack.outputTextView.text, self.textViewsStackView.inputTextViewStack.inputTextView.text)
 			}
@@ -201,7 +208,7 @@ class MainViewController: UIViewController, TappableStar {
 					break
 			}
 		}
-
+		
 		textViewsStackView.inputTextViewStack.onClearTapped = { [weak self] in
 			guard let self = self else { return }
 			
@@ -235,7 +242,7 @@ class MainViewController: UIViewController, TappableStar {
 			}
 			
 			self.textViewsStackView.inputTextViewStack.clearButton.isEnabled = false
-
+			
 		}
 		
 		
@@ -260,17 +267,18 @@ class MainViewController: UIViewController, TappableStar {
 		
 		translations = realmService.realm.objects(TranslationModel.self).sorted(byKeyPath: "timestamp", ascending: false)
 		
+		
 		// MARK: - Всякая херота
 		let titleImage = UIImage(named: "hyyandex")
 		let titleImageView = UIImageView(image: titleImage)
 		titleImageView.contentMode = .scaleAspectFill
 		navigationItem.titleView = titleImageView
 		
-//		navigationController?.navigationBar.barTintColor = hexStringToUIColor(hex: "#FFCC00")
+		//		navigationController?.navigationBar.barTintColor = hexStringToUIColor(hex: "#FFCC00")
 		navigationController?.navigationBar.barTintColor = .white
 		
 		
-//		hideKeyboardWhenTappedAround()
+		//		hideKeyboardWhenTappedAround()
 		
 		view.backgroundColor = .systemGray5
 		
@@ -278,8 +286,31 @@ class MainViewController: UIViewController, TappableStar {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+		RealmService.shared.observeRealmErrors(in: self) { error in
+			print(error ?? "")
+		}
 		
-		populate(with: translations)
+		notificationToken = translations.observe { [weak self] changes in
+			guard let self = self else { return }
+			switch changes {
+				case .initial(_):
+					self.populate(with: self.translations)
+				case .update(_, _, _, _):
+					break
+				//					self.translations = self.realmService.realm.objects(TranslationModel.self).sorted(byKeyPath: "timestamp", ascending: false)
+				//					self.populate(with: self.translations)
+				case .error(_):
+					break
+			}
+		}
+	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		RealmService.shared.stopObservingRealmErrors(in: self)
+		notificationToken?.invalidate()
+		UserDefaults.standard.set(fromLanguage.rawValue, forKey: "fromLanguage")
+		UserDefaults.standard.set(toLanguage.rawValue, forKey: "toLanguage")
 	}
 	
 }
@@ -300,7 +331,7 @@ extension MainViewController: UITextViewDelegate {
 	
 	func textViewDidChange(_ textView: UITextView) {
 		if textView == textViewsStackView.inputTextViewStack.inputTextView {
-//			textViewsStackView.inputTextViewStack.clearButton.isHidden = textView.text.isEmpty
+			//			textViewsStackView.inputTextViewStack.clearButton.isHidden = textView.text.isEmpty
 			if textView.text.count >= 1 {
 				UIView.animate(withDuration: 0.2) {
 					self.textViewsStackView.inputTextViewStack.addArrangedSubview(self.textViewsStackView.inputTextViewStack.clearButton)
@@ -373,6 +404,7 @@ extension MainViewController: LanguagesViewControllerDelegate {
 			default:
 				break
 		}
+		
 	}
 }
 
@@ -403,9 +435,12 @@ extension MainViewController: UICollectionViewDelegate {
 		UIView.animate(withDuration: 0.2) {
 			self.textViewsStackView.outputTextViewStack.isHidden = false
 		}
-
+		
 		self.textViewsStackView.inputTextViewStack.addArrangedSubview(self.textViewsStackView.inputTextViewStack.clearButton)
+		self.textViewsStackView.outputTextViewStack.pronounceButton.isEnabled = true
+		self.textViewsStackView.outputTextViewStack.shareButton.isEnabled = true
 		self.textViewsStackView.inputTextViewStack.clearButton.isHidden = false
+		self.textViewsStackView.inputTextViewStack.clearButton.isEnabled = true
 		collectionView.deselectItem(at: indexPath, animated: true)
 	}
 }
