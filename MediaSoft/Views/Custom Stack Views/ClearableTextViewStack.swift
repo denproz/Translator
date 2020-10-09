@@ -22,7 +22,7 @@ class ClearableTextViewStack: UIStackView {
 		textView.adjustsFontForContentSizeCategory = true
 		textView.returnKeyType = .done
 		textView.textColor = .lightGray
-		textView.backgroundColor = .systemBackground
+		textView.backgroundColor = .white
 		textView.isScrollEnabled = true
 		textView.layer.borderWidth = 0
 		
@@ -53,7 +53,6 @@ class ClearableTextViewStack: UIStackView {
 	private func setupViews() {
 		backgroundColor = .white
 		addArrangedSubview(inputTextView)
-//		addArrangedSubview(clearButton)
 		axis = .horizontal
 		alignment = .top
 		distribution = .fill
