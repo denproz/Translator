@@ -1,7 +1,7 @@
 import Foundation
 import Moya
 
-let API_KEY = "AQVNxTC5ZIJhtrkaP33_VbA02M3ucVLgzFVuyVzM"
+let API_KEY = <#YOUR API KEY HERE#>
 
 enum YandexService {
 	case requestTranslation(text: [String], sourceLanguageCode: String, targetLanguageCode: String)

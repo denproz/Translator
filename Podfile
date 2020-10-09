@@ -1,7 +1,7 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'MediaSoft' do
+target 'Translator' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
@@ -12,6 +12,6 @@ target 'MediaSoft' do
 	pod 'RealmSwift'
 	
 
-  # Pods for MediaSoft
+  # Pods for Translator
 
 end

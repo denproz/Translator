@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1100"
+   LastUpgradeVersion = "1200"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D361CD986083C1303355D9FA6C6571DB"
-               BuildableName = "Pods_MediaSoft.framework"
-               BlueprintName = "Pods-MediaSoft"
-               ReferencedContainer = "container:Pods.xcodeproj">
+               BlueprintIdentifier = "DF41FFCE2502ACCB00EDA819"
+               BuildableName = "Translator.app"
+               BlueprintName = "Translator"
+               ReferencedContainer = "container:Translator.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -40,6 +40,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "DF41FFCE2502ACCB00EDA819"
+            BuildableName = "Translator.app"
+            BlueprintName = "Translator"
+            ReferencedContainer = "container:Translator.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -47,6 +57,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "DF41FFCE2502ACCB00EDA819"
+            BuildableName = "Translator.app"
+            BlueprintName = "Translator"
+            ReferencedContainer = "container:Translator.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_MediaSoftVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_MediaSoftVersionString[];
+FOUNDATION_EXPORT double Pods_TranslatorVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_TranslatorVersionString[];
 
