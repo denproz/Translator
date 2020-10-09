@@ -1,7 +1,7 @@
 # Translator
 Переводчик с основных европейских языков на базе Yandex Translate.
 
-<img src="Screenshots/Screenshot%201.jpg" width="250">, <img src="Screenshots/Screenshot%202.jpg" width="250">, <img src="Screenshots/Screenshot%203.jpg" width="250">
+<img src="Screenshots/Screenshot.jpg">
 
 ## Технологии
 - Верстка в коде (без Storyboards), SnapKit
