@@ -3,7 +3,7 @@ extension String {
 	
 	var containsValidCharacter: Bool {
 		guard self != "" else { return true }
-		let noNeedToRestrict = CharacterSet(charactersIn: "") // NOT RESTRICT "Space"
+		let noNeedToRestrict = CharacterSet(charactersIn: " ")
 		if noNeedToRestrict.containsUnicodeScalars(of: self.last!) {
 			return true
 		} else {

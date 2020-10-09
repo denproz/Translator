@@ -11,19 +11,24 @@ class TextViewsStackView: UIStackView {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	let inputTextViewStack = ClearableTextViewStack()
-	let outputTextViewStack = TextViewWithAcitivitiesStack()
+	let inputStack = ClearableTextViewStack()
+	let outputStack = TextViewWithAcitivitiesStack()
 	
 	private func setupConstraints() {
-		outputTextViewStack.outputTextView.snp.makeConstraints { (make) in
+		outputStack.outputTextView.snp.makeConstraints { (make) in
 			make.height.equalTo(200)
 		}
 	}
 	
+	/// Swaps texts of textviews
+	func swapText() {
+		(inputStack.inputTextView.text, outputStack.outputTextView.text) = (outputStack.outputTextView.text, inputStack.inputTextView.text)
+	}
+	
 	private func setupViews() {
-		addArrangedSubview(inputTextViewStack)
-		addArrangedSubview(outputTextViewStack)
-		outputTextViewStack.isHidden = true
+		addArrangedSubview(inputStack)
+		addArrangedSubview(outputStack)
+		outputStack.isHidden = true
 		axis = .vertical
 		spacing = 1
 		layer.borderColor = UIColor.systemGray.cgColor

@@ -27,7 +27,6 @@ class LanguagesStackView: UIStackView {
 		self.init(frame: .zero)
 		fromLanguageButton.setTitle(fromLanguage.languageName, for: .normal)
 		toLanguageButton.setTitle(toLanguage.languageName, for: .normal)
-		
 	}
 	
 	var onLanguagePressed: ((Int) -> Void)?

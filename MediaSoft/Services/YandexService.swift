@@ -5,7 +5,6 @@ let API_KEY = "AQVNxTC5ZIJhtrkaP33_VbA02M3ucVLgzFVuyVzM"
 
 enum YandexService {
 	case requestTranslation(text: [String], sourceLanguageCode: String, targetLanguageCode: String)
-	case detectLanguage(text: String)
 }
 
 extension YandexService: TargetType {
@@ -17,14 +16,12 @@ extension YandexService: TargetType {
 		switch self {
 			case .requestTranslation(_, _, _):
 				return "/translate"
-			case .detectLanguage(_):
-				return "/detect"
 		}
 	}
 	
 	var method: Moya.Method {
 		switch self {
-			case .requestTranslation(_, _, _), .detectLanguage(_):
+			case .requestTranslation(_, _, _):
 				return .post
 		}
 	}
@@ -37,8 +34,6 @@ extension YandexService: TargetType {
 		switch self {
 			case .requestTranslation(let text, let sourceLanguageCode, let targetLanguageCode):
 				return .requestParameters(parameters: ["texts": text, "sourceLanguageCode": sourceLanguageCode, "targetLanguageCode": targetLanguageCode], encoding: JSONEncoding.default)
-			case .detectLanguage(let text):
-				return .requestParameters(parameters: ["text": text], encoding: JSONEncoding.default)
 		}
 	}
 	

@@ -32,6 +32,26 @@ extension UIViewController {
 		)
 	}
 	
+	func configureNavigationBar(title: String? = nil, preferredLargeTitle: Bool = true, isNavBarHidden: Bool = false) {
+		if #available(iOS 13.0, *) {
+			let navBarAppearance = UINavigationBarAppearance()
+			navBarAppearance.configureWithTransparentBackground()
+			
+			navigationController?.navigationBar.standardAppearance = navBarAppearance
+			navigationController?.navigationBar.compactAppearance = navBarAppearance
+			navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+			
+			navigationController?.navigationBar.prefersLargeTitles = preferredLargeTitle
+			navigationController?.navigationBar.isTranslucent = true
+			navigationController?.navigationBar.isHidden = isNavBarHidden
+			navigationItem.title = title
+			
+		} else {
+			navigationController?.navigationBar.isTranslucent = true
+			navigationItem.title = title
+		}
+	}
+	
 	func configureTabBarItem(title: String, unselectedName: String, selectedName: String) {
 		let unselectedImage = UIImage(systemName: unselectedName)
 		let selectedImage = UIImage(systemName: selectedName)

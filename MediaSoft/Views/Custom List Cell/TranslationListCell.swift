@@ -16,7 +16,7 @@ class TranslationListCell: UICollectionViewListCell {
 		return starButton
 	}()
 	
-	var translation: TranslationModel!
+	var translation: RealmTranslation!
 	weak var tapper: TappableStar?
 	
 	override init(frame: CGRect) {
@@ -53,6 +53,7 @@ class TranslationListCell: UICollectionViewListCell {
 		contentConfiguration = newConfiguration
 	}
 	
+	/// Sets the corresponding image based on isFavorite status
 	func toggleFavorite() {
 		let image = translation.isFavorite ? UIImage(systemName: "star.fill")!
 																		   : UIImage(systemName: "star")!

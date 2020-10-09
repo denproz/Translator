@@ -25,16 +25,18 @@
 		DF41FFEB2505520100EDA819 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */; };
 		DF673322251F70B800A77134 /* LanguagesStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF673321251F70B800A77134 /* LanguagesStackView.swift */; };
 		DF6D7AD1251FB71100A7E15D /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6D7AD0251FB71100A7E15D /* UIButton+Extensions.swift */; };
+		DF6E1D89252FA25A001ABF93 /* MainViewController+TextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E1D88252FA25A001ABF93 /* MainViewController+TextViewDelegate.swift */; };
+		DF6E1D90252FA7C1001ABF93 /* MainViewController+ActionHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E1D8F252FA7C1001ABF93 /* MainViewController+ActionHandling.swift */; };
+		DF6E1D9F2530B57E001ABF93 /* MainViewController+LanguagesVCDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E1D9E2530B57E001ABF93 /* MainViewController+LanguagesVCDelegate.swift */; };
+		DF6E1DA22530B783001ABF93 /* MainViewController+AVSpeechDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E1DA12530B783001ABF93 /* MainViewController+AVSpeechDelegate.swift */; };
 		DF6E36592528F11A00D2E1F7 /* TextViewWithAcitivitiesStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E36582528F11A00D2E1F7 /* TextViewWithAcitivitiesStack.swift */; };
 		DF6E4B5F251FC4A70075A88D /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E4B5E251FC4A70075A88D /* UIView+Extensions.swift */; };
-		DF6F086B252236980034FEE0 /* MainViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F086A252236980034FEE0 /* MainViewController+Extensions.swift */; };
+		DF6F086B252236980034FEE0 /* MainViewController+Reactive.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F086A252236980034FEE0 /* MainViewController+Reactive.swift */; };
 		DF6F0875252247DC0034FEE0 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F0874252247DC0034FEE0 /* RealmService.swift */; };
-		DF6F087B25224B9C0034FEE0 /* TranslationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F087A25224B9C0034FEE0 /* TranslationModel.swift */; };
-		DF6F7390251BD82100C777A2 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F738F251BD82100C777A2 /* UITextView+Extensions.swift */; };
+		DF6F087B25224B9C0034FEE0 /* RealmTranslation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6F087A25224B9C0034FEE0 /* RealmTranslation.swift */; };
 		DF750A7E25252732004615E3 /* TranslationContentConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF750A7D25252732004615E3 /* TranslationContentConfiguration.swift */; };
 		DF750A8125252781004615E3 /* TranslationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF750A8025252781004615E3 /* TranslationContentView.swift */; };
 		DF750A84252646D3004615E3 /* TranslationListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF750A83252646D3004615E3 /* TranslationListCell.swift */; };
-		DF7985772523A8FE0070E952 /* Realm+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7985762523A8FE0070E952 /* Realm+Extensions.swift */; };
 		DF82C901252CC997000EBE97 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82C900252CC997000EBE97 /* UIImage+Extensions.swift */; };
 		DF82C904252CE199000EBE97 /* HapticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF82C903252CE199000EBE97 /* HapticsService.swift */; };
 /* End PBXBuildFile section */
@@ -62,16 +64,18 @@
 		DF41FFEA2505520100EDA819 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		DF673321251F70B800A77134 /* LanguagesStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesStackView.swift; sourceTree = "<group>"; };
 		DF6D7AD0251FB71100A7E15D /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
+		DF6E1D88252FA25A001ABF93 /* MainViewController+TextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+TextViewDelegate.swift"; sourceTree = "<group>"; };
+		DF6E1D8F252FA7C1001ABF93 /* MainViewController+ActionHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+ActionHandling.swift"; sourceTree = "<group>"; };
+		DF6E1D9E2530B57E001ABF93 /* MainViewController+LanguagesVCDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+LanguagesVCDelegate.swift"; sourceTree = "<group>"; };
+		DF6E1DA12530B783001ABF93 /* MainViewController+AVSpeechDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+AVSpeechDelegate.swift"; sourceTree = "<group>"; };
 		DF6E36582528F11A00D2E1F7 /* TextViewWithAcitivitiesStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewWithAcitivitiesStack.swift; sourceTree = "<group>"; };
 		DF6E4B5E251FC4A70075A88D /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
-		DF6F086A252236980034FEE0 /* MainViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+Extensions.swift"; sourceTree = "<group>"; };
+		DF6F086A252236980034FEE0 /* MainViewController+Reactive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+Reactive.swift"; sourceTree = "<group>"; };
 		DF6F0874252247DC0034FEE0 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
-		DF6F087A25224B9C0034FEE0 /* TranslationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationModel.swift; sourceTree = "<group>"; };
-		DF6F738F251BD82100C777A2 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
+		DF6F087A25224B9C0034FEE0 /* RealmTranslation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmTranslation.swift; sourceTree = "<group>"; };
 		DF750A7D25252732004615E3 /* TranslationContentConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationContentConfiguration.swift; sourceTree = "<group>"; };
 		DF750A8025252781004615E3 /* TranslationContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationContentView.swift; sourceTree = "<group>"; };
 		DF750A83252646D3004615E3 /* TranslationListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationListCell.swift; sourceTree = "<group>"; };
-		DF7985762523A8FE0070E952 /* Realm+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Realm+Extensions.swift"; sourceTree = "<group>"; };
 		DF82C900252CC997000EBE97 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		DF82C903252CE199000EBE97 /* HapticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -142,16 +146,12 @@
 		DF41FFD12502ACCB00EDA819 /* MediaSoft */ = {
 			isa = PBXGroup;
 			children = (
-				DF41FFE9250551E400EDA819 /* Extensions */,
-				DF673320251F708C00A77134 /* Views */,
-				DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */,
-				DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */,
+				DF6E1DA42530B8E1001ABF93 /* App */,
 				DF6F08692522367E0034FEE0 /* Controllers */,
 				DF6F087825224B800034FEE0 /* Entities */,
+				DF41FFE9250551E400EDA819 /* Extensions */,
 				DF6F0873252247CB0034FEE0 /* Services */,
-				DF41FFDE2502ACCD00EDA819 /* Assets.xcassets */,
-				DF41FFE02502ACCD00EDA819 /* LaunchScreen.storyboard */,
-				DF41FFE32502ACCD00EDA819 /* Info.plist */,
+				DF673320251F708C00A77134 /* Views */,
 			);
 			path = MediaSoft;
 			sourceTree = "<group>";
@@ -163,10 +163,8 @@
 				DF82C900252CC997000EBE97 /* UIImage+Extensions.swift */,
 				DF3769BA252B75AB0044545A /* String+Extensions.swift */,
 				DF3769AF252A70870044545A /* UIControl+Extensions.swift */,
-				DF6F738F251BD82100C777A2 /* UITextView+Extensions.swift */,
 				DF6D7AD0251FB71100A7E15D /* UIButton+Extensions.swift */,
 				DF6E4B5E251FC4A70075A88D /* UIView+Extensions.swift */,
-				DF7985762523A8FE0070E952 /* Realm+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -178,6 +176,18 @@
 				DF750A7C2525270F004615E3 /* Custom List Cell */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		DF6E1DA42530B8E1001ABF93 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				DF41FFD22502ACCB00EDA819 /* AppDelegate.swift */,
+				DF41FFD42502ACCB00EDA819 /* SceneDelegate.swift */,
+				DF41FFDE2502ACCD00EDA819 /* Assets.xcassets */,
+				DF41FFE02502ACCD00EDA819 /* LaunchScreen.storyboard */,
+				DF41FFE32502ACCD00EDA819 /* Info.plist */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 		DF6E36562528F07D00D2E1F7 /* Custom Stack Views */ = {
@@ -205,7 +215,11 @@
 			isa = PBXGroup;
 			children = (
 				DF41FFD62502ACCB00EDA819 /* MainViewController.swift */,
-				DF6F086A252236980034FEE0 /* MainViewController+Extensions.swift */,
+				DF6E1DA12530B783001ABF93 /* MainViewController+AVSpeechDelegate.swift */,
+				DF6E1D9E2530B57E001ABF93 /* MainViewController+LanguagesVCDelegate.swift */,
+				DF6E1D88252FA25A001ABF93 /* MainViewController+TextViewDelegate.swift */,
+				DF6F086A252236980034FEE0 /* MainViewController+Reactive.swift */,
+				DF6E1D8F252FA7C1001ABF93 /* MainViewController+ActionHandling.swift */,
 			);
 			path = MainViewController;
 			sourceTree = "<group>";
@@ -223,7 +237,7 @@
 		DF6F087825224B800034FEE0 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				DF6F087A25224B9C0034FEE0 /* TranslationModel.swift */,
+				DF6F087A25224B9C0034FEE0 /* RealmTranslation.swift */,
 				DF4100012505844100EDA819 /* TranslationResponse.swift */,
 				DF41000B250FE65000EDA819 /* Languages.swift */,
 			);
@@ -363,25 +377,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF6E4B5F251FC4A70075A88D /* UIView+Extensions.swift in Sources */,
+				DF6E1D9F2530B57E001ABF93 /* MainViewController+LanguagesVCDelegate.swift in Sources */,
 				DF41FFD72502ACCB00EDA819 /* MainViewController.swift in Sources */,
 				DF6D7AD1251FB71100A7E15D /* UIButton+Extensions.swift in Sources */,
 				DF41FFD32502ACCB00EDA819 /* AppDelegate.swift in Sources */,
 				DF3769BB252B75AB0044545A /* String+Extensions.swift in Sources */,
-				DF6F086B252236980034FEE0 /* MainViewController+Extensions.swift in Sources */,
+				DF6F086B252236980034FEE0 /* MainViewController+Reactive.swift in Sources */,
 				DF377A3A2520EC00003FB2A1 /* TextViewsStackView.swift in Sources */,
 				DF41FFEB2505520100EDA819 /* UIViewController+Extensions.swift in Sources */,
 				DF3769BF252B7F8E0044545A /* FavoritesViewController.swift in Sources */,
-				DF6F7390251BD82100C777A2 /* UITextView+Extensions.swift in Sources */,
 				DF4100022505844100EDA819 /* TranslationResponse.swift in Sources */,
 				DF750A84252646D3004615E3 /* TranslationListCell.swift in Sources */,
-				DF7985772523A8FE0070E952 /* Realm+Extensions.swift in Sources */,
+				DF6E1DA22530B783001ABF93 /* MainViewController+AVSpeechDelegate.swift in Sources */,
 				DF6E36592528F11A00D2E1F7 /* TextViewWithAcitivitiesStack.swift in Sources */,
+				DF6E1D89252FA25A001ABF93 /* MainViewController+TextViewDelegate.swift in Sources */,
 				DF750A8125252781004615E3 /* TranslationContentView.swift in Sources */,
 				DF3769B0252A70870044545A /* UIControl+Extensions.swift in Sources */,
 				DF4100052506B5DE00EDA819 /* YandexService.swift in Sources */,
 				DF377A4225211254003FB2A1 /* ClearableTextViewStack.swift in Sources */,
+				DF6E1D90252FA7C1001ABF93 /* MainViewController+ActionHandling.swift in Sources */,
 				DF673322251F70B800A77134 /* LanguagesStackView.swift in Sources */,
-				DF6F087B25224B9C0034FEE0 /* TranslationModel.swift in Sources */,
+				DF6F087B25224B9C0034FEE0 /* RealmTranslation.swift in Sources */,
 				DF750A7E25252732004615E3 /* TranslationContentConfiguration.swift in Sources */,
 				DF6F0875252247DC0034FEE0 /* RealmService.swift in Sources */,
 				DF82C904252CE199000EBE97 /* HapticsService.swift in Sources */,
@@ -528,8 +544,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FNJ44D2ZPR;
-				INFOPLIST_FILE = MediaSoft/Info.plist;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = MediaSoft/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -548,8 +564,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FNJ44D2ZPR;
-				INFOPLIST_FILE = MediaSoft/Info.plist;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = MediaSoft/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

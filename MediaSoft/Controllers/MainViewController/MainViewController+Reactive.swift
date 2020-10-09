@@ -2,25 +2,20 @@ import UIKit
 import RxSwift
 import Moya
 import NaturalLanguage
-import Network
 
 extension MainViewController {
 	/// Reactive implementation of networking and translation logic
 	func executeTranslation() {
-		textViewsStackView.inputTextViewStack.inputTextView.rx.text.orEmpty
-			.filter { _ in
-				return self.isConnectionEstablished
-			}
+		textviewsStack.inputStack.inputTextView.rx.text.orEmpty
 			.debounce(.milliseconds(500), scheduler: MainScheduler.instance)
 			.filter { $0.count >= 1 && $0 != "Введите текст" && $0.containsValidCharacter }
 			.map { text in
-				self.textViewsStackView.outputTextViewStack.pronounceButton.isEnabled = false
-				self.textViewsStackView.outputTextViewStack.shareButton.isEnabled = false
-				self.textViewsStackView.outputTextViewStack.showSpinner()
+				self.textviewsStack.outputStack.pronounceButton.isEnabled = false
+				self.textviewsStack.outputStack.shareButton.isEnabled = false
+				self.textviewsStack.outputStack.showSpinner()
 				/// Use NLP to get the most predictable result of language detection
 				/// Instantiate NlLanguageRecognizer and give it the list of available languages
 				/// And their relative probability usages (English and Russian are most likely to be used)
-				
 					let languageRecognizer = NLLanguageRecognizer()
 					languageRecognizer.languageConstraints = [.english, .italian, .spanish, .german, .portuguese, .russian, .french]
 					languageRecognizer.languageHints = [.english: 0.9, .italian: 0.5, .spanish: 0.7, .german: 0.7, .portuguese: 0.3, .russian: 0.9, .french: 0.7]
@@ -47,10 +42,10 @@ extension MainViewController {
 					let translationResponse = try JSONDecoder().decode(TranslationResponse.self, from: response.data)
 					let translatedText = translationResponse.items?.first?.text ?? ""
 					
-					self.textViewsStackView.outputTextViewStack.hideSpinner()
-					self.textViewsStackView.outputTextViewStack.pronounceButton.isEnabled = true
-					self.textViewsStackView.outputTextViewStack.shareButton.isEnabled = true
-					self.textViewsStackView.inputTextViewStack.clearButton.isEnabled = true
+					self.textviewsStack.outputStack.hideSpinner()
+					self.textviewsStack.outputStack.pronounceButton.isEnabled = true
+					self.textviewsStack.outputStack.shareButton.isEnabled = true
+					self.textviewsStack.inputStack.clearButton.isEnabled = true
 					
 					return translatedText
 				}
@@ -60,7 +55,7 @@ extension MainViewController {
 				}
 			}
 			.observeOn(MainScheduler.instance)
-			.bind(to: textViewsStackView.outputTextViewStack.outputTextView.rx.text)
+			.bind(to: textviewsStack.outputStack.outputTextView.rx.text)
 			.disposed(by: disposeBag)
 	}
 }

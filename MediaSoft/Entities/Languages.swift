@@ -1,5 +1,5 @@
 import UIKit
-
+/// List of all supported languages, their indexes, names and corresponding flag images
 enum Languages: String, CaseIterable, Codable {
 	case en
 	case it

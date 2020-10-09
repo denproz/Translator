@@ -1,5 +1,5 @@
 import Foundation
-
+/// JSON response from Yandex API
 struct TranslationResponse: Decodable {
 	var items: [Translation]?
 	

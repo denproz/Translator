@@ -9,20 +9,11 @@ struct TranslationContentConfiguration: UIContentConfiguration, Hashable {
 	}
 	
 	func updated(for state: UIConfigurationState) -> TranslationContentConfiguration {
-		// Make sure we are dealing with instance of UICellConfigurationState
-		guard let state = state as? UICellConfigurationState else {
+		guard state is UICellConfigurationState else {
 			return self
 		}
 		
-		// Update self based on the current state
-		var updatedConfiguration = self
-//		if state.isHighlighted {
-//			// Selected state
-//			updatedConfiguration.starColor = .orange
-//		} else {
-//			// Other states
-//			updatedConfiguration.starColor = .green
-//		}
+		let updatedConfiguration = self
 		return updatedConfiguration
 	}
 }

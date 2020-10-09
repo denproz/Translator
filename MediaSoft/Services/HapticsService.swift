@@ -1,6 +1,6 @@
 import UIKit
 import AVFoundation
-
+/// Haptics wrapper including all possible haptic feedbacks
 enum Vibration {
 	case error
 	case success

@@ -1,13 +1,9 @@
 import UIKit
 import RealmSwift
+import SnapKit
 
-class FavoritesViewController: UIViewController {
-	
-	let realmService = RealmService.shared
-	var translations: Results<TranslationModel>!
-	var notificationToken: NotificationToken?
-	
-	lazy var noFavoritesLabel: UILabel = {
+final class FavoritesViewController: UIViewController {
+	private lazy var noFavoritesLabel: UILabel = {
 		let label = UILabel()
 		label.text = "У Вас нет избранных переводов"
 		label.font = UIFont.systemFont(ofSize: 20)
@@ -18,70 +14,35 @@ class FavoritesViewController: UIViewController {
 		return label
 	}()
 	
-	var dataSource: UICollectionViewDiffableDataSource<Int, TranslationModel>!
-	
-	lazy var collectionView: UICollectionView = {
-		var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-		configuration.backgroundColor = .systemGray5
-		
-		configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
-			guard let self = self else { return nil }
-			
-			let delete = UIContextualAction(style: .destructive, title: nil, handler: { _, _, completion in
-				guard let itemToUnfavorite = self.dataSource?.itemIdentifier(for: indexPath) else {
-					completion(false)
-					return
-				}
-				self.remove(itemToUnfavorite)
-				try! self.realmService.realm.write {
-					itemToUnfavorite.isFavorite = false
-					self.realmService.realm.add(itemToUnfavorite, update: .modified)
-				}
-				
-				completion(true)
-			})
-			
-			delete.image = UIImage(systemName: "star.slash.fill")
-			
-			let deleteAction = UISwipeActionsConfiguration(actions: [delete])
-			return deleteAction
-		}
-		
-		
-		let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		collectionView.delegate = self
-		return collectionView
-	}()
-	
-	
+	private let realmService = RealmService.shared
+	private var translations: Results<RealmTranslation>!
+	private var notificationToken: NotificationToken?
+	private lazy var collectionView = makeCollectionView()
+	private lazy var dataSource = makeDataSource()
+	// MARK: - View Lifecycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.backgroundColor = .systemGray5
-		navigationItem.title = "Избранное"
-		navigationController?.navigationBar.prefersLargeTitles = true
 		
-		translations = realmService.realm.objects(TranslationModel.self)
+		translations = realmService.realm.objects(RealmTranslation.self)
 			.filter("isFavorite = true")
 			.sorted(byKeyPath: "isFavoriteTimestamp", ascending: false)
 		
 		view.addSubview(collectionView)
+		collectionView.dataSource = dataSource
 		collectionView.snp.makeConstraints { (make) in
 			make.top.equalToSuperview()
 			make.leading.equalToSuperview()
 			make.trailing.equalToSuperview()
 			make.bottom.equalToSuperview()
 		}
-		setupCollectionView()
 		collectionView.layoutIfNeeded()
-		self.populate(with: translations)
 		
 		view.addSubview(noFavoritesLabel)
 		noFavoritesLabel.snp.makeConstraints { (make) in
 			make.center.equalToSuperview()
 		}
 		
-		self.noFavoritesLabel.isHidden = !self.translations.isEmpty
+		populate(with: translations)
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -96,20 +57,52 @@ class FavoritesViewController: UIViewController {
 			self.noFavoritesLabel.isHidden = !self.translations.isEmpty
 		}
 		
-		self.populate(with: translations)
+		populate(with: translations)
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		
 		RealmService.shared.stopObservingRealmErrors(in: self)
-		
 		notificationToken?.invalidate()
-		
 	}
-	
-	func setupCollectionView() {
-		let registration = UICollectionView.CellRegistration<UICollectionViewListCell, TranslationModel> { (cell, indexPath, translation) in
+}
+// MARK: - Collection View Configuration
+extension FavoritesViewController {
+	private func makeCollectionView() -> UICollectionView {
+		var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+		configuration.backgroundColor = .systemGray5
+		configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+			guard let self = self else { return nil }
+			
+			let delete = UIContextualAction(style: .destructive, title: nil, handler: { _, _, completion in
+				guard let itemToUnfavorite = self.dataSource.itemIdentifier(for: indexPath) else {
+					completion(false)
+					return
+				}
+				self.remove(itemToUnfavorite)
+				try! self.realmService.realm.write {
+					itemToUnfavorite.isFavorite = false
+					self.realmService.realm.add(itemToUnfavorite, update: .modified)
+				}
+				completion(true)
+			})
+			
+			delete.image = UIImage(systemName: "star.slash.fill")
+			let deleteAction = UISwipeActionsConfiguration(actions: [delete])
+			return deleteAction
+		}
+		
+		let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+		collectionView.delegate = self
+		return collectionView
+	}
+}
+// MARK: - Cell Registration
+extension FavoritesViewController {
+	private func makeCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, RealmTranslation> {
+		UICollectionView.CellRegistration { cell, indexPath, translation in
 			var configuration = cell.defaultContentConfiguration()
 			configuration.text = translation.inputText
 			configuration.secondaryText = translation.outputText
@@ -121,30 +114,34 @@ class FavoritesViewController: UIViewController {
 			configuration.image = languagesImage
 			cell.contentConfiguration = configuration
 		}
+	}
+}
+// MARK: - Collection View Diffable Data Source
+extension FavoritesViewController {
+	private func makeDataSource() -> UICollectionViewDiffableDataSource<Int, RealmTranslation> {
+		let registration = makeCellRegistration()
 		
-		dataSource = UICollectionViewDiffableDataSource<Int, TranslationModel>(collectionView: collectionView) { (collectionView, indexPath, translation) in
-			let cell = collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: translation)
-			return cell
+		return UICollectionViewDiffableDataSource<Int, RealmTranslation>(collectionView: collectionView) { collectionView, indexPath, translation in
+			collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: translation)
 		}
 	}
 	
-	func populate(with translation: Results<TranslationModel>, animated: Bool = false) {
-		var snapshot = NSDiffableDataSourceSnapshot<Int, TranslationModel>()
+	private func populate(with translation: Results<RealmTranslation>, animated: Bool = false) {
+		var snapshot = NSDiffableDataSourceSnapshot<Int, RealmTranslation>()
 		snapshot.appendSections([0])
 		translations.forEach { (translation) in
 			snapshot.appendItems([translation])
 		}
-		dataSource?.apply(snapshot, animatingDifferences: animated)
+		dataSource.apply(snapshot, animatingDifferences: animated)
 	}
 	
-	func remove(_ translation: TranslationModel) {
-		var snapshot = dataSource?.snapshot()
-		snapshot?.deleteItems([translation])
-		dataSource?.apply(snapshot!, animatingDifferences: true)
+	func remove(_ translation: RealmTranslation) {
+		var snapshot = dataSource.snapshot()
+		snapshot.deleteItems([translation])
+		dataSource.apply(snapshot, animatingDifferences: true)
 	}
-	
 }
-
+// MARK: - Colleciton View Delegates
 extension FavoritesViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		collectionView.deselectItem(at: indexPath, animated: true)

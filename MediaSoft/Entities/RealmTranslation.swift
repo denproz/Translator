@@ -1,7 +1,7 @@
 import Foundation
 import RealmSwift
 
-class TranslationModel: Object  {
+class RealmTranslation: Object  {
 	@objc dynamic var inputText: String = ""
 	@objc dynamic var outputText: String = ""
 	@objc dynamic var fromLanguage: String = ""
@@ -24,6 +24,7 @@ class TranslationModel: Object  {
 		
 	}
 	
+	/// Sets/resets translation's isFavorite flag
 	func toggleFavorite() {
 		let realm = try! Realm()
 		try! realm.write {

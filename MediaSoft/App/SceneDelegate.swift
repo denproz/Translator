@@ -23,7 +23,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		}
 		
 		mainVC.configureTabBarItem(title: "Перевод", unselectedName: "house", selectedName: "house.fill")
+		mainVC.configureNavigationBar(isNavBarHidden: true)
+		mainVC.view.backgroundColor = .systemGray5
+		
 		favoritesVC.configureTabBarItem(title: "Избранное", unselectedName: "star", selectedName: "star.fill")
+		favoritesVC.configureNavigationBar(title: "Избранное")
+		favoritesVC.view.backgroundColor = .systemGray5
 		
 		window?.rootViewController = tabBarVC
 		window?.makeKeyAndVisible()
